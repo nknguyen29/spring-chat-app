@@ -1,3 +1,4 @@
+###> .gitignore generated for Spring Boot ###
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -31,3 +32,41 @@ build/
 
 ### VS Code ###
 .vscode/
+###< .gitignore generated for Spring Boot ###
+
+###> .gitignore generated for Vite.js ###
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+###< .gitignore generated for Vite.js ###
+
+###> custom .gitignore ###
+src/main/resources/static/
+!src/main/resources/static/index.html
+!src/main/resources/static/favicon.ico
+!src/main/resources/static/robots.txt
+!src/main/resources/static/manifest.json
+!src/main/resources/static/main.css
+!src/main/resources/static/main.js
+###< custom .gitignore ###
