@@ -42,7 +42,8 @@ public class Chatroom {
     //     inverseJoinColumns = @JoinColumn(name = "user_id"))
     // private Set<User> users;
 
-    @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "chatroom", orphanRemoval = true)
+    // orphanRemoval = true to delete the chatroom when the user is deleted
+    @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "chatroom")
     private Set<ChatroomUser> chatroomUsers;
 
     protected Chatroom() {
@@ -107,6 +108,8 @@ public class Chatroom {
         return chatroomUsers.stream().map(ChatroomUser::getUser).collect(Collectors.toSet());
     }
 
+    // Enable CascadeType.PERSIST to automatically persist the users when
+    // persisting the chatroom
     public void addUser(User user) {
         chatroomUsers.add(new ChatroomUser(this, user));
     }

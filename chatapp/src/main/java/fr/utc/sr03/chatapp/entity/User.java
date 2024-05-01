@@ -3,6 +3,7 @@ package fr.utc.sr03.chatapp.entity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -43,7 +44,8 @@ public class User {
     // The join table is created upstream in the Chatroom entity
     // It contains the user and chatroom entities and additional information about
     // the relationship
-    @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    // Enable orphan removal to delete the chatroom when the user is deleted
+    @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
     private Set<ChatroomUser> chatroomUsers;
 
     protected User() {
@@ -117,6 +119,8 @@ public class User {
         return chatroomUsers.stream().map(ChatroomUser::getChatroom).collect(Collectors.toSet());
     }
 
+    // Helper methods to manage the chatrooms
+    // Need Cascade.PERSIST to save the chatroom when the user is saved
     public void addChatroom(Chatroom chatroom) {
         chatroomUsers.add(new ChatroomUser(chatroom, this));
     }
