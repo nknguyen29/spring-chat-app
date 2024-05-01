@@ -1,7 +1,8 @@
 package fr.utc.sr03.chatapp.repository;
 
-import fr.utc.sr03.chatapp.entity.User;
 import org.springframework.data.repository.CrudRepository;
+
+import fr.utc.sr03.chatapp.domain.User;
 
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
 // CRUD refers Create, Read, Update, Delete

@@ -1,4 +1,4 @@
-package fr.utc.sr03.chatapp.entity;
+package fr.utc.sr03.chatapp.domain;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Column;
