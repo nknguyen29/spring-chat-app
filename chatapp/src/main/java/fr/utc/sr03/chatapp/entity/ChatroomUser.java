@@ -37,8 +37,16 @@ public class ChatroomUser {
         return chatroom;
     }
 
+    public void setChatroom(Chatroom chatroom) {
+        this.chatroom = chatroom;
+    }
+
     public User getUser() {
         return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
