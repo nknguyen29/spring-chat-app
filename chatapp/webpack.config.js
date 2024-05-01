@@ -89,7 +89,7 @@ module.exports = (env, argv) => ({
     ],
   },
   devServer: {
-    port: 8081,
+    port: 9000,
     compress: true,
     watchFiles: [
       'src/main/resources/templates/**/*.html',

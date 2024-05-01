@@ -7,8 +7,8 @@
  * This file is bundled by Vite and loaded by the chatapp module.
  */
 
-// Import the styles from the main.scss file
-import 'css/app.scss';
+// Import the styles from the app.css file
+import 'css/app.css';
 
 
 /**
