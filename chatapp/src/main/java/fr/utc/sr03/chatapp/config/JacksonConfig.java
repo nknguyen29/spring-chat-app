@@ -6,7 +6,13 @@ import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilde
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
+/**
+ * This class is used to configure the Jackson library
+ * It is used to disable some features of the Jackson library
+ * This is done to ensure that the Jackson library does not fail on unknown
+ * properties
+ * and to ensure that the dates are not written as timestamps
+ */
 @Configuration
 public class JacksonConfig {
 
@@ -16,8 +22,7 @@ public class JacksonConfig {
                 .featuresToDisable(
                         DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
                         DeserializationFeature.ACCEPT_FLOAT_AS_INT,
-                        SerializationFeature.WRITE_DATES_AS_TIMESTAMPS
-                );
+                        SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
 }

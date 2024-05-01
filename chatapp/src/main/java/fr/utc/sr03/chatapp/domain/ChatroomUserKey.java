@@ -1,4 +1,4 @@
-package fr.utc.sr03.chatapp.entity;
+package fr.utc.sr03.chatapp.domain;
 
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Column;
@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 @Embeddable
 public class ChatroomUserKey implements Serializable {
+
     @Column(name = "chatroom_id")
     private Long chatroomId;
 
@@ -44,6 +45,7 @@ public class ChatroomUserKey implements Serializable {
     public int hashCode() {
         return chatroomId.hashCode() + userId.hashCode();
     }
+
 }
 
 // Note that a composite key class has to fulfill some key requirements:

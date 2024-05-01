@@ -1,3 +1,15 @@
+/**
+ * Webpack configuration file.
+ *
+ * Webpack is a module bundler that takes assets such as JavaScript, CSS, and images
+ * and bundles them into a single file that can be served to the browser.
+ * @see: https://webpack.js.org/
+ *
+ * This file is used to configure Webpack for the project.
+ * By default, Webpack will look for a webpack.config.js file in your project root.
+ * If it does not exist, Webpack will use its built-in configuration.
+ */
+
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -5,6 +17,13 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WarningsToErrorsPlugin = require('warnings-to-errors-webpack-plugin');
 
 
+/**
+ * Webpack configuration.
+ * @param {Object} env - Environment variables.
+ * @param {Object} argv - Command line arguments.
+ * @returns {Object} Webpack configuration.
+ * @see: https://webpack.js.org/configuration/configuration-types/#exporting-a-function
+ */
 module.exports = (env, argv) => ({
   entry: './src/main/resources/js/app.js',
   output: {
@@ -70,7 +89,7 @@ module.exports = (env, argv) => ({
     ],
   },
   devServer: {
-    port: 8081,
+    port: 9000,
     compress: true,
     watchFiles: [
       'src/main/resources/templates/**/*.html',

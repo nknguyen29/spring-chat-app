@@ -1,20 +1,24 @@
 package fr.utc.sr03.chatapp.domain;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.time.OffsetDateTime;
-import java.util.Set;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
+// La classe java.sql.Timestamp étend la classe java.util.Date et permet de
+// stocker des informations de date et d'heure.
+import java.sql.Timestamp; // or java.util.Date
 
 @Entity
-@Table(name = "Chatrooms")
+@Table(name = "chatrooms")
 public class Chatroom {
 
     @Id
@@ -29,18 +33,31 @@ public class Chatroom {
     private String description;
 
     @Column(nullable = false)
-    private OffsetDateTime startDate;
+    private Timestamp startDate;
 
     @Column(nullable = false)
-    private OffsetDateTime validityDuration;
+    private Timestamp validityDuration;
 
-    @ManyToMany
-    @JoinTable(
-            name = "ChatroomUsers",
-            joinColumns = @JoinColumn(name = "chatroomId"),
-            inverseJoinColumns = @JoinColumn(name = "userId")
-    )
-    private Set<User> users;
+    // @ManyToMany(targetEntity = User.class)
+    // @JoinTable(
+    //     name = "chatroom_users",
+    //     joinColumns = @JoinColumn(name = "chatroom_id"),
+    //     inverseJoinColumns = @JoinColumn(name = "user_id"))
+    // private Set<User> users;
+
+    // orphanRemoval = true to delete the chatroom when the user is deleted
+    @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "chatroom")
+    private Set<ChatroomUser> chatroomUsers;
+
+    protected Chatroom() {
+    }
+
+    public Chatroom(String title, String description, Timestamp startDate, Timestamp validityDuration) {
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.validityDuration = validityDuration;
+    }
 
     public Long getId() {
         return id;
@@ -66,28 +83,145 @@ public class Chatroom {
         this.description = description;
     }
 
-    public OffsetDateTime getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(final OffsetDateTime startDate) {
+    public void setStartDate(final Timestamp startDate) {
         this.startDate = startDate;
     }
 
-    public OffsetDateTime getValidityDuration() {
+    public Timestamp getValidityDuration() {
         return validityDuration;
     }
 
-    public void setValidityDuration(final OffsetDateTime validityDuration) {
+    public void setValidityDuration(final Timestamp validityDuration) {
         this.validityDuration = validityDuration;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public Set<ChatroomUser> getChatroomUsers() {
+        return chatroomUsers;
     }
 
-    public void setUsers(final Set<User> users) {
-        this.users = users;
+    public void setChatroomUsers(final Set<ChatroomUser> chatroomUsers) {
+        this.chatroomUsers = chatroomUsers;
+    }
+
+    public void addChatroomUser(final ChatroomUser chatroomUser) {
+        chatroomUsers.add(chatroomUser);
+    }
+
+    public void removeChatroomUser(final ChatroomUser chatroomUser) {
+        chatroomUsers.remove(chatroomUser);
+    }
+
+    public Set<User> getUsers() {
+        return chatroomUsers.stream().map(ChatroomUser::getUser).collect(Collectors.toSet());
+    }
+
+    // Enable CascadeType.MERGE to automatically persist the users when
+    // persisting the chatroom
+    public void addUser(final User user) {
+        chatroomUsers.add(new ChatroomUser(this, user));
+    }
+
+    public void removeUser(final User user) {
+        chatroomUsers.removeIf(chatroomUser -> chatroomUser.getUser().equals(user));
+    }
+
+    @Override
+    public String toString() {
+        return "Chatroom{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", validityDuration=" + validityDuration +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Chatroom chatroom = (Chatroom) obj;
+        return id.equals(chatroom.id);
+    }
+
+    /**
+     * Calcule la date de fin du chatroom
+     * 
+     * @return la date de fin du chatroom
+     */
+    public Timestamp getEndDate() {
+        return new Timestamp(startDate.getTime() + validityDuration.getTime());
+    }
+
+    /**
+     * Vérifie si le chatroom est valide
+     * 
+     * @return true si le chatroom est valide, false sinon
+     */
+    public boolean isValid() {
+        return new Timestamp(System.currentTimeMillis()).before(getEndDate());
+    }
+
+    /**
+     * Vérifie si le chatroom a commencé
+     * 
+     * @return true si le chatroom a commencé, false sinon
+     */
+    public boolean isStarted() {
+        return new Timestamp(System.currentTimeMillis()).after(startDate);
+    }
+
+    /**
+     * Vérifie si le chatroom est en cours
+     * 
+     * @return true si le chatroom est en cours, false sinon
+     */
+    public boolean isRunning() {
+        return isStarted() && isValid();
+    }
+
+    /**
+     * Vérifie si le chatroom est terminé
+     * 
+     * @return true si le chatroom est terminé, false sinon
+     */
+    public boolean isOver() {
+        return !isValid();
+    }
+
+    /**
+     * Calcule le temps restant avant la fin du chatroom
+     * 
+     * @return le temps restant avant la fin du chatroom
+     */
+    public long getRemainingTime() {
+        return getEndDate().getTime() - System.currentTimeMillis();
+    }
+
+    /**
+     * Calcule le temps écoulé depuis le début du chatroom
+     * 
+     * @return le temps écoulé depuis le début du chatroom
+     */
+    public long getElapsedTime() {
+        return System.currentTimeMillis() - startDate.getTime();
+    }
+
+    /**
+     * Calcule le temps d'attente avant le début du chatroom
+     * 
+     * @return le temps d'attente avant le début du chatroom
+     */
+    public long getWaitingTime() {
+        return startDate.getTime() - System.currentTimeMillis();
     }
 
 }

@@ -7,7 +7,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.LocaleResolver;
 
-
 @Component
 public class WebUtils {
 
@@ -22,8 +21,9 @@ public class WebUtils {
         WebUtils.localeResolver = localeResolver;
     }
 
+    @SuppressWarnings("null")
     public static HttpServletRequest getRequest() {
-        return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     }
 
     public static String getMessage(final String code, final Object... args) {
