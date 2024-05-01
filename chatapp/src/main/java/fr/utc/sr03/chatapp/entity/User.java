@@ -5,7 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import java.util.Set;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "users")
@@ -28,6 +31,17 @@ public class User {
 
     @Column(nullable = false)
     private boolean isAdmin;
+
+    // Use ManyToMany annotation on both sides of the relationship
+    // It creates a join table to store the relationship
+    // @ManyToMany(targetEntity = Chatroom.class, mappedBy = "users")
+    // private Set<Chatroom> chatrooms;
+
+    // The join table is created upstream in the Chatroom entity
+    // It contains the user and chatroom entities and additional information about
+    // the relationship
+    @OneToMany(mappedBy = "user")
+    private Set<ChatroomUser> chatroomUsers;
 
     protected User() {
     }

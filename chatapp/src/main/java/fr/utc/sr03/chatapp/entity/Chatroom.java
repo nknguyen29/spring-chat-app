@@ -4,8 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
+
+import java.util.Set;
 
 // La classe java.sql.Timestamp étend la classe java.util.Date et permet de
 // stocker des informations de date et d'heure.
@@ -28,6 +31,16 @@ public class Chatroom {
 
     @Column(nullable = false)
     private Timestamp validityDuration;
+
+    // @ManyToMany(targetEntity = User.class)
+    // @JoinTable(
+    //     name = "chatroom_users",
+    //     joinColumns = @JoinColumn(name = "chatroom_id"),
+    //     inverseJoinColumns = @JoinColumn(name = "user_id"))
+    // private Set<User> users;
+
+    @OneToMany(mappedBy = "chatroom")
+    private Set<ChatroomUser> chatroomUsers;
 
     protected Chatroom() {
     }
