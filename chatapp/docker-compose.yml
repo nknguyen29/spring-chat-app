@@ -1,8 +1,21 @@
-services:
-  mariadb:
-    image: mariadb:11.3
+version: "3" # specify docker-compose version
+
+services: # services list
+  # see https://medium.com/@chrischuck35/how-to-create-a-mysql-instance-with-docker-compose-1598f3cc1bee
+  # for more information on how to setup MySQL with Docker Compose
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
     environment:
-    - MARIADB_DATABASE=chatapp
-    - MARIADB_ROOT_PASSWORD=P4ssword!
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: chatapp
+      MYSQL_USER: chatapp
+      MYSQL_PASSWORD: chatapp
     ports:
-    - 3307:3306
+      # <Port exposed>:<MySQL Port running inside container>
+      - "3306:3306"
+
+volumes:
+  db_data:
