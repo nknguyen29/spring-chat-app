@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title>[[#{chatroom.edit.headline}]]</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="flex flex-wrap mb-6">
+                <h1 class="grow text-3xl md:text-4xl font-medium mb-2">[[#{chatroom.edit.headline}]]</h1>
+                <div>
+                    <a th:href="@{/chatrooms}" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-4 rounded px-5 py-2">[[#{chatroom.edit.back}]]</a>
+                </div>
+            </div>
+            <div th:replace="~{fragments/forms::globalErrors('chatroom')}" />
+            <form th:action="${requestUri}" method="post">
+                <div th:replace="~{fragments/forms::inputRow(object='chatroom', field='id', disabled=true, type='number')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='chatroom', field='title', required=true)}" />
+                <div th:replace="~{fragments/forms::inputRow(object='chatroom', field='description')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='chatroom', field='startDate', required=true)}" />
+                <div th:replace="~{fragments/forms::inputRow(object='chatroom', field='validityDuration', required=true)}" />
+                <div th:replace="~{fragments/forms::inputRow(object='chatroom', field='users', type='multiselect')}" />
+                <input type="submit" th:value="#{chatroom.edit.headline}" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2 mt-6" />
+            </form>
+        </div>
+    </body>
+</html>
