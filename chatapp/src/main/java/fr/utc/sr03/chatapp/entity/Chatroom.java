@@ -60,28 +60,28 @@ public class Chatroom {
         return title;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public Timestamp getStartDate() {
-        return startDate;
-    }
-
-    public Timestamp getValidityDuration() {
-        return validityDuration;
-    }
-
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
+    public Timestamp getStartDate() {
+        return startDate;
+    }
+
     public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
+    }
+
+    public Timestamp getValidityDuration() {
+        return validityDuration;
     }
 
     public void setValidityDuration(Timestamp validityDuration) {
