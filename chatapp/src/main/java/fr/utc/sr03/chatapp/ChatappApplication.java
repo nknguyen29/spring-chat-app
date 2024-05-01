@@ -8,11 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 
-import fr.utc.sr03.chatapp.entity.User;
-import fr.utc.sr03.chatapp.entity.Chatroom;
 import fr.utc.sr03.chatapp.repository.UserRepository;
+import fr.utc.sr03.chatapp.domain.Chatroom;
+import fr.utc.sr03.chatapp.domain.ChatroomUser;
+import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.repository.ChatroomRepository;
-import fr.utc.sr03.chatapp.entity.ChatroomUser;
 import fr.utc.sr03.chatapp.repository.ChatroomUserRepository;
 
 @SpringBootApplication
