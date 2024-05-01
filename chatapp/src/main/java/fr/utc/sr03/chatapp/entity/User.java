@@ -1,5 +1,6 @@
 package fr.utc.sr03.chatapp.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "users")
@@ -41,7 +43,7 @@ public class User {
     // The join table is created upstream in the Chatroom entity
     // It contains the user and chatroom entities and additional information about
     // the relationship
-    @OneToMany(mappedBy = "user")
+    @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     private Set<ChatroomUser> chatroomUsers;
 
     protected User() {
@@ -109,6 +111,18 @@ public class User {
 
     public void removeChatroomUser(ChatroomUser chatroomUser) {
         chatroomUsers.remove(chatroomUser);
+    }
+
+    public Set<Chatroom> getChatrooms() {
+        return chatroomUsers.stream().map(ChatroomUser::getChatroom).collect(Collectors.toSet());
+    }
+
+    public void addChatroom(Chatroom chatroom) {
+        chatroomUsers.add(new ChatroomUser(chatroom, this));
+    }
+
+    public void removeChatroom(Chatroom chatroom) {
+        chatroomUsers.removeIf(chatroomUser -> chatroomUser.getChatroom().equals(chatroom));
     }
 
     @Override

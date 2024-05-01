@@ -1,14 +1,17 @@
 package fr.utc.sr03.chatapp.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 // La classe java.sql.Timestamp étend la classe java.util.Date et permet de
 // stocker des informations de date et d'heure.
@@ -39,7 +42,7 @@ public class Chatroom {
     //     inverseJoinColumns = @JoinColumn(name = "user_id"))
     // private Set<User> users;
 
-    @OneToMany(mappedBy = "chatroom")
+    @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "chatroom", orphanRemoval = true)
     private Set<ChatroomUser> chatroomUsers;
 
     protected Chatroom() {
@@ -98,6 +101,18 @@ public class Chatroom {
 
     public void removeChatroomUser(ChatroomUser chatroomUser) {
         chatroomUsers.remove(chatroomUser);
+    }
+
+    public Set<User> getUsers() {
+        return chatroomUsers.stream().map(ChatroomUser::getUser).collect(Collectors.toSet());
+    }
+
+    public void addUser(User user) {
+        chatroomUsers.add(new ChatroomUser(this, user));
+    }
+
+    public void removeUser(User user) {
+        chatroomUsers.removeIf(chatroomUser -> chatroomUser.getUser().equals(user));
     }
 
     @Override
