@@ -28,14 +28,6 @@ public class ChatroomUserKey implements Serializable {
         return userId;
     }
 
-    public void setChatroomId(Long chatroomId) {
-        this.chatroomId = chatroomId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o)

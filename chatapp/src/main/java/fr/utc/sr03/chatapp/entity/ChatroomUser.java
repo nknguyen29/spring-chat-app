@@ -41,18 +41,6 @@ public class ChatroomUser {
         return user;
     }
 
-    public void setId(ChatroomUserKey id) {
-        this.id = id;
-    }
-
-    public void setChatroom(Chatroom chatroom) {
-        this.chatroom = chatroom;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o)
