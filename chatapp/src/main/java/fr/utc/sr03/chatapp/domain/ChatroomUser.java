@@ -1,4 +1,4 @@
-package fr.utc.sr03.chatapp.entity;
+package fr.utc.sr03.chatapp.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -9,6 +9,7 @@ import jakarta.persistence.MapsId;
 @Entity
 @Table(name = "chatroom_users")
 public class ChatroomUser {
+
     @EmbeddedId
     private ChatroomUserKey id;
 
@@ -33,11 +34,15 @@ public class ChatroomUser {
         return id;
     }
 
+    public void setId(final ChatroomUserKey id) {
+        this.id = id;
+    }
+
     public Chatroom getChatroom() {
         return chatroom;
     }
 
-    public void setChatroom(Chatroom chatroom) {
+    public void setChatroom(final Chatroom chatroom) {
         this.chatroom = chatroom;
     }
 
@@ -45,7 +50,7 @@ public class ChatroomUser {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(final User user) {
         this.user = user;
     }
 
@@ -74,4 +79,5 @@ public class ChatroomUser {
                 ", user=" + user +
                 '}';
     }
+
 }

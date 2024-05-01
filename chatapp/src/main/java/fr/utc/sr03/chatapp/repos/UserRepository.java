@@ -1,13 +1,16 @@
-package fr.utc.sr03.chatapp.repository;
+package fr.utc.sr03.chatapp.repos;
 
-import fr.utc.sr03.chatapp.entity.User;
+import fr.utc.sr03.chatapp.domain.User;
 import org.springframework.data.repository.CrudRepository;
 
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
 // CRUD refers Create, Read, Update, Delete
 
 public interface UserRepository extends CrudRepository<User, Long> {
+
     User findByEmail(String email);
+    boolean existsByEmailIgnoreCase(String email);
+
 }
 
 // Spring Data JPA also lets you define other query methods by declaring their

@@ -1,4 +1,4 @@
-package fr.utc.sr03.chatapp.entity;
+package fr.utc.sr03.chatapp.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -20,13 +20,16 @@ import java.sql.Timestamp; // or java.util.Date
 @Entity
 @Table(name = "chatrooms")
 public class Chatroom {
+
     @Id
+    @Column(nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     private String title;
 
+    @Column(name = "\"description\"")
     private String description;
 
     @Column(nullable = false)
@@ -60,11 +63,15 @@ public class Chatroom {
         return id;
     }
 
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -72,7 +79,7 @@ public class Chatroom {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -80,7 +87,7 @@ public class Chatroom {
         return startDate;
     }
 
-    public void setStartDate(Timestamp startDate) {
+    public void setStartDate(final Timestamp startDate) {
         this.startDate = startDate;
     }
 
@@ -88,7 +95,7 @@ public class Chatroom {
         return validityDuration;
     }
 
-    public void setValidityDuration(Timestamp validityDuration) {
+    public void setValidityDuration(final Timestamp validityDuration) {
         this.validityDuration = validityDuration;
     }
 
@@ -96,11 +103,15 @@ public class Chatroom {
         return chatroomUsers;
     }
 
-    public void addChatroomUser(ChatroomUser chatroomUser) {
+    public void setChatroomUsers(final Set<ChatroomUser> chatroomUsers) {
+        this.chatroomUsers = chatroomUsers;
+    }
+
+    public void addChatroomUser(final ChatroomUser chatroomUser) {
         chatroomUsers.add(chatroomUser);
     }
 
-    public void removeChatroomUser(ChatroomUser chatroomUser) {
+    public void removeChatroomUser(final ChatroomUser chatroomUser) {
         chatroomUsers.remove(chatroomUser);
     }
 
@@ -110,11 +121,11 @@ public class Chatroom {
 
     // Enable CascadeType.MERGE to automatically persist the users when
     // persisting the chatroom
-    public void addUser(User user) {
+    public void addUser(final User user) {
         chatroomUsers.add(new ChatroomUser(this, user));
     }
 
-    public void removeUser(User user) {
+    public void removeUser(final User user) {
         chatroomUsers.removeIf(chatroomUser -> chatroomUser.getUser().equals(user));
     }
 
@@ -212,4 +223,5 @@ public class Chatroom {
     public long getWaitingTime() {
         return startDate.getTime() - System.currentTimeMillis();
     }
+
 }
