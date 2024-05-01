@@ -2,7 +2,12 @@
 //
 // This file serves as the central location for importing all of the project's styles.
 // It acts as the main entry point for managing the application's style dependencies.
-// The JavaScript entry point file, main.js, imports this file.
+// The JavaScript entry point file, app.js, imports this file.
+
+// Import Tailwind CSS
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 // Add your custom styles here
 @import "./style.css";
