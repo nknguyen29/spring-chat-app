@@ -88,6 +88,18 @@ public class Chatroom {
         this.validityDuration = validityDuration;
     }
 
+    public Set<ChatroomUser> getChatroomUsers() {
+        return chatroomUsers;
+    }
+
+    public void addChatroomUser(ChatroomUser chatroomUser) {
+        chatroomUsers.add(chatroomUser);
+    }
+
+    public void removeChatroomUser(ChatroomUser chatroomUser) {
+        chatroomUsers.remove(chatroomUser);
+    }
+
     @Override
     public String toString() {
         return "Chatroom{" +

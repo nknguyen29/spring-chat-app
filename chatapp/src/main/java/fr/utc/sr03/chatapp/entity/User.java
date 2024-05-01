@@ -34,6 +34,7 @@ public class User {
 
     // Use ManyToMany annotation on both sides of the relationship
     // It creates a join table to store the relationship
+    // See: https://www.baeldung.com/jpa-many-to-many#2-implementation-in-jpa
     // @ManyToMany(targetEntity = Chatroom.class, mappedBy = "users")
     // private Set<Chatroom> chatrooms;
 
@@ -96,6 +97,18 @@ public class User {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    public Set<ChatroomUser> getChatroomUsers() {
+        return chatroomUsers;
+    }
+
+    public void addChatroomUser(ChatroomUser chatroomUser) {
+        chatroomUsers.add(chatroomUser);
+    }
+
+    public void removeChatroomUser(ChatroomUser chatroomUser) {
+        chatroomUsers.remove(chatroomUser);
     }
 
     @Override
