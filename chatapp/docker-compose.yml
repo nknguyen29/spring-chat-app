@@ -1,0 +1,8 @@
+services:
+  mariadb:
+    image: mariadb:11.3
+    environment:
+    - MARIADB_DATABASE=chatapp
+    - MARIADB_ROOT_PASSWORD=P4ssword!
+    ports:
+    - 3307:3306
