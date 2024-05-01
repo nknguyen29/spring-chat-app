@@ -61,12 +61,44 @@ dist-ssr
 *.sw?
 ###< .gitignore generated for Vite.js ###
 
-###> custom .gitignore ###
-src/main/resources/static/
-!src/main/resources/static/index.html
-!src/main/resources/static/favicon.ico
-!src/main/resources/static/robots.txt
-!src/main/resources/static/manifest.json
-!src/main/resources/static/main.css
-!src/main/resources/static/main.js
-###< custom .gitignore ###
+.env
+
+
+
+# HELP.md
+# target/
+# !.mvn/wrapper/maven-wrapper.jar
+# !**/src/main/**/target/
+# !**/src/test/**/target/
+# application-local.properties
+# *.log
+# node/
+# node_modules/
+
+# ## IntelliJ IDEA
+# .idea
+# *.iws
+# *.iml
+# *.ipr
+
+# ## VS Code
+# .vscode/
+
+# ## STS
+# .apt_generated
+# .classpath
+# .factorypath
+# .project
+# .settings
+# .springBeans
+# .sts4-cache
+
+# ## NetBeans
+# /nbproject/private/
+# /nbbuild/
+# /dist/
+# /nbdist/
+# /.nb-gradle/
+# build/
+# !**/src/main/**/build/
+# !**/src/test/**/build/
