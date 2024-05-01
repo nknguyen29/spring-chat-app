@@ -43,7 +43,7 @@ public class Chatroom {
     // private Set<User> users;
 
     // orphanRemoval = true to delete the chatroom when the user is deleted
-    @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "chatroom")
+    @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "chatroom")
     private Set<ChatroomUser> chatroomUsers;
 
     protected Chatroom() {
@@ -108,7 +108,7 @@ public class Chatroom {
         return chatroomUsers.stream().map(ChatroomUser::getUser).collect(Collectors.toSet());
     }
 
-    // Enable CascadeType.PERSIST to automatically persist the users when
+    // Enable CascadeType.MERGE to automatically persist the users when
     // persisting the chatroom
     public void addUser(User user) {
         chatroomUsers.add(new ChatroomUser(this, user));
@@ -127,6 +127,18 @@ public class Chatroom {
                 ", startDate=" + startDate +
                 ", validityDuration=" + validityDuration +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Chatroom chatroom = (Chatroom) obj;
+        return id.equals(chatroom.id);
     }
 
     /**

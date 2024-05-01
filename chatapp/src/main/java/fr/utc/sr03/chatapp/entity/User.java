@@ -42,10 +42,10 @@ public class User {
     // private Set<Chatroom> chatrooms;
 
     // The join table is created upstream in the Chatroom entity
-    // It contains the user and chatroom entities and additional information about
-    // the relationship
+    // It contains the user and chatroom entities and additional information
+    // about the relationship
     // Enable orphan removal to delete the chatroom when the user is deleted
-    @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "user")
     private Set<ChatroomUser> chatroomUsers;
 
     protected User() {
@@ -120,7 +120,8 @@ public class User {
     }
 
     // Helper methods to manage the chatrooms
-    // Need Cascade.PERSIST to save the chatroom when the user is saved
+    // Need Cascade.MERGE and FetchType.EAGER to save the chatroom when the user
+    // is saved
     public void addChatroom(Chatroom chatroom) {
         chatroomUsers.add(new ChatroomUser(chatroom, this));
     }
@@ -139,5 +140,17 @@ public class User {
                 ", password='" + password + '\'' +
                 ", isAdmin=" + isAdmin +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        User user = (User) obj;
+        return id.equals(user.id);
     }
 }
