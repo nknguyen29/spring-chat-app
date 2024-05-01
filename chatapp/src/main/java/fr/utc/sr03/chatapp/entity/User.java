@@ -16,7 +16,9 @@ import java.util.stream.Collectors;
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "users")
 public class User {
+
     @Id
+    @Column(nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -33,7 +35,7 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private boolean isAdmin;
+    private Boolean isAdmin;
 
     // Use ManyToMany annotation on both sides of the relationship
     // It creates a join table to store the relationship
@@ -63,11 +65,15 @@ public class User {
         return id;
     }
 
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
@@ -75,7 +81,7 @@ public class User {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
@@ -83,7 +89,7 @@ public class User {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -91,27 +97,31 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
-    public boolean isAdmin() {
+    public Boolean getIsAdmin() {
         return isAdmin;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setIsAdmin(final Boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     public Set<ChatroomUser> getChatroomUsers() {
         return chatroomUsers;
     }
 
-    public void addChatroomUser(ChatroomUser chatroomUser) {
+    public void setChatroomUsers(final Set<ChatroomUser> chatroomUsers) {
+        this.chatroomUsers = chatroomUsers;
+    }
+
+    public void addChatroomUser(final ChatroomUser chatroomUser) {
         chatroomUsers.add(chatroomUser);
     }
 
-    public void removeChatroomUser(ChatroomUser chatroomUser) {
+    public void removeChatroomUser(final ChatroomUser chatroomUser) {
         chatroomUsers.remove(chatroomUser);
     }
 
@@ -122,11 +132,11 @@ public class User {
     // Helper methods to manage the chatrooms
     // Need Cascade.MERGE and FetchType.EAGER to save the chatroom when the user
     // is saved
-    public void addChatroom(Chatroom chatroom) {
+    public void addChatroom(final Chatroom chatroom) {
         chatroomUsers.add(new ChatroomUser(chatroom, this));
     }
 
-    public void removeChatroom(Chatroom chatroom) {
+    public void removeChatroom(final Chatroom chatroom) {
         chatroomUsers.removeIf(chatroomUser -> chatroomUser.getChatroom().equals(chatroom));
     }
 
@@ -153,4 +163,5 @@ public class User {
         User user = (User) obj;
         return id.equals(user.id);
     }
+
 }
