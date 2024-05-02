@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{base}" >
+    <div layout:fragment="body" class="container p-0">
+        <div th:replace="layouts/header/_header :: header"></div>
+        <div class="flex pt-16 overflow-hidden bg-stone-50 dark:bg-gray-900">
+            <!-- <div th:replace="layouts/sidebar/_sidebar :: sidebar"></div>
+            <div class="fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/90" id="sidebarBackdrop"></div> -->
+            
+            
+            <div id="main-content" class="relative w-full h-full overflow-y-auto bg-stone-50 lg:ml-64 dark:bg-gray-900">
+                <main>
+                    <div layout:fragment="content" class="px-3 pt-9 lg:px-8"></div>
+                </main>
+                <div th:replace="layouts/footer/_footer :: footer"></div>
+            </div>
+        </div>
+    </div>
+</html>

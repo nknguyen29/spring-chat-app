@@ -1,0 +1,12 @@
+<aside th:fragment="sidebar" id="sidebar"
+    class="fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 hidden w-64 h-full pt-16 font-normal duration-75 lg:flex transition-width"
+    aria-label="Sidebar">
+    <div class="relative flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-slate-100 dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
+            <div class="flex-1 px-5 space-y-1 bg-white divide-y divide-gray-200 divide-dashed dark:bg-gray-800 dark:divide-gray-700">
+                <div th:insert="layouts/sidebar/_navigation :: navigation"></div>
+                <div th:insert="layouts/sidebar/_external-links :: external-links"></div>
+            </div>
+        </div>
+    </div>
+</aside>

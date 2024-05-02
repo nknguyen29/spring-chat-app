@@ -13,8 +13,9 @@
         <meta name="keywords" th:attr="content=#{app.keywords}" />
 
         <!-- Stylesheets and other CSS stuff goes here -->
-        <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
         <link th:if="${!isDevserver}" th:href="@{/css/bundle.css}" rel="stylesheet" />
 
         <!-- Scripts needed for the application -->
@@ -30,9 +31,20 @@
         ></script>
         <!--*/-->
         <script th:src="@{/js/bundle.js}" defer></script>
+        <script>
+            if (
+                localStorage.getItem("color-theme") === "dark" ||
+                (!("color-theme" in localStorage) &&
+                  window.matchMedia("(prefers-color-scheme: dark)").matches)
+              ) {
+                document.documentElement.classList.add("dark");
+              } else {
+                document.documentElement.classList.remove("dark");
+              }
+        </script>
     </head>
 
-    <body>
-        <div layout:fragment="body"></div>
+    <body class="bg-stone-50 dark:bg-gray-800">
+        <div layout:fragment="body" class="bg-stone-50 dark:bg-gray-800"></div>
     </body>
 </html>
