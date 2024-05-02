@@ -8,6 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 
+import fr.utc.sr03.chatapp.domain.User;
+import fr.utc.sr03.chatapp.repos.UserRepository;
+
+
 @SpringBootApplication
 public class ChatappApplication {
 
@@ -18,15 +22,14 @@ public class ChatappApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo() {
+	public CommandLineRunner demo(UserRepository userRepository) {
 		return (args) -> {
 			// save a few users
-			// User user1 = new User("John", "Doe", "tes@test.f8", "password", true);
-			// User user2 = new User("Jane", "Doe", "tes@test.fr772", "password", false);
-			// userRepository.save(user1);
-			// userRepository.save(user2);
+			String random = String.valueOf(Math.random());
+			User user1 = new User("John", "Doe", random, "password", true);
+			userRepository.save(user1);
 
-			// // fetch all users
+			// // fetch all usersss
 			// log.info("Users found with findAll():");
 
 			// for (User user : userRepository.findAll()) {
