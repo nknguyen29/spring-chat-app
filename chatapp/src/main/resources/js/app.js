@@ -12,6 +12,18 @@ import 'css/app.css';
 
 import 'flowbite'; // Import Flowbite
 
+// Font Awesome 6.5.2 by @fontawesome - https://fontawesome.com
+//
+// The Free and Pro packages include not only the icons in all the styles, but
+// also all the supporting files to make them render.
+// We do not recommend using this package.
+// This package closely resembles what you get from our Downloads page.
+// You have a lot of options with this package but it’s also the largest.
+// https://docs.fontawesome.com/web/setup/packages#all-the-things
+
+import '@fortawesome/fontawesome-free/css/all.min.css';
+// import '@fortawesome/fontawesome-free/js/all.js';
+
 /**
  * Register an event at the document for the specified selector,
  * so events are still catched after DOM changes.
