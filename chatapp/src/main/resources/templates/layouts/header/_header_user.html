@@ -1,0 +1,40 @@
+<div th:fragment="header-user" class="sm:m-0 m-auto flex items-center flex-wrap gap-x-6 gap-y-1.5">
+    <div class="m-auto flex items-center flex-wrap gap-x-2 gap-y-1.5">
+        <button id="theme-toggle" data-tooltip-target="tooltip-toggle" type="button" class="flex text-gray-500 dark:text-gray-400 hover:bg-yellow-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm px-2 py-1.5">
+            <i id="theme-toggle-dark-icon" class="fa-solid fa-moon text-lg"></i>
+            <i id="theme-toggle-light-icon" class="fa-solid fa-sun hidden text-lg"></i>
+        </button>
+        <div id="tooltip-toggle" role="tooltip"
+            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">
+            Changer de thème
+            <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+
+        <button id="help-toggle" data-tooltip-target="tooltip-help" type="button" class="flex text-gray-500 dark:text-gray-400 hover:bg-yellow-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm px-2 py-1.5">
+            <i class="fa-solid fa-question text-lg"></i>
+        </button>
+        <div id="tooltip-help" role="tooltip"
+            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">
+            Aide
+            <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+    </div>
+    <div class="m-auto justify-center flex flex-row-reverse items-center flex-wrap gap-x-3 gap-y-1.5">
+        <button id="logout" type="button" data-tooltip-target="tooltip-logout"
+            class="flex items-center justify-center px-2 py-1.5 text-gray-600 bg-white rounded-lg dark:text-gray-400 dark:bg-gray-700 hover:text-gray-900 hover:bg-gray-100 dark:hover:text-white dark:hover:bg-gray-600 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700">
+            <i class="fa-solid fa-sign-out text-lg"></i>
+        </button>
+        <div id="tooltip-logout" role="tooltip"
+            class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip">
+            Déconnexion
+            <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+        <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-lg dark:bg-gray-600">
+            <span class="font-medium text-gray-600 dark:text-gray-300">JL</span>
+        </div>
+        <div class="text-right dark:text-white sm:block hidden">
+            <div class="font-medium text-xs text-gray-400 dark:text-gray-400">Bonjour,</div>
+            <div class="font-semibold text-sm text-slate-700 dark:text-gray-400">John Doe</div>
+        </div>
+    </div>
+</div>
