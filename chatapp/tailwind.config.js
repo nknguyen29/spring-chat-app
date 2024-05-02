@@ -1,3 +1,6 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -6,7 +9,11 @@ module.exports = {
   ],
   safelist: ["underline", "bg-gray-100"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Inter', ...defaultTheme.fontFamily.sans]
+      }
+    },
     container: {
       center: true,
     },

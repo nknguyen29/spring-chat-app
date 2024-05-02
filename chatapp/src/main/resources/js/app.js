@@ -20,9 +20,7 @@ import 'flowbite'; // Import Flowbite
 // This package closely resembles what you get from our Downloads page.
 // You have a lot of options with this package but it’s also the largest.
 // https://docs.fontawesome.com/web/setup/packages#all-the-things
-
-import '@fortawesome/fontawesome-free/css/all.min.css';
-// import '@fortawesome/fontawesome-free/js/all.js';
+import '@fortawesome/fontawesome-free/js/all.js';
 
 /**
  * Register an event at the document for the specified selector,
