@@ -10,20 +10,21 @@
 // Import the styles from the app.css file
 import 'css/app.css';
 
+import 'flowbite'; // Import Flowbite
 
 /**
  * Register an event at the document for the specified selector,
  * so events are still catched after DOM changes.
  */
 function handleEvent(eventType, selector, handler) {
-  document.addEventListener(eventType, function(event) {
+  document.addEventListener(eventType, function (event) {
     if (event.target.matches(selector + ', ' + selector + ' *')) {
       handler.apply(event.target.closest(selector), arguments);
     }
   });
 }
 
-handleEvent('submit', '.js-submit-confirm', function(event) {
+handleEvent('submit', '.js-submit-confirm', function (event) {
   if (!confirm(this.getAttribute('data-confirm-message'))) {
     event.preventDefault();
     return false;
@@ -31,7 +32,7 @@ handleEvent('submit', '.js-submit-confirm', function(event) {
   return true;
 });
 
-handleEvent('click', 'body', function(event) {
+handleEvent('click', 'body', function (event) {
   // close any open dropdown
   const $clickedDropdown = event.target.closest('.js-dropdown');
   const $dropdowns = document.querySelectorAll('.js-dropdown');
