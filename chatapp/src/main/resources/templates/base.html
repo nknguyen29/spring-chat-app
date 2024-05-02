@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" >
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+        <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">[[#{app.title}]]</title>
+        <link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon" />
+
+        <meta name="description" th:attr="content=#{app.description}" />
+        <meta name="author" th:attr="content=#{app.author}" />
+        <meta name="keywords" th:attr="content=#{app.keywords}" />
+
+        <!-- Stylesheets and other CSS stuff goes here -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link th:if="${!isDevserver}" th:href="@{/css/bundle.css}" rel="stylesheet" />
+
+        <!-- Scripts needed for the application -->
+        <!--/*--> 
+        <!-- jQuery is included through node_modules and Webpack -->
+        <!-- But we can also use a CDN -->
+        <!-- Uncomment the following lines to use jQuery from a CDN -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"
+        ></script> -->
+        <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.min.js"
+            integrity="sha256-sw0iNNXmOJbQhYFuC9OF2kOlD5KQKe1y5lfBn4C9Sjg=" crossorigin="anonymous"
+        ></script>
+        <!--*/-->
+        <script th:src="@{/js/bundle.js}" defer></script>
+    </head>
+
+    <body>
+        <div layout:fragment="body"></div>
+    </body>
+</html>
