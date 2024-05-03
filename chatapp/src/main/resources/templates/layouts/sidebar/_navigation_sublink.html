@@ -1,9 +1,9 @@
-<li>
-    <a href="https://flowbite-admin-dashboard.vercel.app/"
-        class="flex items-center px-3 py-2 text-base text-slate-600 transition duration-75 rounded-lg hover:bg-slate-100 group 
-        dark:text-gray-200 dark:hover:bg-gray-700">
-        <!-- font awesome  -->
-        <i class="fa-solid fa-angle-right text-xs text-primary-500"></i>
-        <span class="ml-3 font-medium text-sm" sidebar-toggle-item>Dashboard</span>
+<li th:fragment="navigation-sublink (label, url, url_regex)"
+    th:with="is_active=${url.matches(url_regex)}">
+    <a th:href="@{__${url}__}" th:classappend="${is_active} ? 'bg-slate-100 dark:bg-gray-700 text-gray-900 dark:text-gray-200' : 'text-slate-800 dark:text-gray-200'"
+        class="flex items-center px-3 py-2 text-base transition duration-75 rounded-lg group">
+        <i class="text-xl text-gray-400 transition duration-75 group-hover:text-gray-500"
+            th:class="${is_active} ? 'text-gray-500 dark:text-gray-500' : 'text-gray-400 dark:text-gray-400'"></i>
+        <span class="ml-3 font-medium text-sm" sidebar-toggle-item th:text="${label}"></span>
     </a>
 </li>

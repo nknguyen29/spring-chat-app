@@ -1,18 +1,29 @@
-<ul th:fragment="navigation" class="pb-2 space-y-2">
+<ul th:fragment="navigation" class="pb-2.5 space-y-2.5">
     <div th:replace="~{layouts/sidebar/_navigation_link :: navigation-link (icon='fa-regular fa-compass', label='Accueil', url='/', url_regex='^/$')}"></div>
     <li>
         <button type="button"
             class="flex items-center w-full px-3 py-2 text-base text-slate-800 transition duration-75 rounded-lg group hover:bg-slate-100 dark:text-gray-200 dark:hover:bg-gray-700"
             aria-controls="dropdown-layouts" data-collapse-toggle="dropdown-layouts">
-            <i class="fa-regular fa-user text-xl text-gray-400 transition duration-75 group-hover:text-gray-500"></i>
+            <i class="fa-regular fa-user text-lg text-gray-400 transition duration-75 group-hover:text-gray-500"></i>
             <span class="flex-1 ml-3 font-semibold text-sm text-left whitespace-nowrap" sidebar-toggle-item>Utilisateurs</span>
             <i class="fa-solid fa-chevron-down text-xs text-slate-800"></i>
         </button>
         <ul id="dropdown-layouts" class="hidden pt-1 space-y-1 ml-4 transition-all">
-            <!-- <div th:replace="layouts/sidebar/_navigation_sublink :: navigation"
-            th:with="label='Dashboard', url='/', is_active=${#strings.startsWith(T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequestUri().toUriString(), '/')}"></div>
-            <div th:replace="layouts/sidebar/_navigation_sublink :: navigation"
-            th:with="label='Dashboard', url='/', is_active=${#strings.startsWith(T(org.springframework.web.servlet.support.ServletUriComponentsBuilder).fromCurrentRequestUri().toUriString(), '/')}"></div> -->
+            <div th:replace="~{layouts/sidebar/_navigation_sublink :: navigation-sublink (label='Accueil', url='/', url_regex='^/sds$')}"></div>
+            <div th:replace="~{layouts/sidebar/_navigation_sublink :: navigation-sublink (label='Accueil', url='/', url_regex='^/sdsd$')}"></div>
+        </ul>
+    </li>
+    <li>
+        <button type="button"
+            class="flex items-center w-full px-3 py-2 text-base text-slate-800 transition duration-75 rounded-lg group hover:bg-slate-100 dark:text-gray-200 dark:hover:bg-gray-700"
+            aria-controls="dropdown-layouts" data-collapse-toggle="dropdown-layouts">
+            <i class="fa-regular fa-comments text-lg text-gray-400 transition duration-75 group-hover:text-gray-500"></i>
+            <span class="flex-1 ml-3 font-semibold text-sm text-left whitespace-nowrap" sidebar-toggle-item>S. de discussion</span>
+            <i class="fa-solid fa-chevron-down text-xs text-slate-800"></i>
+        </button>
+        <ul id="dropdown-layouts" class="hidden pt-1 space-y-1 ml-4 transition-all">
+            <div th:replace="~{layouts/sidebar/_navigation_sublink :: navigation-sublink (label='Accueil', url='/', url_regex='^/sds$')}"></div>
+            <div th:replace="~{layouts/sidebar/_navigation_sublink :: navigation-sublink (label='Accueil', url='/', url_regex='^/sdsd$')}"></div>
         </ul>
     </li>
 </ul>
