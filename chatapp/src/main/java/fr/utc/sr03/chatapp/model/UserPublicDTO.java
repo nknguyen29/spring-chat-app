@@ -28,7 +28,7 @@ public class UserPublicDTO {
 
     @NotNull
     @JsonProperty("chatrooms")
-    private List<ChatroomPublicDTO> chatrooms;
+    private List<ChatroomWithoutUserDTO> chatrooms;
 
     public Long getId() {
         return id;
@@ -70,12 +70,20 @@ public class UserPublicDTO {
         this.isAdmin = isAdmin;
     }
 
-    public List<ChatroomPublicDTO> getChatrooms() {
+    public List<ChatroomWithoutUserDTO> getChatrooms() {
         return chatrooms;
     }
 
-    public void setChatrooms(final List<ChatroomPublicDTO> chatrooms) {
+    public void setChatrooms(final List<ChatroomWithoutUserDTO> chatrooms) {
         this.chatrooms = chatrooms;
+    }
+
+    public void addChatroom(final ChatroomWithoutUserDTO chatroom) {
+        this.chatrooms.add(chatroom);
+    }
+
+    public void removeChatroom(final ChatroomWithoutUserDTO chatroom) {
+        this.chatrooms.remove(chatroom);
     }
 
 }

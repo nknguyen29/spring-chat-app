@@ -1,17 +1,20 @@
 package fr.utc.sr03.chatapp.domain;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 
 // La classe java.sql.Timestamp étend la classe java.util.Date et permet de
 // stocker des informations de date et d'heure.
 import java.sql.Timestamp; // or java.util.Date
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "chatrooms")
@@ -42,8 +45,7 @@ public class Chatroom {
     // private Set<User> users;
 
     // orphanRemoval = true to delete the chatroom when the user is deleted
-    // @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "chatroom")
-    @OneToMany(targetEntity = ChatroomUser.class, mappedBy = "chatroom")
+    @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "chatroom")
     private Set<ChatroomUser> chatroomUsers;
 
     public Chatroom() {
@@ -102,6 +104,28 @@ public class Chatroom {
 
     public void setChatroomUsers(final Set<ChatroomUser> chatroomUsers) {
         this.chatroomUsers = chatroomUsers;
+    }
+
+    public void addChatroomUser(final ChatroomUser chatroomUser) {
+        chatroomUsers.add(chatroomUser);
+    }
+
+    public void removeChatroomUser(final ChatroomUser chatroomUser) {
+        chatroomUsers.remove(chatroomUser);
+    }
+
+    public Set<User> getUsers() {
+        return chatroomUsers.stream().map(ChatroomUser::getUser).collect(Collectors.toSet());
+    }
+
+    // Enable CascadeType.MERGE to automatically persist the users when
+    // persisting the chatroom
+    public void addUser(final User user) {
+        chatroomUsers.add(new ChatroomUser(this, user));
+    }
+
+    public void removeUser(final User user) {
+        chatroomUsers.removeIf(chatroomUser -> chatroomUser.getUser().equals(user));
     }
 
     @Override

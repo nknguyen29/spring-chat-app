@@ -29,7 +29,7 @@ public class ChatroomPublicDTO {
 
     @NotNull
     @JsonProperty("users")
-    private List<UserPublicDTO> users;
+    private List<UserPublicWithoutChatroomDTO> users;
 
     public Long getId() {
         return id;
@@ -71,12 +71,20 @@ public class ChatroomPublicDTO {
         this.validityDuration = validityDuration;
     }
 
-    public List<UserPublicDTO> getUsers() {
+    public List<UserPublicWithoutChatroomDTO> getUsers() {
         return users;
     }
 
-    public void setUsers(final List<UserPublicDTO> users) {
+    public void setUsers(final List<UserPublicWithoutChatroomDTO> users) {
         this.users = users;
+    }
+
+    public void addUser(final UserPublicWithoutChatroomDTO user) {
+        users.add(user);
+    }
+
+    public void removeUser(final UserPublicWithoutChatroomDTO user) {
+        users.remove(user);
     }
 
 }
