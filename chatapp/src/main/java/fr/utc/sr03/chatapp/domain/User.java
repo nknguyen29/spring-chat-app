@@ -1,9 +1,7 @@
 package fr.utc.sr03.chatapp.domain;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,7 +9,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "users")
@@ -47,10 +44,11 @@ public class User {
     // It contains the user and chatroom entities and additional information
     // about the relationship
     // Enable orphan removal to delete the chatroom when the user is deleted
-    @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "user")
+    // @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "user")
+    @OneToMany(targetEntity = ChatroomUser.class, mappedBy = "user")
     private Set<ChatroomUser> chatroomUsers;
 
-    protected User() {
+    public User() {
     }
 
     public User(String firstName, String lastName, String email, String password, boolean isAdmin) {
@@ -115,53 +113,6 @@ public class User {
 
     public void setChatroomUsers(final Set<ChatroomUser> chatroomUsers) {
         this.chatroomUsers = chatroomUsers;
-    }
-
-    public void addChatroomUser(final ChatroomUser chatroomUser) {
-        chatroomUsers.add(chatroomUser);
-    }
-
-    public void removeChatroomUser(final ChatroomUser chatroomUser) {
-        chatroomUsers.remove(chatroomUser);
-    }
-
-    public Set<Chatroom> getChatrooms() {
-        return chatroomUsers.stream().map(ChatroomUser::getChatroom).collect(Collectors.toSet());
-    }
-
-    // Helper methods to manage the chatrooms
-    // Need Cascade.MERGE and FetchType.EAGER to save the chatroom when the user
-    // is saved
-    public void addChatroom(final Chatroom chatroom) {
-        chatroomUsers.add(new ChatroomUser(chatroom, this));
-    }
-
-    public void removeChatroom(final Chatroom chatroom) {
-        chatroomUsers.removeIf(chatroomUser -> chatroomUser.getChatroom().equals(chatroom));
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", isAdmin=" + isAdmin +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        User user = (User) obj;
-        return id.equals(user.id);
     }
 
 }
