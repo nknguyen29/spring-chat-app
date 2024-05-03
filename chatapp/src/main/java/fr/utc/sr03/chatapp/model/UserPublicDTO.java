@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.util.List;
 
-public class UserDTO {
+public class UserPublicDTO {
 
     private Long id;
 
@@ -23,16 +23,12 @@ public class UserDTO {
     private String email;
 
     @NotNull
-    @Size(max = 255)
-    private String password;
-
-    @NotNull
     @JsonProperty("isAdmin")
     private Boolean isAdmin;
 
     @NotNull
     @JsonProperty("chatrooms")
-    private List<ChatroomDTO> chatrooms;
+    private List<ChatroomPublicDTO> chatrooms;
 
     public Long getId() {
         return id;
@@ -66,14 +62,6 @@ public class UserDTO {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(final String password) {
-        this.password = password;
-    }
-
     public Boolean getIsAdmin() {
         return isAdmin;
     }
@@ -82,11 +70,11 @@ public class UserDTO {
         this.isAdmin = isAdmin;
     }
 
-    public List<ChatroomDTO> getChatrooms() {
+    public List<ChatroomPublicDTO> getChatrooms() {
         return chatrooms;
     }
 
-    public void setChatrooms(final List<ChatroomDTO> chatrooms) {
+    public void setChatrooms(final List<ChatroomPublicDTO> chatrooms) {
         this.chatrooms = chatrooms;
     }
 

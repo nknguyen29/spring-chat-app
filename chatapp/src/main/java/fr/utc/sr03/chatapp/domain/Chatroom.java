@@ -8,10 +8,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 
-import java.util.Set;
 // La classe java.sql.Timestamp étend la classe java.util.Date et permet de
 // stocker des informations de date et d'heure.
 import java.sql.Timestamp; // or java.util.Date
+import java.util.Set;
 
 @Entity
 @Table(name = "chatrooms")
