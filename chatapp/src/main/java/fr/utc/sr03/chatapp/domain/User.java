@@ -44,7 +44,8 @@ public class User {
     // It contains the user and chatroom entities and additional information
     // about the relationship
     // Enable orphan removal to delete the chatroom when the user is deleted
-    // @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "user")
+    // @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE,
+    // fetch = FetchType.EAGER, mappedBy = "user")
     @OneToMany(targetEntity = ChatroomUser.class, mappedBy = "user")
     private Set<ChatroomUser> chatroomUsers;
 
@@ -113,6 +114,30 @@ public class User {
 
     public void setChatroomUsers(final Set<ChatroomUser> chatroomUsers) {
         this.chatroomUsers = chatroomUsers;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", isAdmin=" + isAdmin +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        User user = (User) obj;
+        return id.equals(user.id);
     }
 
 }

@@ -104,4 +104,27 @@ public class Chatroom {
         this.chatroomUsers = chatroomUsers;
     }
 
+    @Override
+    public String toString() {
+        return "Chatroom{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", validityDuration=" + validityDuration +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Chatroom chatroom = (Chatroom) obj;
+        return id.equals(chatroom.id);
+    }
+
 }
