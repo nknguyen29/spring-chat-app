@@ -64,4 +64,15 @@ public class ChatroomWithoutUserDTO {
         this.validityDuration = validityDuration;
     }
 
+    @Override
+    public String toString() {
+        return "ChatroomWithoutUserDTO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", validityDuration=" + validityDuration +
+                '}';
+    }
+
 }

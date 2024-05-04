@@ -86,4 +86,16 @@ public class UserPublicDTO {
         this.chatrooms.remove(chatroom);
     }
 
+    @Override
+    public String toString() {
+        return "UserPublicDTO{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", isAdmin=" + isAdmin +
+                ", chatrooms=" + chatrooms +
+                '}';
+    }
+
 }

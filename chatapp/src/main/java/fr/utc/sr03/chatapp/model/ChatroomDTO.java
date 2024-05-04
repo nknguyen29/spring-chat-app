@@ -87,4 +87,16 @@ public class ChatroomDTO {
         users.remove(user);
     }
 
+    @Override
+    public String toString() {
+        return "ChatroomDTO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", validityDuration=" + validityDuration +
+                ", users=" + users +
+                '}';
+    }
+
 }

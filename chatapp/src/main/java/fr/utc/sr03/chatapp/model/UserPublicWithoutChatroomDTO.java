@@ -65,4 +65,15 @@ public class UserPublicWithoutChatroomDTO {
         this.isAdmin = isAdmin;
     }
 
+    @Override
+    public String toString() {
+        return "UserPublicWithoutChatroomDTO{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", isAdmin=" + isAdmin +
+                '}';
+    }
+
 }

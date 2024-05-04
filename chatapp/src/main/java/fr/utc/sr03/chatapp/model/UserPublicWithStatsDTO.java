@@ -75,4 +75,16 @@ public class UserPublicWithStatsDTO {
         this.chatroomCount = chatroomCount;
     }
 
+    @Override
+    public String toString() {
+        return "UserPublicWithStatsDTO{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", isAdmin=" + isAdmin +
+                ", chatroomCount=" + chatroomCount +
+                '}';
+    }
+
 }

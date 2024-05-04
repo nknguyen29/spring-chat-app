@@ -106,4 +106,16 @@ public class ChatroomWithStatsDTO {
         return startDate.getTime() - System.currentTimeMillis();
     }
 
+    @Override
+    public String toString() {
+        return "ChatroomWithStatsDTO{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", validityDuration=" + validityDuration +
+                ", userCount=" + userCount +
+                '}';
+    }
+
 }
