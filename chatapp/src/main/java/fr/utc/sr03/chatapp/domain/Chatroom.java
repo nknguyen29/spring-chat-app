@@ -10,12 +10,11 @@ import jakarta.persistence.Table;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 
-import java.util.Set;
-import java.util.stream.Collectors;
-
 // La classe java.sql.Timestamp étend la classe java.util.Date et permet de
 // stocker des informations de date et d'heure.
 import java.sql.Timestamp; // or java.util.Date
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "chatrooms")
@@ -49,7 +48,7 @@ public class Chatroom {
     @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "chatroom")
     private Set<ChatroomUser> chatroomUsers;
 
-    protected Chatroom() {
+    public Chatroom() {
     }
 
     public Chatroom(String title, String description, Timestamp startDate, Timestamp validityDuration) {
@@ -150,78 +149,6 @@ public class Chatroom {
         }
         Chatroom chatroom = (Chatroom) obj;
         return id.equals(chatroom.id);
-    }
-
-    /**
-     * Calcule la date de fin du chatroom
-     * 
-     * @return la date de fin du chatroom
-     */
-    public Timestamp getEndDate() {
-        return new Timestamp(startDate.getTime() + validityDuration.getTime());
-    }
-
-    /**
-     * Vérifie si le chatroom est valide
-     * 
-     * @return true si le chatroom est valide, false sinon
-     */
-    public boolean isValid() {
-        return new Timestamp(System.currentTimeMillis()).before(getEndDate());
-    }
-
-    /**
-     * Vérifie si le chatroom a commencé
-     * 
-     * @return true si le chatroom a commencé, false sinon
-     */
-    public boolean isStarted() {
-        return new Timestamp(System.currentTimeMillis()).after(startDate);
-    }
-
-    /**
-     * Vérifie si le chatroom est en cours
-     * 
-     * @return true si le chatroom est en cours, false sinon
-     */
-    public boolean isRunning() {
-        return isStarted() && isValid();
-    }
-
-    /**
-     * Vérifie si le chatroom est terminé
-     * 
-     * @return true si le chatroom est terminé, false sinon
-     */
-    public boolean isOver() {
-        return !isValid();
-    }
-
-    /**
-     * Calcule le temps restant avant la fin du chatroom
-     * 
-     * @return le temps restant avant la fin du chatroom
-     */
-    public long getRemainingTime() {
-        return getEndDate().getTime() - System.currentTimeMillis();
-    }
-
-    /**
-     * Calcule le temps écoulé depuis le début du chatroom
-     * 
-     * @return le temps écoulé depuis le début du chatroom
-     */
-    public long getElapsedTime() {
-        return System.currentTimeMillis() - startDate.getTime();
-    }
-
-    /**
-     * Calcule le temps d'attente avant le début du chatroom
-     * 
-     * @return le temps d'attente avant le début du chatroom
-     */
-    public long getWaitingTime() {
-        return startDate.getTime() - System.currentTimeMillis();
     }
 
 }

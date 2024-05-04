@@ -4,10 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class UserDTO {
+public class UserPublicWithoutChatroomDTO {
 
     private Long id;
 
@@ -25,20 +22,8 @@ public class UserDTO {
     private String email;
 
     @NotNull
-    @Size(max = 255)
-    private String password;
-
-    @NotNull
     @JsonProperty("isAdmin")
     private Boolean isAdmin;
-
-    @NotNull
-    @JsonProperty("chatrooms")
-    private List<ChatroomWithoutUserDTO> chatrooms;
-
-    public UserDTO() {
-        this.chatrooms = new ArrayList<>();
-    }
 
     public Long getId() {
         return id;
@@ -72,14 +57,6 @@ public class UserDTO {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(final String password) {
-        this.password = password;
-    }
-
     public Boolean getIsAdmin() {
         return isAdmin;
     }
@@ -88,31 +65,14 @@ public class UserDTO {
         this.isAdmin = isAdmin;
     }
 
-    public List<ChatroomWithoutUserDTO> getChatrooms() {
-        return chatrooms;
-    }
-
-    public void setChatrooms(final List<ChatroomWithoutUserDTO> chatrooms) {
-        this.chatrooms = chatrooms;
-    }
-
-    public void addChatroom(final ChatroomWithoutUserDTO chatroom) {
-        this.chatrooms.add(chatroom);
-    }
-
-    public void removeChatroom(final ChatroomWithoutUserDTO chatroom) {
-        this.chatrooms.remove(chatroom);
-    }
-
     @Override
     public String toString() {
-        return "UserDTO{" +
+        return "UserPublicWithoutChatroomDTO{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", isAdmin=" + isAdmin +
-                ", chatrooms=" + chatrooms +
                 '}';
     }
 

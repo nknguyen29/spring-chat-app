@@ -3,12 +3,9 @@ package fr.utc.sr03.chatapp.model;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.sql.Timestamp;
-import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-public class ChatroomDTO {
+public class ChatroomWithStatsDTO {
 
     private Long id;
 
@@ -27,9 +24,7 @@ public class ChatroomDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Timestamp validityDuration;
 
-    @NotNull
-    @JsonProperty("users")
-    private List<UserWithoutChatroomDTO> users;
+    private Long userCount;
 
     public Long getId() {
         return id;
@@ -71,31 +66,55 @@ public class ChatroomDTO {
         this.validityDuration = validityDuration;
     }
 
-    public List<UserWithoutChatroomDTO> getUsers() {
-        return users;
+    public Long getUserCount() {
+        return userCount;
     }
 
-    public void setUsers(final List<UserWithoutChatroomDTO> users) {
-        this.users = users;
+    public void setUserCount(final Long userCount) {
+        this.userCount = userCount;
     }
 
-    public void addUser(final UserWithoutChatroomDTO user) {
-        users.add(user);
+    public Timestamp getEndDate() {
+        return new Timestamp(startDate.getTime() + validityDuration.getTime());
     }
 
-    public void removeUser(final UserWithoutChatroomDTO user) {
-        users.remove(user);
+    public boolean isValid() {
+        return new Timestamp(System.currentTimeMillis()).before(getEndDate());
+    }
+
+    public boolean isStarted() {
+        return new Timestamp(System.currentTimeMillis()).after(startDate);
+    }
+
+    public boolean isRunning() {
+        return isStarted() && isValid();
+    }
+
+    public boolean isOver() {
+        return !isValid();
+    }
+
+    public long getRemainingTime() {
+        return getEndDate().getTime() - System.currentTimeMillis();
+    }
+
+    public long getElapsedTime() {
+        return System.currentTimeMillis() - startDate.getTime();
+    }
+
+    public long getWaitingTime() {
+        return startDate.getTime() - System.currentTimeMillis();
     }
 
     @Override
     public String toString() {
-        return "ChatroomDTO{" +
+        return "ChatroomWithStatsDTO{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", startDate=" + startDate +
                 ", validityDuration=" + validityDuration +
-                ", users=" + users +
+                ", userCount=" + userCount +
                 '}';
     }
 

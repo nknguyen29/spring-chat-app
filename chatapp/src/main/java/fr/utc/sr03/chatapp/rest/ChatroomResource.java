@@ -22,41 +22,41 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/chatrooms", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ChatroomResource {
 
-    private final ChatroomService chatroomService;
+    // private final ChatroomService chatroomService;
 
-    public ChatroomResource(final ChatroomService chatroomService) {
-        this.chatroomService = chatroomService;
-    }
+    // public ChatroomResource(final ChatroomService chatroomService) {
+    //     this.chatroomService = chatroomService;
+    // }
 
-    @GetMapping
-    public ResponseEntity<List<ChatroomDTO>> getAllChatrooms() {
-        return ResponseEntity.ok(chatroomService.findAll());
-    }
+    // @GetMapping
+    // public ResponseEntity<List<ChatroomDTO>> getAllChatrooms() {
+    //     return ResponseEntity.ok(chatroomService.findAll());
+    // }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ChatroomDTO> getChatroom(@PathVariable(name = "id") final Long id) {
-        return ResponseEntity.ok(chatroomService.get(id));
-    }
+    // @GetMapping("/{id}")
+    // public ResponseEntity<ChatroomDTO> getChatroom(@PathVariable(name = "id") final Long id) {
+    //     return ResponseEntity.ok(chatroomService.get(id));
+    // }
 
-    @PostMapping
-    @ApiResponse(responseCode = "201")
-    public ResponseEntity<Long> createChatroom(@RequestBody @Valid final ChatroomDTO chatroomDTO) {
-        final Long createdId = chatroomService.create(chatroomDTO);
-        return new ResponseEntity<>(createdId, HttpStatus.CREATED);
-    }
+    // @PostMapping
+    // @ApiResponse(responseCode = "201")
+    // public ResponseEntity<Long> createChatroom(@RequestBody @Valid final ChatroomDTO chatroomDTO) {
+    //     final Long createdId = chatroomService.create(chatroomDTO);
+    //     return new ResponseEntity<>(createdId, HttpStatus.CREATED);
+    // }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Long> updateChatroom(@PathVariable(name = "id") final Long id,
-            @RequestBody @Valid final ChatroomDTO chatroomDTO) {
-        chatroomService.update(id, chatroomDTO);
-        return ResponseEntity.ok(id);
-    }
+    // @PutMapping("/{id}")
+    // public ResponseEntity<Long> updateChatroom(@PathVariable(name = "id") final Long id,
+    //         @RequestBody @Valid final ChatroomDTO chatroomDTO) {
+    //     chatroomService.update(id, chatroomDTO);
+    //     return ResponseEntity.ok(id);
+    // }
 
-    @DeleteMapping("/{id}")
-    @ApiResponse(responseCode = "204")
-    public ResponseEntity<Void> deleteChatroom(@PathVariable(name = "id") final Long id) {
-        chatroomService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
+    // @DeleteMapping("/{id}")
+    // @ApiResponse(responseCode = "204")
+    // public ResponseEntity<Void> deleteChatroom(@PathVariable(name = "id") final Long id) {
+    //     chatroomService.delete(id);
+    //     return ResponseEntity.noContent().build();
+    // }
 
 }
