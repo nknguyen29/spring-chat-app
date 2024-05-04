@@ -3,6 +3,8 @@ package fr.utc.sr03.chatapp.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDTO {
@@ -33,6 +35,10 @@ public class UserDTO {
     @NotNull
     @JsonProperty("chatrooms")
     private List<ChatroomWithoutUserDTO> chatrooms;
+
+    public UserDTO() {
+        this.chatrooms = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;

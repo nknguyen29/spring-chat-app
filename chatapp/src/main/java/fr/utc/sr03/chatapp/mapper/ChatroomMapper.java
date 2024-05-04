@@ -1,5 +1,6 @@
 package fr.utc.sr03.chatapp.mapper;
 
+import org.springframework.stereotype.Component;
 import fr.utc.sr03.chatapp.domain.Chatroom;
 import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.model.ChatroomDTO;
@@ -9,11 +10,12 @@ import fr.utc.sr03.chatapp.model.ChatroomWithStatsDTO;
 import fr.utc.sr03.chatapp.model.UserWithoutChatroomDTO;
 import fr.utc.sr03.chatapp.model.UserPublicWithoutChatroomDTO;
 
+@Component
 public class ChatroomMapper {
 
-    private final UserMapper userMapper;
+    private UserMapper userMapper;
 
-    public ChatroomMapper(final UserMapper userMapper) {
+    public void setUserMapper(final UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 
