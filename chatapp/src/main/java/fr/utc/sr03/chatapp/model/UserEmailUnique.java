@@ -17,16 +17,13 @@ import java.lang.annotation.Target;
 import java.util.Map;
 import org.springframework.web.servlet.HandlerMapping;
 
-
 /**
  * Validate that the email value isn't taken yet.
  */
 @Target({ FIELD, METHOD, ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(
-        validatedBy = UserEmailUnique.UserEmailUniqueValidator.class
-)
+@Constraint(validatedBy = UserEmailUnique.UserEmailUniqueValidator.class)
 public @interface UserEmailUnique {
 
     String message() default "{Exists.user.email}";
@@ -52,8 +49,9 @@ public @interface UserEmailUnique {
                 // no value present
                 return true;
             }
-            @SuppressWarnings("unchecked") final Map<String, String> pathVariables =
-                    ((Map<String, String>)request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE));
+            @SuppressWarnings("unchecked")
+            final Map<String, String> pathVariables = ((Map<String, String>) request
+                    .getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE));
             final String currentId = pathVariables.get("id");
             if (currentId != null && value.equalsIgnoreCase(userService.get(Long.parseLong(currentId)).getEmail())) {
                 // value hasn't changed

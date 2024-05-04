@@ -23,68 +23,68 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/chatrooms")
 public class ChatroomController {
 
-    private final ChatroomService chatroomService;
-    private final UserRepository userRepository;
+    // private final ChatroomService chatroomService;
+    // private final UserRepository userRepository;
 
-    public ChatroomController(final ChatroomService chatroomService,
-            final UserRepository userRepository) {
-        this.chatroomService = chatroomService;
-        this.userRepository = userRepository;
-    }
+    // public ChatroomController(final ChatroomService chatroomService,
+    //         final UserRepository userRepository) {
+    //     this.chatroomService = chatroomService;
+    //     this.userRepository = userRepository;
+    // }
 
-    @ModelAttribute
-    public void prepareContext(final Model model) {
-        model.addAttribute("usersValues", userRepository.findAll(Sort.by("id"))
-                .stream()
-                .collect(CustomCollectors.toSortedMap(User::getId, User::getFirstName)));
-    }
+    // @ModelAttribute
+    // public void prepareContext(final Model model) {
+    //     model.addAttribute("usersValues", userRepository.findAll(Sort.by("id"))
+    //             .stream()
+    //             .collect(CustomCollectors.toSortedMap(User::getId, User::getFirstName)));
+    // }
 
-    @GetMapping
-    public String list(final Model model) {
-        model.addAttribute("chatrooms", chatroomService.findAll());
-        return "chatroom/list";
-    }
+    // // @GetMapping
+    // // public String list(final Model model) {
+    // //     model.addAttribute("chatrooms", chatroomService.findAll());
+    // //     return "chatroom/list";
+    // // }
 
-    @GetMapping("/add")
-    public String add(@ModelAttribute("chatroom") final ChatroomDTO chatroomDTO) {
-        return "chatroom/add";
-    }
+    // @GetMapping("/add")
+    // public String add(@ModelAttribute("chatroom") final ChatroomDTO chatroomDTO) {
+    //     return "chatroom/add";
+    // }
 
-    @PostMapping("/add")
-    public String add(@ModelAttribute("chatroom") @Valid final ChatroomDTO chatroomDTO,
-            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            return "chatroom/add";
-        }
-        chatroomService.create(chatroomDTO);
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("chatroom.create.success"));
-        return "redirect:/chatrooms";
-    }
+    // @PostMapping("/add")
+    // public String add(@ModelAttribute("chatroom") @Valid final ChatroomDTO chatroomDTO,
+    //         final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+    //     if (bindingResult.hasErrors()) {
+    //         return "chatroom/add";
+    //     }
+    //     chatroomService.create(chatroomDTO);
+    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("chatroom.create.success"));
+    //     return "redirect:/chatrooms";
+    // }
 
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable(name = "id") final Long id, final Model model) {
-        model.addAttribute("chatroom", chatroomService.get(id));
-        return "chatroom/edit";
-    }
+    // @GetMapping("/edit/{id}")
+    // public String edit(@PathVariable(name = "id") final Long id, final Model model) {
+    //     model.addAttribute("chatroom", chatroomService.get(id));
+    //     return "chatroom/edit";
+    // }
 
-    @PostMapping("/edit/{id}")
-    public String edit(@PathVariable(name = "id") final Long id,
-            @ModelAttribute("chatroom") @Valid final ChatroomDTO chatroomDTO,
-            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            return "chatroom/edit";
-        }
-        chatroomService.update(id, chatroomDTO);
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("chatroom.update.success"));
-        return "redirect:/chatrooms";
-    }
+    // @PostMapping("/edit/{id}")
+    // public String edit(@PathVariable(name = "id") final Long id,
+    //         @ModelAttribute("chatroom") @Valid final ChatroomDTO chatroomDTO,
+    //         final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+    //     if (bindingResult.hasErrors()) {
+    //         return "chatroom/edit";
+    //     }
+    //     chatroomService.update(id, chatroomDTO);
+    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("chatroom.update.success"));
+    //     return "redirect:/chatrooms";
+    // }
 
-    @PostMapping("/delete/{id}")
-    public String delete(@PathVariable(name = "id") final Long id,
-            final RedirectAttributes redirectAttributes) {
-        chatroomService.delete(id);
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("chatroom.delete.success"));
-        return "redirect:/chatrooms";
-    }
+    // @PostMapping("/delete/{id}")
+    // public String delete(@PathVariable(name = "id") final Long id,
+    //         final RedirectAttributes redirectAttributes) {
+    //     chatroomService.delete(id);
+    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("chatroom.delete.success"));
+    //     return "redirect:/chatrooms";
+    // }
 
 }

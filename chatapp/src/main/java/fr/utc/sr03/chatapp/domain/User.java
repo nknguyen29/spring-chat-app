@@ -50,7 +50,7 @@ public class User {
     @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "user")
     private Set<ChatroomUser> chatroomUsers;
 
-    protected User() {
+    public User() {
     }
 
     public User(String firstName, String lastName, String email, String password, boolean isAdmin) {
@@ -126,7 +126,8 @@ public class User {
     }
 
     public Set<Chatroom> getChatrooms() {
-        return chatroomUsers.stream().map(ChatroomUser::getChatroom).collect(Collectors.toSet());
+        return chatroomUsers.stream()
+                .map(ChatroomUser::getChatroom).collect(Collectors.toSet());
     }
 
     // Helper methods to manage the chatrooms

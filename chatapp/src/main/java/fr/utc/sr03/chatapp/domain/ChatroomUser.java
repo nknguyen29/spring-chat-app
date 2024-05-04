@@ -53,7 +53,7 @@ public class ChatroomUser {
     public void setUser(final User user) {
         this.user = user;
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o)

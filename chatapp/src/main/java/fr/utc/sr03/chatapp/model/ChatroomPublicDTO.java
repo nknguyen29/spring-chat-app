@@ -8,7 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ChatroomDTO {
+public class ChatroomPublicDTO {
 
     private Long id;
 
@@ -29,7 +29,7 @@ public class ChatroomDTO {
 
     @NotNull
     @JsonProperty("users")
-    private List<UserWithoutChatroomDTO> users;
+    private List<UserPublicWithoutChatroomDTO> users;
 
     public Long getId() {
         return id;
@@ -71,25 +71,25 @@ public class ChatroomDTO {
         this.validityDuration = validityDuration;
     }
 
-    public List<UserWithoutChatroomDTO> getUsers() {
+    public List<UserPublicWithoutChatroomDTO> getUsers() {
         return users;
     }
 
-    public void setUsers(final List<UserWithoutChatroomDTO> users) {
+    public void setUsers(final List<UserPublicWithoutChatroomDTO> users) {
         this.users = users;
     }
 
-    public void addUser(final UserWithoutChatroomDTO user) {
+    public void addUser(final UserPublicWithoutChatroomDTO user) {
         users.add(user);
     }
 
-    public void removeUser(final UserWithoutChatroomDTO user) {
+    public void removeUser(final UserPublicWithoutChatroomDTO user) {
         users.remove(user);
     }
 
     @Override
     public String toString() {
-        return "ChatroomDTO{" +
+        return "ChatroomPublicDTO{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
