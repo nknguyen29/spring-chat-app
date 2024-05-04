@@ -13,13 +13,24 @@ import fr.utc.sr03.chatapp.model.UserPublicWithoutChatroomDTO;
 @Component
 public class ChatroomMapper {
 
-    private UserMapper userMapper;
+    private static volatile UserMapper userMapper;
 
-    public void setUserMapper(final UserMapper userMapper) {
-        this.userMapper = userMapper;
+    public static UserMapper getChatroomMapper() {
+        UserMapper result = userMapper;
+        if (result != null) {
+            return result;
+        }
+        synchronized (UserMapper.class) {
+            if (userMapper == null) {
+                userMapper = new UserMapper();
+            }
+            return userMapper;
+        }
     }
 
     public ChatroomDTO mapToDTO(final Chatroom chatroom, final ChatroomDTO chatroomDTO) {
+        UserMapper userMapper = getChatroomMapper();
+
         chatroomDTO.setId(chatroom.getId());
         chatroomDTO.setTitle(chatroom.getTitle());
         chatroomDTO.setDescription(chatroom.getDescription());
@@ -31,6 +42,8 @@ public class ChatroomMapper {
     }
 
     public ChatroomPublicDTO mapToDTO(final Chatroom chatroom, final ChatroomPublicDTO chatroomDTO) {
+        UserMapper userMapper = getChatroomMapper();
+
         chatroomDTO.setId(chatroom.getId());
         chatroomDTO.setTitle(chatroom.getTitle());
         chatroomDTO.setDescription(chatroom.getDescription());
@@ -61,6 +74,8 @@ public class ChatroomMapper {
     }
 
     public Chatroom mapToEntity(final ChatroomDTO chatroomDTO, final Chatroom chatroom) {
+        UserMapper userMapper = getChatroomMapper();
+
         chatroom.setTitle(chatroomDTO.getTitle());
         chatroom.setDescription(chatroomDTO.getDescription());
         chatroom.setStartDate(chatroomDTO.getStartDate());

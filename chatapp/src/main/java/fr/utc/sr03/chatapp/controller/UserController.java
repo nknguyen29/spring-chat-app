@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -32,7 +32,6 @@ public class UserController {
         this.chatroomService = chatroomService;
     }
 
-    @GetMapping("s")
     public String list(final Model model) {
         model.addAttribute("users", userService.findAllWithStats());
         return "user/list";

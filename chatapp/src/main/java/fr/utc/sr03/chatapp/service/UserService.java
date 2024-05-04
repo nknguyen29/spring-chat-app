@@ -65,11 +65,11 @@ public class UserService {
                 .orElseThrow(NotFoundException::new);
     }
 
-    // public UserPublicDTO getPublic(final Long id) {
-    //     return userRepository.findById(id)
-    //             .map(user -> userMapper.mapToDTO(user, new UserPublicDTO()))
-    //             .orElseThrow(NotFoundException::new);
-    // }
+    public UserPublicDTO getPublic(final Long id) {
+        return userRepository.findById(id)
+                .map(user -> userMapper.mapToDTO(user, new UserPublicDTO()))
+                .orElseThrow(NotFoundException::new);
+    }
 
     public Long create(final UserWithoutChatroomDTO userDTO) {
         final User user = new User();
