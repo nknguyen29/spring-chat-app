@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -33,8 +34,32 @@ public class UserController {
     }
 
     @GetMapping
-    public String list(final Model model) {
-        model.addAttribute("users", userService.findAllWithStats());
+    public String list(
+        @RequestParam(name = "search", required = false) final String search,
+        @RequestParam(name = "sortBy", required = false, defaultValue = "id") final String sortBy,
+        @RequestParam(name = "sortOrder", required = false, defaultValue = "asc") final String sortOrder,
+        @RequestParam(name = "page", required = false, defaultValue = "0") final Integer page,
+        @RequestParam(name = "size", required = false, defaultValue = "10") final Integer size,
+        @RequestParam(name = "showAll", required = false, defaultValue = "false") final Boolean showAll,
+        @RequestParam(name = "showAdmins", required = false, defaultValue = "false") final Boolean showAdmins,
+        @RequestParam(name = "showUsers", required = false, defaultValue = "false") final Boolean showUsers,
+        @RequestParam(name = "showLocked", required = false, defaultValue = "false") final Boolean showLocked,
+        @RequestParam(name = "showUnlocked", required = false, defaultValue = "false") final Boolean showUnlocked,
+        final Model model
+    ) {
+        model.addAttribute("users", userService.search(
+            search, sortBy, sortOrder, page, size, showAll, showAdmins, showUsers, showLocked, showUnlocked
+        ));
+        model.addAttribute("search", search);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("sortOrder", sortOrder);
+        model.addAttribute("page", page);
+        model.addAttribute("size", size);
+        model.addAttribute("showAll", showAll);
+        model.addAttribute("showAdmins", showAdmins);
+        model.addAttribute("showUsers", showUsers);
+        model.addAttribute("showLocked", showLocked);
+        model.addAttribute("showUnlocked", showUnlocked);
         return "user/list";
     }
 
