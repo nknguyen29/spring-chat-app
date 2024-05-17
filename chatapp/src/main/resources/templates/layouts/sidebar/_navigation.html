@@ -1,4 +1,4 @@
-<ul th:fragment="navigation" class="pb-1 space-y-3">
+<ul th:fragment="navigation" class="pb-1 space-y-2.5">
     <div th:replace="~{layouts/sidebar/_navigation_link :: navigation-link (icon='fa-regular fa-compass', label='Accueil', url='/', url_regex='^/$')}"></div>
     <div th:replace="~{layouts/sidebar/_navigation_group :: navigation-group (
         icon='fa-regular fa-user', label='Utilisateurs', url_regex='^/users$',

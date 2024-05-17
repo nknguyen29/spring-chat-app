@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -32,52 +33,69 @@ public class UserController {
         this.chatroomService = chatroomService;
     }
 
-    public String list(final Model model) {
-        model.addAttribute("users", userService.findAllWithStats());
+    @GetMapping
+    public String list(
+        @RequestParam(name = "search", required = false) final String search,
+        @RequestParam(name = "sort_by", required = false, defaultValue = "id") final String sortBy,
+        @RequestParam(name = "sort_order", required = false, defaultValue = "asc") final String sortOrder,
+        @RequestParam(name = "page", required = false, defaultValue = "0") final Integer page,
+        @RequestParam(name = "size", required = false, defaultValue = "10") final Integer size,
+        @RequestParam(name = "is_admin", required = false) final Boolean isAdmin,
+        @RequestParam(name = "is_locked", required = false) final Boolean isLocked,
+        final Model model
+    ) {
+        model.addAttribute("users", userService.search(search, sortBy, sortOrder, page, size, isAdmin, isLocked));
+        model.addAttribute("search", search);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("sortOrder", sortOrder);
+        model.addAttribute("page", page);
+        model.addAttribute("size", size);
+        model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("isLocked", isLocked);
         return "user/list";
     }
 
-    @GetMapping("/add")
-    public String add(@ModelAttribute("user") final UserWithoutChatroomDTO userDTO) {
-        return "user/add";
-    }
+    // @GetMapping("/add")
+    // public String add(@ModelAttribute("user") final UserWithoutChatroomDTO userDTO) {
+    //     return "user/add";
+    // }
 
-    @PostMapping("/add")
-    public String add(@ModelAttribute("user") @Valid final UserWithoutChatroomDTO userDTO,
-            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            return "user/add";
-        }
-        userService.create(userDTO);
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.create.success"));
-        return "redirect:/users";
-    }
+    // @PostMapping("/add")
+    // public String add(@ModelAttribute("user") @Valid final UserWithoutChatroomDTO userDTO,
+    //         final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+    //     if (bindingResult.hasErrors()) {
+    //         return "user/add";
+    //     }
+    //     userService.create(userDTO);
+    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.create.success"));
+    //     return "redirect:/users";
+    // }
 
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable(name = "id") final Long id, final Model model) {
-        model.addAttribute("user", userService.getWithoutChatroom(id));
-        return "user/edit";
-    }
+    // @GetMapping("/edit/{id}")
+    // public String edit(@PathVariable(name = "id") final Long id, final Model model) {
+    //     model.addAttribute("user", userService.getWithoutChatroom(id));
+    //     return "user/edit";
+    // }
 
-    @PutMapping("/edit/{id}")
-    public String edit(@PathVariable(name = "id") final Long id,
-            @ModelAttribute("user") @Valid final UserWithoutChatroomDTO userDTO, final BindingResult bindingResult,
-            final RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            return "user/edit";
-        }
-        userService.update(id, userDTO);
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.update.success"));
-        return "redirect:/users";
-    }
+    // @PutMapping("/edit/{id}")
+    // public String edit(@PathVariable(name = "id") final Long id,
+    //         @ModelAttribute("user") @Valid final UserWithoutChatroomDTO userDTO, final BindingResult bindingResult,
+    //         final RedirectAttributes redirectAttributes) {
+    //     if (bindingResult.hasErrors()) {
+    //         return "user/edit";
+    //     }
+    //     userService.update(id, userDTO);
+    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.update.success"));
+    //     return "redirect:/users";
+    // }
 
-    @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable(name = "id") final Long id,
-            final RedirectAttributes redirectAttributes) {
-        userService.delete(id);
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.delete.success"));
-        return "redirect:/users";
-    }
+    // @DeleteMapping("/delete/{id}")
+    // public String delete(@PathVariable(name = "id") final Long id,
+    //         final RedirectAttributes redirectAttributes) {
+    //     userService.delete(id);
+    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.delete.success"));
+    //     return "redirect:/users";
+    // }
 
     // @GetMapping("/chatrooms/{id}")
     // public String chatrooms(@PathVariable(name = "id") final Long id, final Model model) {
@@ -103,7 +121,7 @@ public class UserController {
 
     @GetMapping("/__debug")
     public String debug(final Model model) {
-        model.addAttribute("debug", userService.findAll());
+        model.addAttribute("debug", userService.findAllWithStats());
         return "debug";
     }
 
