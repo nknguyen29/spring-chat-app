@@ -40,26 +40,18 @@ public class UserController {
         @RequestParam(name = "sort_order", required = false, defaultValue = "asc") final String sortOrder,
         @RequestParam(name = "page", required = false, defaultValue = "0") final Integer page,
         @RequestParam(name = "size", required = false, defaultValue = "10") final Integer size,
-        @RequestParam(name = "showAll", required = false, defaultValue = "false") final Boolean showAll,
-        @RequestParam(name = "showAdmins", required = false, defaultValue = "false") final Boolean showAdmins,
-        @RequestParam(name = "showUsers", required = false, defaultValue = "false") final Boolean showUsers,
-        @RequestParam(name = "showLocked", required = false, defaultValue = "false") final Boolean showLocked,
-        @RequestParam(name = "showUnlocked", required = false, defaultValue = "false") final Boolean showUnlocked,
+        @RequestParam(name = "is_admin", required = false) final Boolean isAdmin,
+        @RequestParam(name = "is_locked", required = false) final Boolean isLocked,
         final Model model
     ) {
-        model.addAttribute("users", userService.search(
-            search, sortBy, sortOrder, page, size, showAll, showAdmins, showUsers, showLocked, showUnlocked
-        ));
+        model.addAttribute("users", userService.search(search, sortBy, sortOrder, page, size, isAdmin, isLocked));
         model.addAttribute("search", search);
         model.addAttribute("sortBy", sortBy);
         model.addAttribute("sortOrder", sortOrder);
         model.addAttribute("page", page);
         model.addAttribute("size", size);
-        model.addAttribute("showAll", showAll);
-        model.addAttribute("showAdmins", showAdmins);
-        model.addAttribute("showUsers", showUsers);
-        model.addAttribute("showLocked", showLocked);
-        model.addAttribute("showUnlocked", showUnlocked);
+        model.addAttribute("isAdmin", isAdmin);
+        model.addAttribute("isLocked", isLocked);
         return "user/list";
     }
 
