@@ -74,11 +74,11 @@ public class UserService {
         } else {
             if (isAdmin == null && isLocked == null) {
                 return userRepository.findAllByFirstNameContainingOrLastNameContainingOrEmailContainingIgnoreCase(
-                        search, search, search, null, null, pageable)
+                        search, search, search, pageable)
                         .map(user -> userMapper.mapToDTO(user, new UserListDTO()));
             } else if (isAdmin == null) {
                 return userRepository.findAllByFirstNameContainingOrLastNameContainingOrEmailContainingIgnoreCaseAndIsLocked(
-                        search, search, search, null, isLocked, pageable)
+                        search, search, search, isLocked, pageable)
                         .map(user -> userMapper.mapToDTO(user, new UserListDTO()));
             } else if (isLocked == null) {
                 return userRepository.findAllByFirstNameContainingOrLastNameContainingOrEmailContainingIgnoreCaseAndIsAdmin(
