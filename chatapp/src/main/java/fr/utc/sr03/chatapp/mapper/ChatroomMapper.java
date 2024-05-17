@@ -41,19 +41,6 @@ public class ChatroomMapper {
         return chatroomDTO;
     }
 
-    public ChatroomPublicDTO mapToDTO(final Chatroom chatroom, final ChatroomPublicDTO chatroomDTO) {
-        UserMapper userMapper = getChatroomMapper();
-
-        chatroomDTO.setId(chatroom.getId());
-        chatroomDTO.setTitle(chatroom.getTitle());
-        chatroomDTO.setDescription(chatroom.getDescription());
-        chatroomDTO.setStartDate(chatroom.getStartDate());
-        chatroomDTO.setValidityDuration(chatroom.getValidityDuration());
-        chatroom.getUsers().forEach(
-                user -> chatroomDTO.addUser(userMapper.mapToDTO(user, new UserPublicWithoutChatroomDTO())));
-        return chatroomDTO;
-    }
-
     public ChatroomWithoutUserDTO mapToDTO(final Chatroom chatroom, final ChatroomWithoutUserDTO chatroomDTO) {
         chatroomDTO.setId(chatroom.getId());
         chatroomDTO.setTitle(chatroom.getTitle());
@@ -63,15 +50,28 @@ public class ChatroomMapper {
         return chatroomDTO;
     }
 
-    public ChatroomWithStatsDTO mapToDTO(final Chatroom chatroom, final ChatroomWithStatsDTO chatroomDTO) {
-        chatroomDTO.setId(chatroom.getId());
-        chatroomDTO.setTitle(chatroom.getTitle());
-        chatroomDTO.setDescription(chatroom.getDescription());
-        chatroomDTO.setStartDate(chatroom.getStartDate());
-        chatroomDTO.setValidityDuration(chatroom.getValidityDuration());
-        chatroomDTO.setUserCount(Long.valueOf(chatroom.getUsers().size()));
-        return chatroomDTO;
-    }
+    // public ChatroomPublicDTO mapToDTO(final Chatroom chatroom, final ChatroomPublicDTO chatroomDTO) {
+    //     UserMapper userMapper = getChatroomMapper();
+
+    //     chatroomDTO.setId(chatroom.getId());
+    //     chatroomDTO.setTitle(chatroom.getTitle());
+    //     chatroomDTO.setDescription(chatroom.getDescription());
+    //     chatroomDTO.setStartDate(chatroom.getStartDate());
+    //     chatroomDTO.setValidityDuration(chatroom.getValidityDuration());
+    //     chatroom.getUsers().forEach(
+    //             user -> chatroomDTO.addUser(userMapper.mapToDTO(user, new UserPublicWithoutChatroomDTO())));
+    //     return chatroomDTO;
+    // }
+
+    // public ChatroomWithStatsDTO mapToDTO(final Chatroom chatroom, final ChatroomWithStatsDTO chatroomDTO) {
+    //     chatroomDTO.setId(chatroom.getId());
+    //     chatroomDTO.setTitle(chatroom.getTitle());
+    //     chatroomDTO.setDescription(chatroom.getDescription());
+    //     chatroomDTO.setStartDate(chatroom.getStartDate());
+    //     chatroomDTO.setValidityDuration(chatroom.getValidityDuration());
+    //     chatroomDTO.setUserCount(Long.valueOf(chatroom.getUsers().size()));
+    //     return chatroomDTO;
+    // }
 
     public Chatroom mapToEntity(final ChatroomDTO chatroomDTO, final Chatroom chatroom) {
         UserMapper userMapper = getChatroomMapper();
@@ -93,12 +93,12 @@ public class ChatroomMapper {
         return chatroom;
     }
 
-    public Chatroom mapToEntity(final ChatroomWithStatsDTO chatroomDTO, final Chatroom chatroom) {
-        chatroom.setTitle(chatroomDTO.getTitle());
-        chatroom.setDescription(chatroomDTO.getDescription());
-        chatroom.setStartDate(chatroomDTO.getStartDate());
-        chatroom.setValidityDuration(chatroomDTO.getValidityDuration());
-        return chatroom;
-    }
+    // public Chatroom mapToEntity(final ChatroomWithStatsDTO chatroomDTO, final Chatroom chatroom) {
+    //     chatroom.setTitle(chatroomDTO.getTitle());
+    //     chatroom.setDescription(chatroomDTO.getDescription());
+    //     chatroom.setStartDate(chatroomDTO.getStartDate());
+    //     chatroom.setValidityDuration(chatroomDTO.getValidityDuration());
+    //     return chatroom;
+    // }
 
 }

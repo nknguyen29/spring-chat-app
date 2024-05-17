@@ -6,10 +6,7 @@ import jakarta.validation.constraints.Size;
 import java.sql.Timestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class UserDTO {
+public class UserListDTO {
 
     private Long id;
 
@@ -27,10 +24,6 @@ public class UserDTO {
     private String email;
 
     @NotNull
-    @Size(max = 255)
-    private String password;
-
-    @NotNull
     @JsonProperty("isAdmin")
     private Boolean isAdmin;
 
@@ -41,20 +34,11 @@ public class UserDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Timestamp lastConnection;
 
-    @JsonProperty("failedConnectionAttempts")
-    private Integer failedConnectionAttempts;
-
     @NotNull
     @JsonProperty("isLocked")
     private Boolean isLocked;
 
-    @NotNull
-    @JsonProperty("chatrooms")
-    private List<ChatroomWithoutUserDTO> chatrooms;
-
-    public UserDTO() {
-        this.chatrooms = new ArrayList<>();
-    }
+    private Long chatroomCount;
 
     public Long getId() {
         return id;
@@ -88,14 +72,6 @@ public class UserDTO {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(final String password) {
-        this.password = password;
-    }
-
     public Boolean getIsAdmin() {
         return isAdmin;
     }
@@ -120,14 +96,6 @@ public class UserDTO {
         this.lastConnection = lastConnection;
     }
 
-    public Integer getFailedConnectionAttempts() {
-        return failedConnectionAttempts;
-    }
-
-    public void setFailedConnectionAttempts(final Integer failedConnectionAttempts) {
-        this.failedConnectionAttempts = failedConnectionAttempts;
-    }
-
     public Boolean getIsLocked() {
         return isLocked;
     }
@@ -136,35 +104,26 @@ public class UserDTO {
         this.isLocked = isLocked;
     }
 
-    public List<ChatroomWithoutUserDTO> getChatrooms() {
-        return chatrooms;
+    public Long getChatroomCount() {
+        return chatroomCount;
     }
 
-    public void setChatrooms(final List<ChatroomWithoutUserDTO> chatrooms) {
-        this.chatrooms = chatrooms;
-    }
-
-    public void addChatroom(final ChatroomWithoutUserDTO chatroom) {
-        this.chatrooms.add(chatroom);
-    }
-
-    public void removeChatroom(final ChatroomWithoutUserDTO chatroom) {
-        this.chatrooms.remove(chatroom);
+    public void setChatroomCount(final Long chatroomCount) {
+        this.chatroomCount = chatroomCount;
     }
 
     @Override
     public String toString() {
-        return "UserDTO{" +
+        return "UserListDTO{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", isAdmin=" + isAdmin +
+                ", chatroomCount=" + chatroomCount +
                 ", createdAt=" + createdAt +
                 ", lastConnection=" + lastConnection +
-                ", failedConnectionAttempts=" + failedConnectionAttempts +
                 ", isLocked=" + isLocked +
-                ", chatrooms=" + chatrooms +
                 '}';
     }
 

@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+import java.sql.Timestamp;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,18 @@ public class User {
     @Column(nullable = false)
     private Boolean isAdmin;
 
+    @Column(nullable = false)
+    private Timestamp createdAt;
+
+    @Column(name = "\"lastConnection\"")
+    private Timestamp lastConnection;
+
+    @Column(name = "\"failedConnectionAttempts\"")
+    private Integer failedConnectionAttempts;
+
+    @Column(nullable = false)
+    private Boolean isLocked;
+
     // Use ManyToMany annotation on both sides of the relationship
     // It creates a join table to store the relationship
     // See: https://www.baeldung.com/jpa-many-to-many#2-implementation-in-jpa
@@ -53,12 +66,20 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String password, boolean isAdmin) {
+    public User(
+        String firstName, String lastName, String email, String password,
+        boolean isAdmin, Timestamp createdAt, Timestamp lastConnection,
+        Integer failedConnectionAttempts, Boolean isLocked
+    ) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.isAdmin = isAdmin;
+        this.createdAt = createdAt;
+        this.lastConnection = lastConnection;
+        this.failedConnectionAttempts = failedConnectionAttempts;
+        this.isLocked = isLocked;
     }
 
     public Long getId() {
@@ -109,6 +130,38 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(final Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Timestamp getLastConnection() {
+        return lastConnection;
+    }
+
+    public void setLastConnection(final Timestamp lastConnection) {
+        this.lastConnection = lastConnection;
+    }
+
+    public Integer getFailedConnectionAttempts() {
+        return failedConnectionAttempts;
+    }
+
+    public void setFailedConnectionAttempts(final Integer failedConnectionAttempts) {
+        this.failedConnectionAttempts = failedConnectionAttempts;
+    }
+
+    public Boolean getIsLocked() {
+        return isLocked;
+    }
+
+    public void setIsLocked(final Boolean isLocked) {
+        this.isLocked = isLocked;
+    }
+
     public Set<ChatroomUser> getChatroomUsers() {
         return chatroomUsers;
     }
@@ -150,6 +203,10 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", isAdmin=" + isAdmin +
+                ", createdAt=" + createdAt +
+                ", lastConnection=" + lastConnection +
+                ", failedConnectionAttempts=" + failedConnectionAttempts +
+                ", isLocked=" + isLocked +
                 '}';
     }
 

@@ -5,10 +5,9 @@ import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.domain.Chatroom;
 import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserPublicDTO;
-import fr.utc.sr03.chatapp.model.UserPublicWithStatsDTO;
+import fr.utc.sr03.chatapp.model.UserListDTO;
 import fr.utc.sr03.chatapp.model.UserPublicWithoutChatroomDTO;
 import fr.utc.sr03.chatapp.model.UserWithoutChatroomDTO;
-import groovy.lang.Singleton;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
 
 @Component
@@ -56,31 +55,12 @@ public final class UserMapper {
         userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
         userDTO.setIsAdmin(user.getIsAdmin());
+        userDTO.setCreatedAt(user.getCreatedAt());
+        userDTO.setLastConnection(user.getLastConnection());
+        userDTO.setFailedConnectionAttempts(user.getFailedConnectionAttempts());
+        userDTO.setIsLocked(user.getIsLocked());
         user.getChatrooms().forEach(
                 chatroom -> userDTO.addChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
-        return userDTO;
-    }
-
-    public UserPublicDTO mapToDTO(final User user, final UserPublicDTO userDTO) {
-        ChatroomMapper chatroomMapper = new ChatroomMapper();
-
-        userDTO.setId(user.getId());
-        userDTO.setFirstName(user.getFirstName());
-        userDTO.setLastName(user.getLastName());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setIsAdmin(user.getIsAdmin());
-        user.getChatrooms().forEach(
-                chatroom -> userDTO.addChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
-        return userDTO;
-    }
-
-    public UserPublicWithStatsDTO mapToDTO(final User user, final UserPublicWithStatsDTO userDTO) {
-        userDTO.setId(user.getId());
-        userDTO.setFirstName(user.getFirstName());
-        userDTO.setLastName(user.getLastName());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setIsAdmin(user.getIsAdmin());
-        userDTO.setChatroomCount(Long.valueOf(user.getChatrooms().size()));
         return userDTO;
     }
 
@@ -91,17 +71,47 @@ public final class UserMapper {
         userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
         userDTO.setIsAdmin(user.getIsAdmin());
+        userDTO.setCreatedAt(user.getCreatedAt());
+        userDTO.setLastConnection(user.getLastConnection());
+        userDTO.setFailedConnectionAttempts(user.getFailedConnectionAttempts());
+        userDTO.setIsLocked(user.getIsLocked());
         return userDTO;
     }
 
-    public UserPublicWithoutChatroomDTO mapToDTO(final User user, final UserPublicWithoutChatroomDTO userDTO) {
+    public UserListDTO mapToDTO(final User user, final UserListDTO userDTO) {
         userDTO.setId(user.getId());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
         userDTO.setEmail(user.getEmail());
         userDTO.setIsAdmin(user.getIsAdmin());
+        userDTO.setCreatedAt(user.getCreatedAt());
+        userDTO.setLastConnection(user.getLastConnection());
+        userDTO.setIsLocked(user.getIsLocked());
+        userDTO.setChatroomCount(Long.valueOf(user.getChatrooms().size()));
         return userDTO;
     }
+
+    // public UserPublicDTO mapToDTO(final User user, final UserPublicDTO userDTO) {
+    //     ChatroomMapper chatroomMapper = new ChatroomMapper();
+
+    //     userDTO.setId(user.getId());
+    //     userDTO.setFirstName(user.getFirstName());
+    //     userDTO.setLastName(user.getLastName());
+    //     userDTO.setEmail(user.getEmail());
+    //     userDTO.setIsAdmin(user.getIsAdmin());
+    //     user.getChatrooms().forEach(
+    //             chatroom -> userDTO.addChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
+    //     return userDTO;
+    // }
+
+    // public UserPublicWithoutChatroomDTO mapToDTO(final User user, final UserPublicWithoutChatroomDTO userDTO) {
+    //     userDTO.setId(user.getId());
+    //     userDTO.setFirstName(user.getFirstName());
+    //     userDTO.setLastName(user.getLastName());
+    //     userDTO.setEmail(user.getEmail());
+    //     userDTO.setIsAdmin(user.getIsAdmin());
+    //     return userDTO;
+    // }
 
     public User mapToEntity(final UserDTO userDTO, final User user) {
         ChatroomMapper chatroomMapper = getChatroomMapper();
@@ -124,6 +134,10 @@ public final class UserMapper {
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
         user.setIsAdmin(userDTO.getIsAdmin());
+        user.setCreatedAt(userDTO.getCreatedAt());
+        user.setLastConnection(userDTO.getLastConnection());
+        user.setFailedConnectionAttempts(userDTO.getFailedConnectionAttempts());
+        user.setIsLocked(userDTO.getIsLocked());
         return user;
     }
 

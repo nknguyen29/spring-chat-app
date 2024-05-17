@@ -1,51 +1,235 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{layout}">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layouts/master}" >
     <head>
-        <title>[[#{user.list.headline}]]</title>
+        <title>[[#{user.list.title}]]</title>
     </head>
     <body>
         <div layout:fragment="content">
-            <div class="flex flex-wrap mb-6">
-                <h1 class="grow text-3xl md:text-4xl font-medium mb-2">[[#{user.list.headline}]]</h1>
-                <div>
-                    <a th:href="@{/users/add}" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2">[[#{user.list.createNew}]]</a>
+            <div class="flex flex-col w-full h-full">
+                <div class="flex flex-wrap justify-between items-end mb-6 gap-4">
+                    <div class="grow">
+                        <h1 class="text-base md:text-lg font-semibold mb-1">[[#{user.list.headline}]]</h1>
+                        <h2 class="text-xs font-medium text-gray-400">[[#{user.list.subheadline}]]</h2>
+                    </div>
+                    <div>
+                        <button type="button" class="text-white bg-blue-500 hover:bg-blue-600 focus:ring focus:ring-blue-300 font-semibold rounded-lg text-xs px-4 py-2 focus:outline-none" th:onclick="window.location.href='/users/add'">[[#{user.list.createNew}]]</button>
+                    </div>
                 </div>
-            </div>
-            <div th:if="${users.empty}">[[#{user.list.empty}]]</div>
-            <div th:if="${!users.empty}" class="overflow-x-auto">
-                <table class="w-full">
-                    <thead>
-                        <tr>
-                            <th scope="col" class="text-left p-2">[[#{user.id.label}]]</th>
-                            <th scope="col" class="text-left p-2">[[#{user.firstName.label}]]</th>
-                            <th scope="col" class="text-left p-2">[[#{user.lastName.label}]]</th>
-                            <th scope="col" class="text-left p-2">[[#{user.email.label}]]</th>
-                            <th scope="col" class="text-left p-2">[[#{user.password.label}]]</th>
-                            <th scope="col" class="text-left p-2">[[#{user.isAdmin.label}]]</th>
-                            <th><!-- --></th>
-                        </tr>
-                    </thead>
-                    <tbody class="border-t-2 border-black">
-                        <tr th:each="user : ${users}" class="odd:bg-gray-100">
-                            <td class="p-2">[[${user.id}]]</td>
-                            <td class="p-2">[[${user.firstName}]]</td>
-                            <td class="p-2">[[${user.lastName}]]</td>
-                            <td class="p-2">[[${user.email}]]</td>
-                            <td class="p-2">[[${user.password}]]</td>
-                            <td class="p-2">[[${user.isAdmin}]]</td>
-                            <td class="p-2">
-                                <div class="float-right whitespace-nowrap">
-                                    <a th:href="@{/users/edit/{id}(id=${user.id})}" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm">[[#{user.list.edit}]]</a>
-                                    <form th:action="@{/users/delete/{id}(id=${user.id})}"
-                                            th:data-confirm-message="#{delete.confirm}" method="post" class="js-submit-confirm inline">
-                                        <button type="submit" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-3 rounded px-2.5 py-1.5 text-sm">[[#{user.list.delete}]]</button>
-                                    </form>
+                <div class="flex-grow bg-white shadow-sm rounded-lg p-10">
+                    <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 pb-6 px-1">
+                        <div class="w-full md:w-1/3">
+                            <form class="flex items-center">
+                                <label for="search" class="sr-only">Rechercher</label>
+                                <div class="relative w-full">
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                                        <i class="w-4 h-4 text-gray-400 fa-solid fa-search"></i>
+                                    </div>
+                                    <input type="text" id="search" class="bg-gray-100 border border-none text-slate-500 placeholder-gray-400 text-sm rounded-lg focus:bg-gray-200/75 focus:ring-0 block w-full pl-10 px-2 py-2.5 font-medium" placeholder="Rechercher" required="" />
                                 </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                            </form>
+                        </div>
+                        <div class="w-full md:w-auto flex flex-col md:flex-row space-y-3 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
+                            <div class="flex items-center space-x-3 w-full md:w-auto">
+                                <button id="actionsDropdownButton" data-dropdown-toggle="actionsDropdown" class="md:w-auto flex items-center justify-center py-2.5 px-3.5 text-sm font-medium text-blue-500 focus:outline-none bg-gray-100/75 rounded-lg hover:bg-blue-500 hover:text-white
+                                focus:bg-blue-500 focus:text-white transition-colors duration-75
+                                " type="button">
+                                    <i class="-ml-1 mr-1.5 w-3.5 h-3.5 fa-solid fa-ellipsis-v"></i>
+                                    <span>Actions</span>
+                                </button>
+                                <div id="actionsDropdown" class="hidden z-10 w-auto
+                                bg-white rounded shadow-[0px_0px_50px_0px_rgba(82,63,105,0.15)] border border-gray-100 divide-y divide-gray-100">
+                                    <h6 class="px-5 py-4 font-semibold text-sm text-slate-800">Actions</h6>
+                                    <div class="p-4 space-y-2">
+                                        <form action="#" method="POST">
+                                            <button type="submit" class="py-2 px-4 text-sm font-medium text-red-500 rounded
+                                            bg-red-50 hover:bg-red-100 focus:bg-red-100 focus:text-red-600 flex items-center flex-wrap gap-y-1 gap-x-2.5">
+                                                <i class="w-3 h-3 fa-solid fa-trash"></i>
+                                                <span class="text-left">Supprimer tout</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <button id="filterDropdownButton" data-dropdown-toggle="filterDropdown" data-dropdown-placement="bottom-end" class="md:w-auto flex items-center justify-center py-2.5 px-3.5 text-sm font-medium text-blue-500 focus:outline-none bg-gray-100/75 rounded-lg hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white
+                                transition-colors duration-75" type="button">
+                                    <i class="h-3.5 w-3.5 mr-2 fa-solid fa-filter"></i>
+                                    <span>Filter</span>
+                                    <i class="-mr-0.5 ml-3 w-3 h-3 fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div id="filterDropdown" class="hidden z-10 w-[15rem]
+                                 bg-white rounded shadow-[0px_0px_50px_0px_rgba(82,63,105,0.15)] border border-gray-100 divide-y divide-gray-100">
+                                    <h6 class="px-5 py-4 font-semibold text-sm text-slate-800">Sélectionner un filtre</h6>
+                                    <div class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
+                                        <form action="#" method="POST" class="px-6 pt-4 pb-6 space-y-5">
+                                            <div class="space-y-2">
+                                                <label class="form-label font-medium text-slate-800" for="filterRole">Rôle :</label>
+                                                <select id="filterRole" name="filterRole" class="bg-gray-100 border border-none text-slate-500 text-sm rounded-lg focus:bg-gray-200/75 focus:ring-0 block w-full px-4 py-2.5 font-medium">
+                                                    <option value="all">Tous</option>
+                                                    <option value="admin">Admin</option>
+                                                    <option value="user">Utilisateur</option>
+                                                </select>
+                                            </div>
+                                            <div class="space-y-2">
+                                                <label class="form-label font-medium text-slate-800" for="filterStatus">Statut :</label>
+                                                <select id="filterStatus" name="filterStatus" class="bg-gray-100 border border-none text-slate-500 text-sm rounded-lg focus:bg-gray-200/75 focus:ring-0 block w-full px-4 py-2.5 font-medium">
+                                                    <option value="all">Tous</option>
+                                                    <option value="active">Actif</option>
+                                                    <option value="inactive">Bloqué</option>
+                                                </select>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <button id="sortDropdownButton" data-dropdown-toggle="sortDropdown" data-dropdown-placement="bottom-end" class="md:w-auto flex items-center justify-center py-2.5 px-3.5 text-sm font-medium text-blue-500 focus:outline-none bg-gray-100/75 rounded-lg hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white
+                                transition-colors duration-75" type="button">
+                                    <i class="h-3.5 w-3.5 mr-2 fa-solid fa-sort"></i>
+                                    <span>Trier</span>
+                                    <i class="-mr-0.5 ml-3 w-3 h-3 fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div id="sortDropdown" class="hidden z-10 w-[15rem]
+                                 bg-white rounded shadow-[0px_0px_50px_0px_rgba(82,63,105,0.15)] border border-gray-100 divide-y divide-gray-100">
+                                    <h6 class="px-5 py-4 font-semibold text-sm text-slate-800">Sélectionner un tri</h6>
+                                    <div class="space-y-2 text-sm" aria-labelledby="sortDropdownButton">
+                                        <form action="#" method="POST" class="px-6 pt-4 pb-6 space-y-5">
+                                            <div class="space-y-2">
+                                                <label class="form-label font-medium text-slate-800" for="sortRole">Trier par :</label>
+                                                <select id="sortRole" name="sortRole" class="bg-gray-100 border border-none text-slate-500 text-sm rounded-lg focus:bg-gray-200/75 focus:ring-0 block w-full px-4 py-2.5 font-medium">
+                                                    <option value="asc">Nom</option>
+                                                    <option value="desc">Prénom</option>
+                                                    <option value="desc">Email</option>
+                                                    <option value="desc">Date de création</option>
+                                                    <option value="desc">Derière connexion</option>
+                                                </select>
+                                            </div>
+                                            <label class="inline-flex items-center mb-5 cursor-pointer">
+                                                <input type="checkbox" value="" class="sr-only peer" checked>
+                                                <div class="relative w-9 h-5 bg-gray-200/75 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-blue-500 peer-checked:after:start-[1px] after:content-[''] after:absolute after:top-[2px] after:start-[0.175rem] after:bg-white after:border-gray-200/75 after:border after:rounded-full after:w-4 after:h-4 after:transition-all peer-checked:bg-blue-500"></div>
+                                                <span class="ms-3 text-sm font-medium text-slate-500">Descendant</span>
+                                            </label>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div>
+                                <button id="sumbit" class="w-full flex items-center justify-center px-2 py-1.5 text-sm font-medium text-white focus:outline-none bg-blue-500 rounded-lg hover:bg-blue-600  
+                                transition-colors duration-75 space-x-3 focus:ring focus:ring-blue-300" type="button">
+                                <i class="h-4 w-4 fa-solid fa-arrow-right"></i>
+                                <span class="text-xs font-medium text-white md:hidden block 
+                                ">Lancer la recherche</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div th:if="${users.empty}">
+                        TODO: Add a message when there are no users
+                    </div>
+
+
+                    <br>
+                    [[${users}]]
+                    <br>
+                    [[${users.empty}]]
+                    <br>
+                    Nb page total: [[${users.totalPages}]]
+                    <br>
+                    Nb éléments total: [[${users.totalElements}]]
+
+
+
+
+                    <div th:if="${!users.empty}" class="bg-white sm:rounded-lg">
+                        <div class="overflow-x-auto rounded-lg  border border-gray-100">
+                            <table class="w-full text-sm text-left">
+                                <thead class="text-xs text-slate-500 uppercase bg-white ">
+                                    <tr>
+                                        <th scope="col" class="font-semibold px-4 py-3">Id</th>
+                                        <th scope="col" class="font-semibold px-4 py-3">Nom</th>
+                                        <th scope="col" class="font-semibold px-4 py-3">Prénom</th>
+                                        <th scope="col" class="font-semibold px-4 py-3">Adresse email</th>
+                                        <th scope="col" class="font-semibold px-4 py-3">Rôle</th>
+                                        <th scope="col" class="font-semibold px-4 py-3">Statut</th>
+                                        <th scope="col" class="font-semibold px-4 py-3">Date de création</th>
+                                        <th scope="col" class="font-semibold px-4 py-3">Dernière connexion</th>
+                                        <th scope="col" class="font-semibold px-4 py-3">Nb. salons</th>
+                                        <th scope="col" class="font-semibold px-4 py-3">
+                                            <span class="sr-only">Actions</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="user : ${users}" class="odd:bg-gray-50/50 ">
+                                        <th scope="row" class="px-4 py-3 font-medium text-slate-800 whitespace-nowrap ">[[${user.id}]]</th>
+                                        <th scope="row" class="px-4 py-3 font-medium text-slate-800 whitespace-nowrap ">[[${user.lastName}]]</th>
+                                        <th scope="row" class="px-4 py-3 font-medium text-slate-800 whitespace-nowrap ">[[${user.firstName}]]</th>
+                                        <th scope="row" class="px-4 py-3 font-medium text-slate-800 whitespace-nowrap ">[[${user.lastName}]]</th>
+                                        <th scope="row" class="px-4 py-3 font-medium text-slate-800 whitespace-nowrap ">[[${user.email}]]</th>
+                                        <td class="px-4 py-3">[[${user.isAdmin}]]</td>
+                                        <td class="px-4 py-3">[[${user.isLocked}]]</td>
+                                        <td class="px-4 py-3">[[${user.createdAt}]]</td>
+                                        <td class="px-4 py-3">[[${user.lastConnection}]]</td>
+                                        <td class="px-4 py-3">[[${user.chatroomCount}]]</td>
+                                        <td class="px-4 py-3 flex items-center justify-end gap-x-2.5 gap-y-2 flex-wrap">
+                                            <a href="#" class="bg-gray-100/75 font-medium px-2.5 py-1.5 rounded-lg flex items-center justify-center text-blue-500 hover:bg-gray-100 hover:text-blue-600 
+                                                transition-colors duration-75 border border-gray-100
+                                            ">
+                                                <i class="w-3.5 h-3.5 fa-solid fa-eye"></i>
+                                            </a>
+                                            <a href="#" class="bg-gray-100/75 font-medium px-2.5 py-1.5 rounded-lg flex items-center justify-center text-blue-500 hover:bg-gray-100 hover:text-blue-600 
+                                            transition-colors duration-75 border border-gray-100
+                                            ">
+                                                <i class="w-3.5 h-3.5 fa-solid fa-edit"></i>
+                                            </a>
+                                            <a href="#" class="bg-gray-100/75 font-medium px-2.5 py-1.5 rounded-lg flex items-center justify-center text-red-500 hover:bg-gray-100 hover:text-red-600 
+                                            transition-colors duration-75 border border-gray-100
+                                            ">
+                                                <i class="w-3.5 h-3.5 fa-solid fa-trash"></i>
+                                            </a>
+                                            <a href="#" class="text-gray-500 hover:text-gray-600 focus:ring-4 focus:ring-gray-300 font-medium text-xs px-2 py-1 focus:outline-none">Bloquer</a>
+                                            <a href="#" class="text-green-500 hover:text-green-600 focus:ring-4 focus:ring-green-300 font-medium text-xs px-2 py-1 focus:outline-none">Débloquer</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 px-1 py-5" aria-label="Table navigation">
+                            <div class="flex items-center flex-wrap gap-x-3 gap-y-2">
+                                <select class="bg-gray-100 border border-none text-slate-500 text-sm rounded-lg focus:bg-gray-200/75 focus:ring-0 block px-3 py-2 font-medium"
+                                aria-label="Nombre d'éléments par page" id="perPage" name="perPage">
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                    <span class="text-sm font-medium text-gray-400">
+                                        Affichage de
+                                        <span class="font-semibold text-gray-500 dark:text-white">1-10</span>
+                                        sur
+                                        <span class="font-semibold text-gray-500 dark:text-white">1000</span>
+                                        éléments
+                                    </span>
+                            </div>
+                            <ul class="inline-flex items-stretch -space-x-px">
+                                <li>
+                                    <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                        <span class="sr-only">Previous</span>
+                                        <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    </a>
+                                </li>
+                                <li th:each="page : ${#numbers.sequence(1, 10)}">
+                                    <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                                        [[${page}]]
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
