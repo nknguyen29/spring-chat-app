@@ -56,6 +56,10 @@ public final class UserMapper {
         userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
         userDTO.setIsAdmin(user.getIsAdmin());
+        userDTO.setCreatedAt(user.getCreatedAt());
+        userDTO.setLastConnection(user.getLastConnection());
+        userDTO.setFailedConnectionAttempts(user.getFailedConnectionAttempts());
+        userDTO.setIsLocked(user.getIsLocked());
         user.getChatrooms().forEach(
                 chatroom -> userDTO.addChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
         return userDTO;

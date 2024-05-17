@@ -3,6 +3,8 @@ package fr.utc.sr03.chatapp.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.sql.Timestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,20 @@ public class UserDTO {
     @NotNull
     @JsonProperty("isAdmin")
     private Boolean isAdmin;
+
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp createdAt;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp lastConnection;
+
+    @JsonProperty("failedConnectionAttempts")
+    private Integer failedConnectionAttempts;
+
+    @NotNull
+    @JsonProperty("isLocked")
+    private Boolean isLocked;
 
     @NotNull
     @JsonProperty("chatrooms")
@@ -86,6 +102,38 @@ public class UserDTO {
 
     public void setIsAdmin(final Boolean isAdmin) {
         this.isAdmin = isAdmin;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(final Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Timestamp getLastConnection() {
+        return lastConnection;
+    }
+
+    public void setLastConnection(final Timestamp lastConnection) {
+        this.lastConnection = lastConnection;
+    }
+
+    public Integer getFailedConnectionAttempts() {
+        return failedConnectionAttempts;
+    }
+
+    public void setFailedConnectionAttempts(final Integer failedConnectionAttempts) {
+        this.failedConnectionAttempts = failedConnectionAttempts;
+    }
+
+    public Boolean getIsLocked() {
+        return isLocked;
+    }
+
+    public void setIsLocked(final Boolean isLocked) {
+        this.isLocked = isLocked;
     }
 
     public List<ChatroomWithoutUserDTO> getChatrooms() {
