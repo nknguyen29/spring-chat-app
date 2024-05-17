@@ -22,6 +22,17 @@ public class WebAdvice {
         return request.getRequestURI();
     }
 
+    /**
+     * Add the request query string to the model.
+     * 
+     * @param request the HTTP request
+     * @return the request query string
+     */
+    @ModelAttribute("requestQueryString")
+    public String getRequestQueryString(final HttpServletRequest request) {
+        return request.getQueryString();
+    }
+
     @ModelAttribute("isDevserver")
     public Boolean getIsDevserver(final HttpServletRequest request) {
         return "1".equals(request.getHeader("X-Devserver"));
