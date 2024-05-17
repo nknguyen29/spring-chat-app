@@ -11,8 +11,10 @@ import fr.utc.sr03.chatapp.repos.ChatroomUserRepository;
 import fr.utc.sr03.chatapp.repos.UserRepository;
 import fr.utc.sr03.chatapp.util.NotFoundException;
 import jakarta.transaction.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
-*
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -55,10 +57,14 @@ public class UserService {
             final Boolean showLocked,
             final Boolean showUnlocked 
     ) {
-        Pageable sortedByName = PageRequest.of(page, size, Sort.by(sortOrder, sortBy));
-        final List<User> users = userRepository.findAll(sortedByName).toList();
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
+        ArrayList<User> users = new ArrayList<User>(userRepository.findAll(pageable).toList());
         if (search != null && !search.isBlank()) {
-            users.removeIf(user -> !user.getFirstName().contains(search) && !user.getLastName().contains(search) && !user.getEmail().contains(search));
+            users.removeIf(
+                user -> !user.getFirstName().toLowerCase().contains(search.toLowerCase()) &&
+                !user.getLastName().toLowerCase().contains(search.toLowerCase()) &&
+                !user.getEmail().toLowerCase().contains(search.toLowerCase())
+            );
         }
         if (!showAll) {
             users.removeIf(user -> (showAdmins && !user.getIsAdmin()) || (showUsers && user.getIsAdmin()));
