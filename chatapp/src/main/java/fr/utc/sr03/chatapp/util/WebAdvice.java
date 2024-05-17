@@ -59,8 +59,8 @@ public class WebAdvice {
      */
     @ModelAttribute("uriComponentsBuilder")
     public UriComponentsBuilder getUriComponentsBuilder(final HttpServletRequest request) {
-        final String requestUrlWithQueryString = request.getRequestURL().toString() + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
-        return UriComponentsBuilder.fromUriString(requestUrlWithQueryString);
+        final String requestUriWithQueryString = getRequestUriWithQueryString(request);
+        return UriComponentsBuilder.fromUriString(requestUriWithQueryString);
     }
 
     @ModelAttribute("isDevserver")
