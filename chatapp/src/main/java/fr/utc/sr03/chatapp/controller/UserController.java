@@ -32,52 +32,53 @@ public class UserController {
         this.chatroomService = chatroomService;
     }
 
+    @GetMapping
     public String list(final Model model) {
         model.addAttribute("users", userService.findAllWithStats());
         return "user/list";
     }
 
-    @GetMapping("/add")
-    public String add(@ModelAttribute("user") final UserWithoutChatroomDTO userDTO) {
-        return "user/add";
-    }
+    // @GetMapping("/add")
+    // public String add(@ModelAttribute("user") final UserWithoutChatroomDTO userDTO) {
+    //     return "user/add";
+    // }
 
-    @PostMapping("/add")
-    public String add(@ModelAttribute("user") @Valid final UserWithoutChatroomDTO userDTO,
-            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            return "user/add";
-        }
-        userService.create(userDTO);
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.create.success"));
-        return "redirect:/users";
-    }
+    // @PostMapping("/add")
+    // public String add(@ModelAttribute("user") @Valid final UserWithoutChatroomDTO userDTO,
+    //         final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+    //     if (bindingResult.hasErrors()) {
+    //         return "user/add";
+    //     }
+    //     userService.create(userDTO);
+    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.create.success"));
+    //     return "redirect:/users";
+    // }
 
-    @GetMapping("/edit/{id}")
-    public String edit(@PathVariable(name = "id") final Long id, final Model model) {
-        model.addAttribute("user", userService.getWithoutChatroom(id));
-        return "user/edit";
-    }
+    // @GetMapping("/edit/{id}")
+    // public String edit(@PathVariable(name = "id") final Long id, final Model model) {
+    //     model.addAttribute("user", userService.getWithoutChatroom(id));
+    //     return "user/edit";
+    // }
 
-    @PutMapping("/edit/{id}")
-    public String edit(@PathVariable(name = "id") final Long id,
-            @ModelAttribute("user") @Valid final UserWithoutChatroomDTO userDTO, final BindingResult bindingResult,
-            final RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            return "user/edit";
-        }
-        userService.update(id, userDTO);
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.update.success"));
-        return "redirect:/users";
-    }
+    // @PutMapping("/edit/{id}")
+    // public String edit(@PathVariable(name = "id") final Long id,
+    //         @ModelAttribute("user") @Valid final UserWithoutChatroomDTO userDTO, final BindingResult bindingResult,
+    //         final RedirectAttributes redirectAttributes) {
+    //     if (bindingResult.hasErrors()) {
+    //         return "user/edit";
+    //     }
+    //     userService.update(id, userDTO);
+    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.update.success"));
+    //     return "redirect:/users";
+    // }
 
-    @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable(name = "id") final Long id,
-            final RedirectAttributes redirectAttributes) {
-        userService.delete(id);
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.delete.success"));
-        return "redirect:/users";
-    }
+    // @DeleteMapping("/delete/{id}")
+    // public String delete(@PathVariable(name = "id") final Long id,
+    //         final RedirectAttributes redirectAttributes) {
+    //     userService.delete(id);
+    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.delete.success"));
+    //     return "redirect:/users";
+    // }
 
     // @GetMapping("/chatrooms/{id}")
     // public String chatrooms(@PathVariable(name = "id") final Long id, final Model model) {
@@ -103,7 +104,7 @@ public class UserController {
 
     @GetMapping("/__debug")
     public String debug(final Model model) {
-        model.addAttribute("debug", userService.findAll());
+        model.addAttribute("debug", userService.findAllWithStats());
         return "debug";
     }
 
