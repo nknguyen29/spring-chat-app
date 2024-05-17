@@ -36,8 +36,8 @@ public class UserController {
     @GetMapping
     public String list(
         @RequestParam(name = "search", required = false) final String search,
-        @RequestParam(name = "sortBy", required = false, defaultValue = "id") final String sortBy,
-        @RequestParam(name = "sortOrder", required = false, defaultValue = "asc") final String sortOrder,
+        @RequestParam(name = "sort_by", required = false, defaultValue = "id") final String sortBy,
+        @RequestParam(name = "sort_order", required = false, defaultValue = "asc") final String sortOrder,
         @RequestParam(name = "page", required = false, defaultValue = "0") final Integer page,
         @RequestParam(name = "size", required = false, defaultValue = "10") final Integer size,
         @RequestParam(name = "showAll", required = false, defaultValue = "false") final Boolean showAll,

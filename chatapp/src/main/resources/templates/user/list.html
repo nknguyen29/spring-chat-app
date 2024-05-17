@@ -6,13 +6,13 @@
     <body>
         <div layout:fragment="content">
             <div class="flex flex-col w-full h-full">
-                <div class="flex flex-wrap justify-between items-center mb-6 gap-4">
+                <div class="flex flex-wrap justify-between items-end mb-6 gap-4">
                     <div class="grow">
                         <h1 class="text-base md:text-lg font-semibold mb-1">[[#{user.list.headline}]]</h1>
                         <h2 class="text-xs font-medium text-gray-400">[[#{user.list.subheadline}]]</h2>
                     </div>
                     <div>
-                        <button type="button" class="text-white bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300 font-semibold rounded-lg text-xs px-4 py-2 focus:outline-none" th:onclick="window.location.href='/users/add'">[[#{user.list.createNew}]]</button>
+                        <button type="button" class="text-white bg-blue-500 hover:bg-blue-600 focus:ring focus:ring-blue-300 font-semibold rounded-lg text-xs px-4 py-2 focus:outline-none" th:onclick="window.location.href='/users/add'">[[#{user.list.createNew}]]</button>
                     </div>
                 </div>
                 <div class="flex-grow bg-white shadow-sm rounded-lg p-10">
@@ -113,7 +113,7 @@
                             </div>
                             <div>
                                 <button id="sumbit" class="w-full flex items-center justify-center px-2 py-1.5 text-sm font-medium text-white focus:outline-none bg-blue-500 rounded-lg hover:bg-blue-600  
-                                transition-colors duration-75 space-x-3" type="button">
+                                transition-colors duration-75 space-x-3 focus:ring focus:ring-blue-300" type="button">
                                 <i class="h-4 w-4 fa-solid fa-arrow-right"></i>
                                 <span class="text-xs font-medium text-white md:hidden block 
                                 ">Lancer la recherche</span>
@@ -186,21 +186,24 @@
                                 </tbody>
                             </table>
                         </div>
-                        <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 p-4" aria-label="Table navigation">
-                            <select class="bg-gray-100 border border-none text-slate-500 text-sm rounded-lg focus:bg-gray-200/75 focus:ring-0 block w-full px-4 py-2.5 font-medium"
+                        <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 px-1 py-5" aria-label="Table navigation">
+                            <div class="flex items-center flex-wrap gap-x-3 gap-y-2">
+                                <select class="bg-gray-100 border border-none text-slate-500 text-sm rounded-lg focus:bg-gray-200/75 focus:ring-0 block px-3 py-2 font-medium"
                                 aria-label="Nombre d'éléments par page" id="perPage" name="perPage">
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="30">30</option>
-                                <option value="40">40</option>
-                                <option value="50">50</option>
-                            </select>
-                            <span class="text-sm font-normal text-gray-500">
-                                Affichage
-                                <span class="font-semibold text-slate-800 dark:text-white">1-10</span>
-                                of
-                                <span class="font-semibold text-slate-800 dark:text-white">1000</span>
-                            </span>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
+                                    </select>
+                                    <span class="text-sm font-medium text-gray-400">
+                                        Affichage de
+                                        <span class="font-semibold text-gray-500 dark:text-white">1-10</span>
+                                        sur
+                                        <span class="font-semibold text-gray-500 dark:text-white">1000</span>
+                                        éléments
+                                    </span>
+                            </div>
                             <ul class="inline-flex items-stretch -space-x-px">
                                 <li>
                                     <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 ml-0 text-gray-500 bg-white rounded-l-lg border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
