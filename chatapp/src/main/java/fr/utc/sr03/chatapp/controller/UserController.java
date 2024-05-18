@@ -3,6 +3,7 @@ package fr.utc.sr03.chatapp.controller;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
 import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserWithoutChatroomDTO;
+import fr.utc.sr03.chatapp.model.UserAddDTO;
 import fr.utc.sr03.chatapp.service.ChatroomService;
 import fr.utc.sr03.chatapp.service.UserService;
 import fr.utc.sr03.chatapp.util.WebUtils;
@@ -55,21 +56,21 @@ public class UserController {
         return "user/list";
     }
 
-    // @GetMapping("/add")
-    // public String add(@ModelAttribute("user") final UserWithoutChatroomDTO userDTO) {
-    //     return "user/add";
-    // }
+    @GetMapping("/add")
+    public String add(@ModelAttribute("user") final UserAddDTO userDTO) {
+        return "user/add";
+    }
 
-    // @PostMapping("/add")
-    // public String add(@ModelAttribute("user") @Valid final UserWithoutChatroomDTO userDTO,
-    //         final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
-    //     if (bindingResult.hasErrors()) {
-    //         return "user/add";
-    //     }
-    //     userService.create(userDTO);
-    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.create.success"));
-    //     return "redirect:/users";
-    // }
+    @PostMapping("/add")
+    public String add(@ModelAttribute("user") @Valid final UserAddDTO userDTO,
+            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "user/add";
+        }
+        userService.create(userDTO);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.create.success"));
+        return "redirect:/users";
+    }
 
     // @GetMapping("/edit/{id}")
     // public String edit(@PathVariable(name = "id") final Long id, final Model model) {

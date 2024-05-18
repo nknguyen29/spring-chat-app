@@ -116,11 +116,11 @@ public class UserService {
     //             .orElseThrow(NotFoundException::new);
     // }
 
-    // public Long create(final UserWithoutChatroomDTO userDTO) {
-    //     final User user = new User();
-    //     userMapper.mapToEntity(userDTO, user);
-    //     return userRepository.save(user).getId();
-    // }
+    public Long create(final UserWithoutChatroomDTO userDTO) {
+        final User user = new User();
+        userMapper.mapToEntity(userDTO, user);
+        return userRepository.save(user).getId();
+    }
 
     // public void update(final Long id, final UserWithoutChatroomDTO userDTO) {
     //     final User user = userRepository.findById(id)
