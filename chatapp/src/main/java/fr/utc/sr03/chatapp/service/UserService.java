@@ -3,6 +3,7 @@ package fr.utc.sr03.chatapp.service;
 import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.mapper.UserMapper;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
+import fr.utc.sr03.chatapp.model.UserAddDTO;
 import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserListDTO;
 import fr.utc.sr03.chatapp.model.UserPublicDTO;
@@ -116,7 +117,7 @@ public class UserService {
     //             .orElseThrow(NotFoundException::new);
     // }
 
-    public Long create(final UserWithoutChatroomDTO userDTO) {
+    public Long create(final UserAddDTO userDTO) {
         final User user = new User();
         userMapper.mapToEntity(userDTO, user);
         return userRepository.save(user).getId();

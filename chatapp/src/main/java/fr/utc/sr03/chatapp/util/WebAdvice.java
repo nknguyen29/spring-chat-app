@@ -56,6 +56,7 @@ public class WebAdvice {
      * @param request the HTTP request
      * @return the URI components builder
      * @see https://stackoverflow.com/q/45594238
+     * @see https://stackoverflow.com/a/44160941
      */
     @ModelAttribute("uriComponentsBuilder")
     public UriComponentsBuilder getUriComponentsBuilder(final HttpServletRequest request) {
