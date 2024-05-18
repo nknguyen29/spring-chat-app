@@ -90,13 +90,13 @@ public class UserController {
     //     return "redirect:/users";
     // }
 
-    // @DeleteMapping("/delete/{id}")
-    // public String delete(@PathVariable(name = "id") final Long id,
-    //         final RedirectAttributes redirectAttributes) {
-    //     userService.delete(id);
-    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.delete.success"));
-    //     return "redirect:/users";
-    // }
+    @DeleteMapping("/delete/{id}")
+    public String delete(@PathVariable(name = "id") final Long id,
+            final RedirectAttributes redirectAttributes) {
+        userService.delete(id);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.delete.success"));
+        return "redirect:/users";
+    }
 
     // @GetMapping("/chatrooms/{id}")
     // public String chatrooms(@PathVariable(name = "id") final Long id, final Model model) {

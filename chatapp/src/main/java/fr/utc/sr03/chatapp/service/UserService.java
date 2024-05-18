@@ -130,13 +130,13 @@ public class UserService {
     //     userRepository.save(user);
     // }
 
-    // public void delete(final Long id) {
-    //     final User user = userRepository.findById(id)
-    //             .orElseThrow(NotFoundException::new);
-    //     // remove many-to-many relations at owning side
-    //     user.getChatroomUsers().forEach(chatroomUserRepository::delete);
-    //     userRepository.delete(user);
-    // }
+    public void delete(final Long id) {
+        final User user = userRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        // remove many-to-many relations at owning side
+        user.getChatroomUsers().forEach(chatroomUserRepository::delete);
+        userRepository.delete(user);
+    }
 
     public boolean emailExists(final String email) {
         return userRepository.existsByEmailIgnoreCase(email);
