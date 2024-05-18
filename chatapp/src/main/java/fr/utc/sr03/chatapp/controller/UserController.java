@@ -72,6 +72,12 @@ public class UserController {
         return "redirect:/users";
     }
 
+    @GetMapping("/{id}")
+    public String view(@PathVariable(name = "id") final Long id, final Model model) {
+        model.addAttribute("user", userService.get(id));
+        return "user/view";
+    }
+
     // @GetMapping("/edit/{id}")
     // public String edit(@PathVariable(name = "id") final Long id, final Model model) {
     //     model.addAttribute("user", userService.getWithoutChatroom(id));

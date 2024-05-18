@@ -6,7 +6,7 @@ import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
 import fr.utc.sr03.chatapp.model.UserAddDTO;
 import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserListDTO;
-import fr.utc.sr03.chatapp.model.UserPublicDTO;
+import fr.utc.sr03.chatapp.model.UserGetDTO;
 import fr.utc.sr03.chatapp.model.UserWithoutChatroomDTO;
 import fr.utc.sr03.chatapp.repos.ChatroomUserRepository;
 import fr.utc.sr03.chatapp.repos.UserRepository;
@@ -93,11 +93,11 @@ public class UserService {
         }
     }
 
-    // public UserDTO get(final Long id) {
-    //     return userRepository.findById(id)
-    //             .map(user -> userMapper.mapToDTO(user, new UserDTO()))
-    //             .orElseThrow(NotFoundException::new);
-    // }
+    public UserGetDTO get(final Long id) {
+        return userRepository.findById(id)
+                .map(user -> userMapper.mapToDTO(user, new UserGetDTO()))
+                .orElseThrow(NotFoundException::new);
+    }
 
     // public UserPublicWithStatsDTO getPublicWithStats(final Long id) {
     //     return userRepository.findById(id)
