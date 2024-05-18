@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -44,6 +45,10 @@ public class UserGetDTO {
     @NotNull
     @JsonProperty("chatrooms")
     private List<ChatroomWithoutUserDTO> chatrooms;
+
+    public UserGetDTO() {
+        this.chatrooms = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
