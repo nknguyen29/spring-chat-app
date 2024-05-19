@@ -3,10 +3,8 @@ package fr.utc.sr03.chatapp.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.sql.Timestamp;
-import org.springframework.format.annotation.DateTimeFormat;
 
-public class UserListDTO {
+public class UserAddDTO {
 
     private Long id;
 
@@ -24,21 +22,16 @@ public class UserListDTO {
     private String email;
 
     @NotNull
+    @Size(max = 255)
+    private String password;
+
+    @NotNull
     @JsonProperty("isAdmin")
     private Boolean isAdmin;
 
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
-    private Timestamp createdAt;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
-    private Timestamp lastConnection;
-
-    @NotNull
     @JsonProperty("isLocked")
     private Boolean isLocked;
-
-    private Long chatroomCount;
 
     public Long getId() {
         return id;
@@ -72,28 +65,20 @@ public class UserListDTO {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(final String password) {
+        this.password = password;
+    }
+
     public Boolean getIsAdmin() {
         return isAdmin;
     }
 
     public void setIsAdmin(final Boolean isAdmin) {
         this.isAdmin = isAdmin;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(final Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Timestamp getLastConnection() {
-        return lastConnection;
-    }
-
-    public void setLastConnection(final Timestamp lastConnection) {
-        this.lastConnection = lastConnection;
     }
 
     public Boolean getIsLocked() {
@@ -104,26 +89,16 @@ public class UserListDTO {
         this.isLocked = isLocked;
     }
 
-    public Long getChatroomCount() {
-        return chatroomCount;
-    }
-
-    public void setChatroomCount(final Long chatroomCount) {
-        this.chatroomCount = chatroomCount;
-    }
-
     @Override
     public String toString() {
-        return "UserListDTO{" +
+        return "UserAddDTO{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", isAdmin=" + isAdmin +
-                ", createdAt=" + createdAt +
-                ", lastConnection=" + lastConnection +
                 ", isLocked=" + isLocked +
-                ", chatroomCount=" + chatroomCount +
                 '}';
     }
 

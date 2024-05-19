@@ -3,6 +3,7 @@ package fr.utc.sr03.chatapp.controller;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
 import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserWithoutChatroomDTO;
+import fr.utc.sr03.chatapp.model.UserAddDTO;
 import fr.utc.sr03.chatapp.service.ChatroomService;
 import fr.utc.sr03.chatapp.service.UserService;
 import fr.utc.sr03.chatapp.util.WebUtils;
@@ -55,21 +56,27 @@ public class UserController {
         return "user/list";
     }
 
-    // @GetMapping("/add")
-    // public String add(@ModelAttribute("user") final UserWithoutChatroomDTO userDTO) {
-    //     return "user/add";
-    // }
+    @GetMapping("/add")
+    public String add(@ModelAttribute("user") final UserAddDTO userDTO) {
+        return "user/add";
+    }
 
-    // @PostMapping("/add")
-    // public String add(@ModelAttribute("user") @Valid final UserWithoutChatroomDTO userDTO,
-    //         final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
-    //     if (bindingResult.hasErrors()) {
-    //         return "user/add";
-    //     }
-    //     userService.create(userDTO);
-    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.create.success"));
-    //     return "redirect:/users";
-    // }
+    @PostMapping("/add")
+    public String add(@ModelAttribute("user") @Valid final UserAddDTO userDTO,
+            final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "user/add";
+        }
+        userService.create(userDTO);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.create.success"));
+        return "redirect:/users";
+    }
+
+    @GetMapping("/{id}")
+    public String view(@PathVariable(name = "id") final Long id, final Model model) {
+        model.addAttribute("user", userService.get(id));
+        return "user/view";
+    }
 
     // @GetMapping("/edit/{id}")
     // public String edit(@PathVariable(name = "id") final Long id, final Model model) {
@@ -89,13 +96,13 @@ public class UserController {
     //     return "redirect:/users";
     // }
 
-    // @DeleteMapping("/delete/{id}")
-    // public String delete(@PathVariable(name = "id") final Long id,
-    //         final RedirectAttributes redirectAttributes) {
-    //     userService.delete(id);
-    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.delete.success"));
-    //     return "redirect:/users";
-    // }
+    @DeleteMapping("/delete/{id}")
+    public String delete(@PathVariable(name = "id") final Long id,
+            final RedirectAttributes redirectAttributes) {
+        userService.delete(id);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.delete.success"));
+        return "redirect:/users";
+    }
 
     // @GetMapping("/chatrooms/{id}")
     // public String chatrooms(@PathVariable(name = "id") final Long id, final Model model) {
@@ -119,10 +126,10 @@ public class UserController {
     //     return "redirect:/users";
     // }
 
-    @GetMapping("/__debug")
-    public String debug(final Model model) {
-        model.addAttribute("debug", userService.findAllWithStats());
-        return "debug";
-    }
+    // @GetMapping("/__debug")
+    // public String debug(final Model model) {
+    //     model.addAttribute("debug", userService.findAllWithStats());
+    //     return "debug";
+    // }
 
 }
