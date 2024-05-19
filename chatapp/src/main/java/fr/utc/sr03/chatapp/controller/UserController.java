@@ -126,10 +126,10 @@ public class UserController {
     //     return "redirect:/users";
     // }
 
-    @GetMapping("/__debug")
-    public String debug(final Model model) {
-        model.addAttribute("debug", userService.findAllWithStats());
-        return "debug";
-    }
+    // @GetMapping("/__debug")
+    // public String debug(final Model model) {
+    //     model.addAttribute("debug", userService.findAllWithStats());
+    //     return "debug";
+    // }
 
 }
