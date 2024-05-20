@@ -3,9 +3,10 @@ package fr.utc.sr03.chatapp.service;
 import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.mapper.UserMapper;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
+import fr.utc.sr03.chatapp.model.UserAddDTO;
 import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserListDTO;
-import fr.utc.sr03.chatapp.model.UserPublicDTO;
+import fr.utc.sr03.chatapp.model.UserGetDTO;
 import fr.utc.sr03.chatapp.model.UserWithoutChatroomDTO;
 import fr.utc.sr03.chatapp.repos.ChatroomUserRepository;
 import fr.utc.sr03.chatapp.repos.UserRepository;
@@ -92,11 +93,11 @@ public class UserService {
         }
     }
 
-    // public UserDTO get(final Long id) {
-    //     return userRepository.findById(id)
-    //             .map(user -> userMapper.mapToDTO(user, new UserDTO()))
-    //             .orElseThrow(NotFoundException::new);
-    // }
+    public UserGetDTO get(final Long id) {
+        return userRepository.findById(id)
+                .map(user -> userMapper.mapToDTO(user, new UserGetDTO()))
+                .orElseThrow(NotFoundException::new);
+    }
 
     // public UserPublicWithStatsDTO getPublicWithStats(final Long id) {
     //     return userRepository.findById(id)
@@ -116,11 +117,11 @@ public class UserService {
     //             .orElseThrow(NotFoundException::new);
     // }
 
-    // public Long create(final UserWithoutChatroomDTO userDTO) {
-    //     final User user = new User();
-    //     userMapper.mapToEntity(userDTO, user);
-    //     return userRepository.save(user).getId();
-    // }
+    public Long create(final UserAddDTO userDTO) {
+        final User user = new User();
+        userMapper.mapToEntity(userDTO, user);
+        return userRepository.save(user).getId();
+    }
 
     // public void update(final Long id, final UserWithoutChatroomDTO userDTO) {
     //     final User user = userRepository.findById(id)
@@ -129,13 +130,13 @@ public class UserService {
     //     userRepository.save(user);
     // }
 
-    // public void delete(final Long id) {
-    //     final User user = userRepository.findById(id)
-    //             .orElseThrow(NotFoundException::new);
-    //     // remove many-to-many relations at owning side
-    //     user.getChatroomUsers().forEach(chatroomUserRepository::delete);
-    //     userRepository.delete(user);
-    // }
+    public void delete(final Long id) {
+        final User user = userRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        // remove many-to-many relations at owning side
+        user.getChatroomUsers().forEach(chatroomUserRepository::delete);
+        userRepository.delete(user);
+    }
 
     public boolean emailExists(final String email) {
         return userRepository.existsByEmailIgnoreCase(email);

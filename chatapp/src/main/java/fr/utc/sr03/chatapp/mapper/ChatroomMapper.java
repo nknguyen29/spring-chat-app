@@ -8,7 +8,7 @@ import fr.utc.sr03.chatapp.model.ChatroomPublicDTO;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
 import fr.utc.sr03.chatapp.model.ChatroomWithStatsDTO;
 import fr.utc.sr03.chatapp.model.UserWithoutChatroomDTO;
-import fr.utc.sr03.chatapp.model.UserPublicWithoutChatroomDTO;
+import fr.utc.sr03.chatapp.model.UserAddDTO;
 
 @Component
 public class ChatroomMapper {

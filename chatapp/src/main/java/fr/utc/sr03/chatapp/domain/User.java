@@ -64,6 +64,7 @@ public class User {
     private Set<ChatroomUser> chatroomUsers;
 
     public User() {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
     public User(
