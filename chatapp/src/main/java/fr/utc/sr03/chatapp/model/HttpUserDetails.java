@@ -25,4 +25,8 @@ public class HttpUserDetails extends User {
         this.authorities = authorities;
     }
 
+    public Long getId() {
+        return id;
+    }
+
 }

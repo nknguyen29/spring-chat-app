@@ -17,15 +17,15 @@
                                     <h1 class="text-3xl font-semibold leading-tight tracking-tight text-slate-800 md:text-4xl">Se connecter</h1>
                                     <span class="block text-gray-400 font-medium text-sm md:text-base">You are one step away from chatting with your friends</span>
                                 </div>
-                                <form class="space-y-8 md:space-y-9" action="#">
+                                <form th:action="@{/login}" method="post" class="space-y-8 md:space-y-9">
                                     <div class="space-y-6 md:space-y-8">
                                         <div>
                                             <label for="email" class="block mb-2.5 text-sm font-medium text-slate-800">Email address</label>
-                                            <input type="email" id="email" class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full px-5 py-3" placeholder="john.doe@company.com" required />
+                                            <input type="email" id="email" name="email" class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full px-5 py-3" placeholder="john.doe@company.com" required />
                                         </div> 
                                         <div>
                                             <label for="password" class="block mb-2.5 text-sm font-medium text-slate-800">Password</label>
-                                            <input type="password" id="password" class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full px-5 py-3" placeholder="•••••••••" required />
+                                            <input type="password" id="password" name="password"  class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full px-5 py-3" placeholder="•••••••••" required />
                                         </div>
                                     </div>
                                     <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg px-5 py-3
