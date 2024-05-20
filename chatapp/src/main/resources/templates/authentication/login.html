@@ -1,6 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{base}" >
     <div layout:fragment="body" class="m-0 p-0 h-screen flex flex-col">
+
+        <!-- https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container -->
+        <section class="bg-stone-50">
+            <div class="flex justify-content-center px-8 py-10 h-screen">
+                <div class="m-auto flex flex-col items-center justify-center w-full gap-y-5">
+                    <a th:href="@{/}" class="flex items-center flex-wrap gap-x-3.5 gap-y-1.5">
+                        <img th:src="@{/img/chat-svgrepo-com.svg}" alt="ChatApp Logo" class="m-auto md:w-9 sm:h-9 h-7 w-7" />
+                        <span class="m-auto self-center text-slate-800 text-xl font-['ABC_Ginto_Nord_Unlicensed_Trial'] font-semibold md:text-2xl whitespace-nowrap">Diskette</span>
+                    </a>
+                    <div class="w-full bg-white rounded-lg shadow md:mt-0 md:max-w-2xl xl:p-0 max-w-xl">
+                        <div class="flex items-stretch justify-between gap-x-2">
+                            <div class="px-8 md:space-y-9 sm:px-10 grow space-y-8 pb-11 pt-8 sm:pt-10 sm:pb-14">
+                                <div class="space-y-2">
+                                    <h1 class="text-3xl font-semibold leading-tight tracking-tight text-slate-800 md:text-4xl">Se connecter</h1>
+                                    <span class="block text-gray-400 font-medium text-sm md:text-base">You are one step away from chatting with your friends</span>
+                                </div>
+                                <form class="space-y-6 md:space-y-8" action="#">
+                                    <div>
+                                        <label for="email" class="block mb-2.5 text-sm font-medium text-slate-800">Email address</label>
+                                        <input type="email" id="email" class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full px-5 py-3" placeholder="john.doe@company.com" required />
+                                    </div> 
+                                    <div>
+                                        <label for="password" class="block mb-2.5 text-sm font-medium text-slate-800">Password</label>
+                                        <input type="password" id="password" class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full px-5 py-3" placeholder="•••••••••" required />
+                                    </div> 
+                                </form>
+                            </div>
+                            <div class="w-1/3 py-5 md:block hidden">
+                                <div class="h-full rounded-r-lg bg-cover bg-center
+                                -me-6 " style="background-image: url('https://cataas.com/cat')"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+          
+
+
+
         <div class="flex flex-col items-center justify-center h-full">
             <div class="w-96 bg-white p-6 rounded-lg shadow-lg">
                 <h1 class="text-2xl font-bold text-center">Login</h1>
