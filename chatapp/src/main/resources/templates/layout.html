@@ -2,9 +2,9 @@
         <header class="bg-gray-50">
             <div class="container px-4 md:px-6">
                 <nav class="flex flex-wrap items-center justify-between py-2">
-                    <a th:href="@{/}" class="flex py-1.5 mr-4">
+                    <a th:href="@{/}" class="flex py-1.5 me-4">
                         <img th:src="@{/images/logo.png}" th:alt="#{app.title}" width="30" height="30" class="inline-block">
-                        <span class="text-xl pl-3">[[#{app.title}]]</span>
+                        <span class="text-xl ps-3">[[#{app.title}]]</span>
                     </a>
                     <button type="button" class="js-dropdown md:hidden border rounded" data-dropdown-keepopen="true"
                             th:aria-label="#{navigation.toggle}" aria-controls="navbarToggle" aria-expanded="false">
@@ -23,7 +23,7 @@
                                 <a class="js-dropdown block text-gray-500 p-2" href="#" id="navbarEntitiesLink" role="button"
                                         aria-expanded="false">
                                     <span>[[#{navigation.entities}]]</span>
-                                    <span class="text-[9px] align-[3px] pl-0.5">&#9660;</span>
+                                    <span class="text-[9px] align-[3px] ps-0.5">&#9660;</span>
                                 </a>
                                 <ul class="hidden block absolute right-0 bg-white border border-gray-300 rounded min-w-[10rem] py-2" aria-labelledby="navbarEntitiesLink">
                                     <li><a th:href="@{/users}" class="inline-block w-full hover:bg-gray-200 px-4 py-1">[[#{user.list.headline}]]</a></li>
