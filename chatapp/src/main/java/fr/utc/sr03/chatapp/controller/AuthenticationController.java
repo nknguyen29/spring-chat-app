@@ -29,4 +29,6 @@ public class AuthenticationController {
         return "authentication/login";
     }
 
+    // Spring Security also automatically provides a /logout endpoint, but we have to address it via POST.
+
 }

@@ -24,14 +24,15 @@ public class UserLoader implements ApplicationRunner {
 
     @Override
     public void run(final ApplicationArguments args) {
-        if (userRepository.count() != 0) {
-            return;
-        }
-        final User user = new User();
-        user.setEmail("test@test.com");
-        user.setPassword(passwordEncoder.encode("testtest"));
+        // if (userRepository.count() != 0) {
+        //     return;
+        // }
+        // final User user = new User();
+        // user.setEmail("test@test.com");
+        // user.setPassword(passwordEncoder.encode("testtest"));
         // user.setHash(passwordEncoder.encode("testtest"));
-        userRepository.save(user);
+        // userRepository.save(user);
+        System.out.println("password: " + passwordEncoder.encode("testtest"));
     }
 
 }
