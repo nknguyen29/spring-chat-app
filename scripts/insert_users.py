@@ -13,7 +13,7 @@ for i in range(1, 101):
     first_name = fake.first_name()
     last_name = fake.last_name()
     is_admin = random.choice([0, 1])
-    password = fake.password()
+    password = "{noop}password"
     created_at = fake.date_time_between(datetime.datetime(2020, 1, 1), 'now').strftime('%Y-%m-%d %H:%M:%S')
     last_connection = fake.date_time_between(datetime.datetime(2020, 1, 1), 'now').strftime('%Y-%m-%d %H:%M:%S') if random.choice([True, False]) else 'NULL'
     failed_connection_attempts = random.randint(0, 5)
