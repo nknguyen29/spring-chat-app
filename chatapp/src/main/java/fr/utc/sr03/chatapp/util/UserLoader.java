@@ -29,7 +29,8 @@ public class UserLoader implements ApplicationRunner {
         }
         final User user = new User();
         user.setEmail("test@test.com");
-        user.setHash(passwordEncoder.encode("testtest"));
+        user.setPassword(passwordEncoder.encode("testtest"));
+        // user.setHash(passwordEncoder.encode("testtest"));
         userRepository.save(user);
     }
 
