@@ -10,8 +10,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+
+import fr.utc.sr03.chatapp.util.CustomLoginFailureHandler;
+import fr.utc.sr03.chatapp.util.CustomLoginSuccessHandler;
+
 import static org.springframework.security.config.Customizer.withDefaults;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 @Configuration
@@ -38,7 +43,10 @@ public class HttpSecurityConfig {
                 .formLogin(form -> form
                     .loginPage("/login")
                     .usernameParameter("email")
-                    .failureUrl("/login?loginError=true"))
+                    .failureHandler(loginFailureHandler)
+                    .successHandler(loginSuccessHandler)
+                    // .failureUrl("/login?loginError=true")
+                    )
                 .logout(logout -> logout
                     .logoutSuccessUrl("/login?logoutSuccess=true")
                     .deleteCookies("JSESSIONID"))
@@ -46,5 +54,11 @@ public class HttpSecurityConfig {
                     .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login?loginRequired=true")))
                 .build();
     }
+
+    @Autowired
+    private CustomLoginFailureHandler loginFailureHandler;
+     
+    @Autowired
+    private CustomLoginSuccessHandler loginSuccessHandler;
 
 }

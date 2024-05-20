@@ -43,7 +43,7 @@ public class HttpUserDetailsService implements UserDetailsService {
 		// 			.roles(roles.toArray(new String[0]))
 		// 			.build();
         final List<SimpleGrantedAuthority> roles = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-        return new HttpUserDetails(user.getId(), email, user.getPassword(), roles);
+        return new HttpUserDetails(user.getId(), email, user.getPassword(), roles, user.getIsLocked(), user.getFailedConnectionAttempts());
         // return new InMemoryUserDetailsManager(user);
         // return userDetails;
     }

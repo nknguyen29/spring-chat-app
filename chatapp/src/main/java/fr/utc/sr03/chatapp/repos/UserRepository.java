@@ -6,6 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
 // CRUD refers Create, Read, Update, Delete
 
@@ -30,6 +33,18 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Page<User> findAllByFirstNameContainingOrLastNameContainingOrEmailContainingIgnoreCaseAndIsAdminAndIsLocked(
         String firstName, String lastName, String email, Boolean isAdmin, Boolean isLocked, Pageable pageable
     );
+
+    @Query("UPDATE User u SET u.lastConnection = CURRENT_TIMESTAMP WHERE u.email = :email")
+    @Modifying
+    void updateLastConnectionByEmail(String email);
+
+    @Query("UPDATE User u SET u.failedConnectionAttempts = :failedConnectionAttempts WHERE u.email = :email")
+    @Modifying
+    void updateFailedConnectionAttemptsByEmail(String email, Integer failedConnectionAttempts);
+    
+    @Query("UPDATE User u SET u.isLocked = :isLocked WHERE u.email = :email")
+    @Modifying
+    void updateIsLockedByEmail(String email, Boolean isLocked);
 
 }
 

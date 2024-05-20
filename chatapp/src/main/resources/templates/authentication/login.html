@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{base}" >
     <div layout:fragment="body" class="m-0 p-0 h-screen flex flex-col">
-
         <!-- https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container -->
         <section class="bg-stone-50 flex justify-content-center">
             <div class="flex justify-content-center px-8 py-10 min-h-screen w-full m-auto">
@@ -42,6 +41,10 @@
                 </div>
             </div>
         </section>
+
+        <div th:if="${param.error}">
+            <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+        </div>
 
         <div th:object="${authentication}" th:remove="tag">
             <div th:if="${#fields.hasGlobalErrors()}" class="mt-1">
