@@ -14,6 +14,7 @@ import java.sql.Timestamp;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "users")
 public class User {
@@ -50,6 +51,9 @@ public class User {
     @Column(nullable = false)
     private Boolean isLocked;
 
+    @Column(name = "\"lockedAt\"")
+    private Timestamp lockedAt;
+
     // Use ManyToMany annotation on both sides of the relationship
     // It creates a join table to store the relationship
     // See: https://www.baeldung.com/jpa-many-to-many#2-implementation-in-jpa
@@ -70,7 +74,7 @@ public class User {
     public User(
         String firstName, String lastName, String email, String password,
         boolean isAdmin, Timestamp createdAt, Timestamp lastConnection,
-        Integer failedConnectionAttempts, Boolean isLocked
+        Integer failedConnectionAttempts, Boolean isLocked, Timestamp lockedAt
     ) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -81,6 +85,7 @@ public class User {
         this.lastConnection = lastConnection;
         this.failedConnectionAttempts = failedConnectionAttempts;
         this.isLocked = isLocked;
+        this.lockedAt = lockedAt;
     }
 
     public Long getId() {
@@ -163,6 +168,14 @@ public class User {
         this.isLocked = isLocked;
     }
 
+    public Timestamp getLockedAt() {
+        return lockedAt;
+    }
+
+    public void setLockedAt(final Timestamp lockedAt) {
+        this.lockedAt = lockedAt;
+    }
+
     public Set<ChatroomUser> getChatroomUsers() {
         return chatroomUsers;
     }
@@ -208,6 +221,7 @@ public class User {
                 ", lastConnection=" + lastConnection +
                 ", failedConnectionAttempts=" + failedConnectionAttempts +
                 ", isLocked=" + isLocked +
+                ", lockedAt=" + lockedAt +
                 '}';
     }
 
