@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{base}" >
+        <head>
+            <title>[[#{authentication.login.headline}]]</title>
+        </head>
+    <div layout:fragment="body" class="m-0 p-0 h-screen flex flex-col">
+            <div layout:fragment="content">
+                <h1 class="mb-4">[[#{authentication.login.headline}]]</h1>
+                <div th:replace="~{fragments/forms::globalErrors('authentication')}" />
+                <form th:action="${requestUri}" method="post">
+                    <div th:replace="~{fragments/forms::inputRow(object='authentication', field='email')}" />
+                    <div th:replace="~{fragments/forms::inputRow(object='authentication', field='password', type='password')}" />
+                    <input type="submit" th:value="#{authentication.login.headline}" class="btn btn-primary mt-4" />
+                </form>
+            </div>
+    </div>
+</html>
