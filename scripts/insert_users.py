@@ -1,31 +1,27 @@
 import datetime
+import os
 import random
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Dict, List, Optional
 
+import mysql.connector
+from dotenv import load_dotenv
 from faker import Faker
 
-import mysql.connector
-
-
-# dotenv
-
-import os
-from pathlib import Path
-from dotenv import load_dotenv
-
-dir_path = Path(__file__).parent
-app_path = dir_path / ".." / "chatapp"
-load_dotenv(dotenv_path=app_path / ".env")
+DIR_PATH = Path(__file__).parent
+APP_PATH = DIR_PATH / ".." / "chatapp"
+load_dotenv(dotenv_path=APP_PATH / ".env")
 
 # Database connection
-mydb = mysql.connector.connect(
-    host=os.getenv("MYSQL_HOST"),
-    user=os.getenv("MYSQL_USER"),
-    password=os.getenv("MYSQL_PASSWORD"),
-    database=os.getenv("MYSQL_DATABASE"),
-    port=os.getenv("MYSQL_PORT"),
-)
+DB_CONFIG = {
+    "host": os.getenv("MYSQL_HOST"),
+    "user": os.getenv("MYSQL_USER"),
+    "password": os.getenv("MYSQL_PASSWORD"),
+    "database": os.getenv("MYSQL_DATABASE"),
+    "port": os.getenv("MYSQL_PORT"),
+}
+
 
 @dataclass
 class User:
@@ -41,9 +37,13 @@ class User:
     locked_at: Optional[str]
 
     def to_sql(self) -> str:
-        return (
-            f"INSERT INTO users (first_name, last_name, email, password, is_admin, created_at, last_connection, failed_connection_attempts, is_locked, locked_at)\n"
-            f"VALUES ('{self.first_name}', '{self.last_name}', '{self.email}', '{self.password}', {self.is_admin}, '{self.created_at}', {self.last_connection}, {self.failed_connection_attempts}, {self.is_locked}, {self.locked_at});"
+        return f"""
+            INSERT INTO users (first_name, last_name, email, password, is_admin, created_at, last_connection, failed_connection_attempts, is_locked, locked_at)
+            VALUES ('{self.first_name}', '{self.last_name}', '{self.email}', '{self.password}', {self.is_admin}, '{self.created_at}',
+                {f"'{self.last_connection}'" if self.last_connection else "NULL"}, {self.failed_connection_attempts if self.failed_connection_attempts else "NULL"},
+                {self.is_locked}, {f"'{self.locked_at}'" if self.locked_at else "NULL"});
+        """.replace(
+            "\n", ""
         )
 
 
@@ -78,12 +78,12 @@ class UserGenerator:
                 start_date=datetime.datetime(2020, 1, 1), end_date="now"
             ).strftime("%Y-%m-%d %H:%M:%S")
             if random.choice([0, 1])
-            else "NULL"
+            else None
         )
         failed_connection_attempts = (
             random.randint(0, self.MAX_FAILED_CONNECTION_ATTEMPTS)
             if random.choice([0, 1])
-            else "NULL"
+            else None
         )
         is_locked = (
             1
@@ -95,7 +95,7 @@ class UserGenerator:
                 start_date=datetime.datetime(2020, 1, 1), end_date="now"
             ).strftime("%Y-%m-%d %H:%M:%S")
             if is_locked
-            else "NULL"
+            else None
         )
 
         return User(
@@ -115,23 +115,48 @@ class UserGenerator:
         return self
 
 
-def insert_users(file_path, num_users):
-    user_generator = UserGenerator()
-    # Generate 100 users and write them to a file
-    with open(file_path, "w") as f:
-        for _ in range(num_users):
-            user = next(user_generator)
-            f.write(user.to_sql())
-            f.write("\n")
-
-
-
 def main() -> None:
-    insert_users("insert_users.sql", 100)
-    // ajouter Delete * from users
-    with open("insert_users.sql", "r") as f:
-        print(f.read())
-    
+    num_users = 100
+    admin_user = User(
+        first_name="Admin",
+        last_name="User",
+        email="admin@example.com",
+        password="admin",
+        is_admin=True,
+        created_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        last_connection=None,
+        failed_connection_attempts=None,
+        is_locked=False,
+        locked_at=None,
+    )
+    test_user = User(
+        first_name="Test",
+        last_name="User",
+        email="test@example.com",
+        password="test",
+        is_admin=False,
+        created_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        last_connection=None,
+        failed_connection_attempts=None,
+        is_locked=False,
+        locked_at=None,
+    )
+    with mysql.connector.connect(**DB_CONFIG) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute("SET FOREIGN_KEY_CHECKS=0;")
+            cursor.execute("TRUNCATE TABLE users;")
+
+            cursor.execute(admin_user.to_sql())
+            cursor.execute(test_user.to_sql())
+
+            for _ in range(num_users):
+                user = next(UserGenerator())
+                cursor.execute(user.to_sql())
+
+            cursor.execute("SET FOREIGN_KEY_CHECKS=1;")
+            conn.commit()
+
+    print(f"Succesfully inserted {num_users + 2} users.")
 
 
 if __name__ == "__main__":
