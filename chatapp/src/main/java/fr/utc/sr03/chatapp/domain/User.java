@@ -1,5 +1,9 @@
 package fr.utc.sr03.chatapp.domain;
 
+import java.sql.Timestamp;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,10 +13,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
-import java.sql.Timestamp;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 
 @Entity // This tells Hibernate to make a table out of this class
