@@ -5,8 +5,10 @@ import java.sql.Timestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
 
 public class UserWithoutChatroomDTO {
 
@@ -46,6 +48,9 @@ public class UserWithoutChatroomDTO {
     @NotNull
     @JsonProperty("isLocked")
     private Boolean isLocked;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp lockedAt;
 
     public Long getId() {
         return id;
@@ -127,6 +132,14 @@ public class UserWithoutChatroomDTO {
         this.isLocked = isLocked;
     }
 
+    public Timestamp getLockedAt() {
+        return lockedAt;
+    }
+
+    public void setLockedAt(final Timestamp lockedAt) {
+        this.lockedAt = lockedAt;
+    }
+
     @Override
     public String toString() {
         return "UserWithoutChatroomDTO{" +
@@ -140,6 +153,7 @@ public class UserWithoutChatroomDTO {
                 ", lastConnection=" + lastConnection +
                 ", failedConnectionAttempts=" + failedConnectionAttempts +
                 ", isLocked=" + isLocked +
+                ", lockedAt=" + lockedAt +
                 '}';
     }
 
