@@ -1,13 +1,13 @@
 package fr.utc.sr03.chatapp.repos;
 
-import fr.utc.sr03.chatapp.domain.User;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+
+import fr.utc.sr03.chatapp.domain.User;
+
 
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
 // CRUD refers Create, Read, Update, Delete
@@ -22,17 +22,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Page<User> findAllByIsLocked(Boolean isLocked, Pageable pageable);
     Page<User> findAllByIsAdminAndIsLocked(Boolean isAdmin, Boolean isLocked, Pageable pageable);
     Page<User> findAllByFirstNameContainingOrLastNameContainingOrEmailContainingIgnoreCase(
-        String firstName, String lastName, String email, Pageable pageable
-    );
+            String firstName, String lastName, String email, Pageable pageable);
     Page<User> findAllByFirstNameContainingOrLastNameContainingOrEmailContainingIgnoreCaseAndIsAdmin(
-        String firstName, String lastName, String email, Boolean isAdmin, Pageable pageable
-    );
+            String firstName, String lastName, String email, Boolean isAdmin, Pageable pageable);
     Page<User> findAllByFirstNameContainingOrLastNameContainingOrEmailContainingIgnoreCaseAndIsLocked(
-        String firstName, String lastName, String email, Boolean isLocked, Pageable pageable
-    );
+            String firstName, String lastName, String email, Boolean isLocked, Pageable pageable);
     Page<User> findAllByFirstNameContainingOrLastNameContainingOrEmailContainingIgnoreCaseAndIsAdminAndIsLocked(
-        String firstName, String lastName, String email, Boolean isAdmin, Boolean isLocked, Pageable pageable
-    );
+            String firstName, String lastName, String email, Boolean isAdmin, Boolean isLocked, Pageable pageable);
 
     @Query("UPDATE User u SET u.lastConnection = CURRENT_TIMESTAMP WHERE u.email = :email")
     @Modifying
@@ -41,7 +37,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("UPDATE User u SET u.failedConnectionAttempts = :failedConnectionAttempts WHERE u.email = :email")
     @Modifying
     void updateFailedConnectionAttemptsByEmail(String email, Integer failedConnectionAttempts);
-    
+
     @Query("UPDATE User u SET u.isLocked = :isLocked WHERE u.email = :email")
     @Modifying
     void updateIsLockedByEmail(String email, Boolean isLocked);
