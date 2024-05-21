@@ -1,20 +1,13 @@
 package fr.utc.sr03.chatapp.service;
 
-import fr.utc.sr03.chatapp.domain.User;
-import fr.utc.sr03.chatapp.repos.UserRepository;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Service;
-import java.util.Collections;
-import java.util.List;
-import fr.utc.sr03.chatapp.model.HttpUserDetails;
 
-// log
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import fr.utc.sr03.chatapp.domain.User;
+import fr.utc.sr03.chatapp.mapper.HttpUserMapper;
+import fr.utc.sr03.chatapp.model.HttpUserDetails;
+import fr.utc.sr03.chatapp.repos.UserRepository;
 
 
 @Service
@@ -22,30 +15,22 @@ public class HttpUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    private static final Logger log = LoggerFactory.getLogger(HttpUserDetailsService.class);
+    private final HttpUserMapper httpUserMapper;
 
-    public HttpUserDetailsService(final UserRepository userRepository) {
+    public HttpUserDetailsService(
+            final UserRepository userRepository, final HttpUserMapper httpUserMapper) {
         this.userRepository = userRepository;
+        this.httpUserMapper = httpUserMapper;
     }
 
     @Override
-    public HttpUserDetails loadUserByUsername(final String email) throws UsernameNotFoundException {
+    public HttpUserDetails loadUserByUsername(
+            final String email) throws UsernameNotFoundException {
         final User user = userRepository.findByEmailIgnoreCase(email);
         if (user == null) {
-            log.warn("user not found: {}", email);
-            throw new UsernameNotFoundException("User " + email + " not found");
+            throw new UsernameNotFoundException("User not found");
         }
-	    // UserDetails userDetails =
-        //     org.springframework.security.core.userdetails.User
-        //             .builder()    	
-		// 			.username(user.getEmail())
-		// 			.password(user.getPassword())
-		// 			.roles(roles.toArray(new String[0]))
-		// 			.build();
-        final List<SimpleGrantedAuthority> roles = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-        return new HttpUserDetails(user.getId(), email, user.getPassword(), roles, user.getIsLocked(), user.getFailedConnectionAttempts());
-        // return new InMemoryUserDetailsManager(user);
-        // return userDetails;
+        return httpUserMapper.mapToDTO(user);
     }
 
 }

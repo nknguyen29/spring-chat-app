@@ -36,11 +36,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("UPDATE User u SET u.failedConnectionAttempts = :failedConnectionAttempts WHERE u.email = :email")
     @Modifying
-    void updateFailedConnectionAttemptsByEmail(String email, Integer failedConnectionAttempts);
+    void updateFailedConnectionAttemptsByEmail(Integer failedConnectionAttempts, String email);
 
     @Query("UPDATE User u SET u.isLocked = :isLocked WHERE u.email = :email")
     @Modifying
-    void updateIsLockedByEmail(String email, Boolean isLocked);
+    void updateIsLockedByEmail(Boolean isLocked, String email);
 
 }
 
