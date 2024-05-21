@@ -121,7 +121,7 @@ def main() -> None:
         first_name="Admin",
         last_name="User",
         email="admin@example.com",
-        password="admin",
+        password="{noop}admin",
         is_admin=True,
         created_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         last_connection=None,
@@ -129,11 +129,11 @@ def main() -> None:
         is_locked=False,
         locked_at=None,
     )
-    test_user = User(
-        first_name="Test",
+    demo_user = User(
+        first_name="Demo",
         last_name="User",
-        email="test@example.com",
-        password="test",
+        email="demo@example.com",
+        password="{noop}demo",
         is_admin=False,
         created_at=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         last_connection=None,
@@ -147,7 +147,7 @@ def main() -> None:
             cursor.execute("TRUNCATE TABLE users;")
 
             cursor.execute(admin_user.to_sql())
-            cursor.execute(test_user.to_sql())
+            cursor.execute(demo_user.to_sql())
 
             for _ in range(num_users):
                 user = next(UserGenerator())
