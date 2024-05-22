@@ -1,24 +1,31 @@
 <li th:fragment="navigation-group (icon, label, url_regex, collapse_id, sublinks)"
     th:with="is_active=${requestUri.matches(url_regex)}">
-    <button 
+    <button
         th:with="is_active=${requestUri.matches(url_regex)}"
         th:classappend="${is_active} ? 'text-slate-800' : 'text-gray-500 hover:text-slate-800'"
         class="flex items-center w-full px-3 py-2 text-base transition duration-75 rounded-lg group"
-        type="button" th:aria-controls=${collapse_id} th:aria-expanded=${is_active} sidebar-toggle-group th:data-collapse-toggle=${collapse_id}>
+        type="button"
+        th:aria-controls="${collapse_id}"
+        th:aria-expanded="${is_active}"
+        sidebar-toggle-group
+        th:data-collapse-toggle="${collapse_id}"
+    >
         <i class="text-lg text-gray-400 transition duration-75 group-hover:text-gray-500"
             th:classappend="${is_active} ? 'text-slate-400' : 'text-zinc-300 group-hover:text-slate-400'"
             th:class=" ${icon}"></i>
         <span th:classappend="${is_active} ? 'font-semibold' : 'font-medium'"
-        class="flex-1 ms-3 text-sm text-left whitespace-nowrap" sidebar-toggle-item th:text="${label}"></span>
-        <i
-        th:classappend="${is_active} ? 'text-slate-800' : 'text-gray-500 group-hover:text-slate-800'"
-        class="fa-solid fa-chevron-down text-xs"></i>
+            class="flex-1 ms-3 text-sm text-left whitespace-nowrap" sidebar-toggle-item th:text="${label}"></span>
+        <i th:classappend="${is_active} ? 'text-slate-800' : 'text-gray-500 group-hover:text-slate-800'"
+            class="fa-solid fa-chevron-down text-xs"></i>
     </button>
-    <ul th:id=${collapse_id} class="pt-1 space-y-1 ms-4" th:classappend="${is_active} ? 'block' : 'hidden'">
+
+    <ul th:id="${collapse_id}" class="pt-1 space-y-1.5 ms-4" th:classappend="${is_active} ? 'block' : 'hidden'">
         <th:block th:each="sublink : ${sublinks}">
-            <div th:replace="~{layouts/sidebar/_navigation_sublink :: navigation-sublink (
-                label=${sublink.label}, url=${sublink.url}, url_regex=${sublink.url_regex}
-            )}"></div>
+            <div
+                th:replace="~{layouts/sidebar/_navigation_sublink :: navigation-sublink (
+                    label=${sublink.label}, url=${sublink.url}, url_regex=${sublink.url_regex}
+                )}"
+            ></div>
         </th:block>
         <!--/*
             The `th:block` element is useful because it does not generate any HTML output itself but can contain any Thymeleaf attributes.

@@ -1,13 +1,17 @@
 <ul th:fragment="navigation" class="pb-1 space-y-2.5">
-    <div th:replace="~{layouts/sidebar/_navigation_link :: navigation-link (icon='fa-regular fa-compass', label='Accueil', url='/', url_regex='^/$')}"></div>
-    <div th:replace="~{layouts/sidebar/_navigation_group :: navigation-group (
+    <div
+        th:replace="~{layouts/sidebar/_navigation_link :: navigation-link (icon='fa-regular fa-compass', label='Accueil', url='/', url_regex='^/$')}"
+    ></div>
+    <div
+        th:replace="~{layouts/sidebar/_navigation_group :: navigation-group (
         icon='fa-regular fa-user', label='Utilisateurs', url_regex='^/users\S*$',
         collapse_id='users-collapse',
         sublinks=${ {
             {label: 'Tous les utilisateurs', url: '/users', url_regex: '^/users$'},
             {label: 'Ajouter un utilisateur', url: '/users/add', url_regex: '^/users/add$'}
         } }
-    )}"></div>
+    )}"
+    ></div>
     <!--/*
         Note: The double curly braces are used to escape the Thymeleaf expression, i.e.
         IMPORTANT: The spaces between the curly braces are required to avoid Thymeleaf parsing errors.

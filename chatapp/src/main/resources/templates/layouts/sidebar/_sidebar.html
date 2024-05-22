@@ -1,6 +1,9 @@
-<aside th:fragment="sidebar" id="sidebar"
+<aside
+    th:fragment="sidebar"
+    id="sidebar"
     class="fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 hidden w-64 h-full pt-16 font-normal duration-75 lg:flex transition-width"
-    aria-label="Sidebar">
+    aria-label="Sidebar"
+>
     <div class="relative flex flex-col flex-1 min-h-0 pt-0 bg-white border-r border-slate-100">
         <div class="flex flex-col flex-1 overflow-y-auto bg-white divide-y divide-gray-200 divide-dashed">
             <div class="pt-8 pb-3 px-5 flex-1 overflow-y-auto" th:insert="~{layouts/sidebar/_navigation :: navigation}"></div>
