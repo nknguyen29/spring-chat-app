@@ -1,10 +1,14 @@
 package fr.utc.sr03.chatapp.model;
 
+import java.sql.Timestamp;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.sql.Timestamp;
-import org.springframework.format.annotation.DateTimeFormat;
+
 
 public class UserListDTO {
 
@@ -37,6 +41,9 @@ public class UserListDTO {
     @NotNull
     @JsonProperty("isLocked")
     private Boolean isLocked;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp lockedAt;
 
     private Long chatroomCount;
 
@@ -104,6 +111,14 @@ public class UserListDTO {
         this.isLocked = isLocked;
     }
 
+    public Timestamp getLockedAt() {
+        return lockedAt;
+    }
+
+    public void setLockedAt(final Timestamp lockedAt) {
+        this.lockedAt = lockedAt;
+    }
+
     public Long getChatroomCount() {
         return chatroomCount;
     }
@@ -123,6 +138,7 @@ public class UserListDTO {
                 ", createdAt=" + createdAt +
                 ", lastConnection=" + lastConnection +
                 ", isLocked=" + isLocked +
+                ", lockedAt=" + lockedAt +
                 ", chatroomCount=" + chatroomCount +
                 '}';
     }

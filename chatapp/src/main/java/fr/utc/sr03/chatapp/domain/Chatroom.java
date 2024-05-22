@@ -1,5 +1,13 @@
 package fr.utc.sr03.chatapp.domain;
 
+// La classe java.sql.Timestamp étend la classe java.util.Date et permet de
+// stocker des informations de date et d'heure.
+import java.sql.Timestamp; // or java.util.Date
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -7,14 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 
-// La classe java.sql.Timestamp étend la classe java.util.Date et permet de
-// stocker des informations de date et d'heure.
-import java.sql.Timestamp; // or java.util.Date
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "chatrooms")

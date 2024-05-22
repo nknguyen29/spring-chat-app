@@ -1,9 +1,12 @@
 package fr.utc.sr03.chatapp.model;
 
+import java.sql.Timestamp;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.sql.Timestamp;
-import org.springframework.format.annotation.DateTimeFormat;
+
 
 public class ChatroomWithoutUserDTO {
 
