@@ -1,6 +1,6 @@
-<footer th:fragment="footer" class="pt-6 pb-4 px-4 pxflex flex-col items-center justify-center gap-1 text-[0.75rem] ">
+<footer th:fragment="footer" class="pt-6 pb-4 px-6 pxflex flex-col items-center justify-center gap-0.5 text-[0.75rem] flex">
 
-    <div class="flex flex-wrap gap-x-2 gap-y-1.5 items-center justify-center text-gray-500">
+    <div class="flex flex-wrap gap-x-2 gap-y-0.5 items-center justify-center text-gray-500">
         <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"
             class="text-reset text-decoration-none" style="word-spacing: -0.1em;">
             <i class="fa-brands fa-creative-commons"></i>
@@ -12,11 +12,15 @@
             <span class="">[[#{app.year}]]</span>
             <span class="font-['ABC_Ginto_Nord_Unlicensed_Trial']">[[#{app.title}]]</span>
         </a>
-        <div class="text-center text-slate-800" th:with="contributors=${#strings.arraySplit('Machin, Truc, Bidule', ',')}">
-            <span>Conçu avec ❤ par&nbsp;</span><span th:with="V=app.contributors">[[#{__${V}__}]]</span>
-            <span th:each="contributor : ${contributors}" th:text="${contributor}" class="font-medium"></span>
-            <span>et le 🤝 du&nbsp;</span>
-            <span class="font-medium">Machin</span>
+        <div class="text-center text-slate-800" th:with="contributors=#{app.contributors}">
+            <span>Conçu avec ❤ par&nbsp;</span><!--/*
+            */--><th:block th:each="contributor, iterStat : ${#strings.arraySplit(contributors, ',')}"><!--/*
+                */--><span th:text="${contributor}" class="font-medium"></span><!--/*
+                */--><span th:if="${!iterStat.last}">, </span><!--/*
+                */--><span th:if="${iterStat.last}">&nbsp;</span><!--/*
+            */--></th:block><!--/*
+            */--><span>et le 🤝 de l'</span><!--/*
+            */--><span class="font-medium">[[#{app.sponsor}]]</span>
         </div>
     </div>
 
