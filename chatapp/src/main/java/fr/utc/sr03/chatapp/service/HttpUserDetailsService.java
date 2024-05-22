@@ -23,6 +23,14 @@ public class HttpUserDetailsService implements UserDetailsService {
         this.httpUserMapper = httpUserMapper;
     }
 
+    public HttpUserDetails findUserByEmail(final String email) {
+        final User user = userRepository.findByEmailIgnoreCase(email);
+        if (user == null) {
+            return null;
+        }
+        return httpUserMapper.mapToDTO(user);
+    }
+
     @Override
     public HttpUserDetails loadUserByUsername(
             final String email) throws UsernameNotFoundException {

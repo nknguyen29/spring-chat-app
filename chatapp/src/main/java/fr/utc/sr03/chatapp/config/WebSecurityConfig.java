@@ -44,10 +44,10 @@ public class WebSecurityConfig {
                         .failureHandler(loginFailureHandler)
                         .successHandler(loginSuccessHandler))
                 .logout(logout -> logout
-                        .logoutSuccessUrl("/login?logoutSuccess=true")
+                        .logoutSuccessUrl("/login?logout_success")
                         .deleteCookies("JSESSIONID"))
                 .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login?loginRequired=true")))
+                        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login?login_required")))
                 .build();
     }
 

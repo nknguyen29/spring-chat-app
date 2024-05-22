@@ -29,12 +29,13 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException exception) throws IOException, ServletException {
         final String email = request.getParameter("email");
-        final HttpUserDetails httpUserDetails = httpUserService.loadUserByUsername(email);
+        final HttpUserDetails httpUserDetails = httpUserService.findUserByEmail(email);
 
         if (httpUserDetails != null) {
             if (httpUserDetails.isEnabled() && httpUserDetails.isAccountNonLocked()) {
                 if (httpUserDetails.getFailedConnectionAttempts() < AuthenticationService.MAX_FAILED_ATTEMPTS - 1) {
                     authService.increaseFailedAttempts(httpUserDetails);
+                    exception = new LockedException("Email ou mot de passe incorrect.");
                 } else {
                     authService.lock(httpUserDetails);
                     exception = new LockedException(
@@ -44,10 +45,14 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
                 if (authService.unlockWhenTimeExpired(httpUserDetails)) {
                     exception = new LockedException("Votre compte a été débloqué. Veuillez réessayer.");
                 }
+                exception = new LockedException(
+                        "Votre compte est bloqué. Veuillez réessayer plus tard ou contactez un administrateur.");
             }
+        } else {
+            exception = new LockedException("Email ou mot de passe incorrect.");
         }
 
-        super.setDefaultFailureUrl("/login?loginError=true");
+        super.setDefaultFailureUrl("/login?login_error");
         super.onAuthenticationFailure(request, response, exception);
     }
 
