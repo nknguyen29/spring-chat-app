@@ -6,14 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 @Controller
-@PreAuthorize("hasAuthority('ROLE_USER')")
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class HomeController {
 
     @GetMapping("/")
     public String index() {
-        // return "home/index";
+        return "home/index";
         // return "demo";
-        return "layouts/master";
+        // return "home/index2";
     }
 
 }
