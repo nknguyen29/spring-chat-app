@@ -5,7 +5,10 @@
     <div class="px-2.5 py-4 lg:px-6 lg:pe-4">
         <div class="flex items-center justify-between flex-wrap gap-x-16 gap-y-3">
             <div th:replace="~{layouts/header/_header_logo :: header-logo}"></div>
-            <div th:replace="~{layouts/header/_header_user :: header-user}"></div>
+            <div class="sm:m-0 m-auto flex items-center flex-wrap gap-x-7 gap-y-2">
+                <div th:replace="~{layouts/header/_header_buttons :: header-buttons}"></div>
+                <div th:replace="~{layouts/header/_header_user :: header-user}"></div>
+            </div>
         </div>
     </div>
 </nav>

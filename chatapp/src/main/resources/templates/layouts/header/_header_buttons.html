@@ -1,0 +1,38 @@
+<div th:fragment="header-buttons">
+    <div class="m-auto flex items-center flex-wrap gap-x-3 gap-y-1.5">
+        <button
+            id="theme-toggle"
+            data-tooltip-target="tooltip-toggle"
+            type="button"
+            class="flex items-center justify-center px-2 py-1.5 bg-gray-100 text-slate-400 border border-transparent hover:text-amber-500 hover:bg-yellow-100 hover:border-amber-500 hover:border-dashed rounded-lg focus:outline-none focus:ring focus:ring-yellow-200 transition-colors duration-100"
+        >
+            <i id="theme-toggle-dark-icon" class="fa-solid fa-moon text-lg"></i>
+            <i id="theme-toggle-light-icon" class="fa-solid fa-sun hidden text-lg"></i>
+        </button>
+        <div
+            id="tooltip-toggle"
+            role="tooltip"
+            class="absolute z-10 invisible inline-block px-[0.625rem] py-[0.325rem] text-xs font-medium text-white transition-opacity duration-300 bg-slate-800 rounded-lg shadow-sm opacity-0 tooltip"
+        >
+            Changer de thème
+            <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+
+        <button
+            id="help-toggle"
+            data-tooltip-target="tooltip-help"
+            type="button"
+            class="flex items-center justify-center px-2 py-1.5 bg-gray-100 text-slate-400 border border-transparent hover:text-teal-500 hover:bg-teal-100 hover:border-teal-500 hover:border-dashed rounded-lg focus:outline-none focus:ring focus:ring-teal-200 transition-colors duration-100"
+        >
+            <i class="fa-solid fa-question text-lg"></i>
+        </button>
+        <div
+            id="tooltip-help"
+            role="tooltip"
+            class="absolute z-10 invisible inline-block px-[0.625rem] py-[0.325rem] text-xs font-medium text-white transition-opacity duration-300 bg-slate-800 rounded-lg shadow-sm opacity-0 tooltip"
+        >
+            Aide
+            <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+    </div>
+</div>
