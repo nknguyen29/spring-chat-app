@@ -1,17 +1,33 @@
-<div th:fragment="header-logo" class="sm:m-0 m-auto flex items-center justify-start md:me-24 flex-wrap gap-x-2 gap-y-1.5">
-    <button id="toggleSidebarMobile" aria-expanded="true" aria-controls="sidebar"
-        class="m-auto flex px-2 py-1.5 text-gray-600 bg-white rounded cursor-pointer lg:hidden transition duration-75 hover:text-gray-900 hover:bg-gray-100">
+<div
+    th:fragment="header-logo"
+    class="sm:m-0 m-auto flex items-center justify-start md:me-24 flex-wrap gap-x-2 gap-y-1.5"
+>
+    <button
+        id="toggleSidebarMobile"
+        aria-expanded="true"
+        data-drawer-target="sidebar"
+        data-drawer-toggle="sidebar"
+        aria-controls="sidebar"
+        type="button"
+        class="m-auto flex px-2 py-1.5 text-gray-600 bg-white rounded cursor-pointer lg:hidden transition duration-75 hover:text-gray-900 hover:bg-gray-100"
+    >
         <i id="toggleSidebarMobileHamburger" class="fa-solid fa-bars text-lg"></i>
         <i id="toggleSidebarMobileClose" class="fa-solid fa-times text-lg hidden"></i>
     </button>
-    
+
     <div class="m-auto flex flex-col items-end justify-center gap-y-0">
         <a th:href="@{/}" class="flex items-center flex-wrap gap-x-3 gap-y-1.5">
             <img th:src="@{/img/chat-svgrepo-com.svg}" alt="ChatApp Logo" class="m-auto w-8 h-8" />
-            <span class="sm:block hidden m-auto self-center text-slate-800 text-lg font-['ABC_Ginto_Nord_Unlicensed_Trial'] font-semibold sm:text-xl whitespace-nowrap -mt-1">Diskette</span>
+            <span
+                class="sm:block hidden m-auto self-center text-slate-800 text-lg font-['ABC_Ginto_Nord_Unlicensed_Trial'] font-semibold sm:text-xl whitespace-nowrap -mt-1"
+                >Diskette</span
+            >
         </a>
         <div class="-mt-3 sm:block hidden">
-            <span class="px-1.5 py-0.5 font-mono text-[0.6rem] font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg">--admin-v1.0</span>
+            <span
+                class="px-1.5 py-0.5 font-mono text-[0.6rem] font-semibold text-gray-800 bg-gray-100 border border-gray-200 rounded-lg"
+                >--admin-v[[#{app.version}]]</span
+            >
         </div>
     </div>
 </div>

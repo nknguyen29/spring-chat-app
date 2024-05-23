@@ -1,11 +1,22 @@
-<li th:fragment="navigation-link (icon, label, url, url_regex)"
-    th:with="is_active=${requestUri.matches(url_regex)}">
-    <a th:href="@{__${url}__}" th:classappend="${is_active} ? 'text-slate-800 bg-gray-100/75' : 'text-gray-500 hover:text-slate-800'"
-        class="flex items-center px-3 py-2 text-base transition duration-75 rounded-lg group hover:bg-gray-100/75">
-        <i class="text-lg text-gray-400 transition duration-75 group-hover:text-gray-500"
-                th:classappend="${is_active} ? 'text-slate-400' : 'text-zinc-300 group-hover:text-slate-400'"
-                th:class=" ${icon}"></i>
-        <span th:classappend="${is_active} ? 'font-semibold' : 'font-medium'"
-            class="ms-3  text-sm" sidebar-toggle-item th:text="${label}"></span>
+<li
+    th:fragment="navigation-link (icon, label, url, url_regex)"
+    th:with="is_active=${requestUri.matches(url_regex)}"
+>
+    <a
+        th:href="@{__${url}__}"
+        th:classappend="${is_active} ? 'text-slate-800 bg-gray-100' : 'text-gray-500 hover:text-slate-800'"
+        class="flex items-center px-3 py-2 text-base transition duration-75 rounded-lg group hover:bg-gray-100"
+    >
+        <i
+            class="text-lg text-gray-400 transition duration-75 group-hover:text-gray-500"
+            th:classappend="${is_active} ? 'text-slate-400' : 'text-zinc-300 group-hover:text-slate-400'"
+            th:class=" ${icon}"
+        ></i>
+        <span
+            th:classappend="${is_active} ? 'font-semibold' : 'font-medium'"
+            class="ms-3 text-sm"
+            sidebar-toggle-item
+            th:text="${label}"
+        ></span>
     </a>
 </li>

@@ -96,4 +96,12 @@ public class HttpUserDetails extends User {
         return !isAccountNonLocked();
     }
 
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
+
+    public String getInitials() {
+        return this.firstName.substring(0, 1) + this.lastName.substring(0, 1);
+    }
+
 }
