@@ -3,7 +3,7 @@ package fr.utc.sr03.chatapp.service;
 import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.mapper.UserMapper;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
-import fr.utc.sr03.chatapp.model.UserAddDTO;
+import fr.utc.sr03.chatapp.model.UserPostDTO;
 import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserListDTO;
 import fr.utc.sr03.chatapp.model.UserGetDTO;
@@ -103,6 +103,12 @@ public class UserService {
                 .orElseThrow(NotFoundException::new);
     }
 
+    public UserPostDTO edit(final Long id) {
+        return userRepository.findById(id)
+                .map(user -> userMapper.mapToDTO(user, new UserPostDTO()))
+                .orElseThrow(NotFoundException::new);
+    }
+
     // public UserPublicWithStatsDTO getPublicWithStats(final Long id) {
     //     return userRepository.findById(id)
     //             .map(user -> userMapper.mapToDTO(user, new UserPublicWithStatsDTO()))
@@ -121,19 +127,20 @@ public class UserService {
     //             .orElseThrow(NotFoundException::new);
     // }
 
-    public Long create(final UserAddDTO userDTO) {
+    public Long create(final UserPostDTO userDTO) {
         final User user = new User();
         userMapper.mapToEntity(userDTO, user);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         return userRepository.save(user).getId();
     }
 
-    // public void update(final Long id, final UserWithoutChatroomDTO userDTO) {
-    //     final User user = userRepository.findById(id)
-    //             .orElseThrow(NotFoundException::new);
-    //     userMapper.mapToEntity(userDTO, user);
-    //     userRepository.save(user);
-    // }
+    public void update(final Long id, final UserWithoutChatroomDTO userDTO) {
+        final User user = userRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        userMapper.mapToEntity(userDTO, user);
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        userRepository.save(user);
+    }
 
     public void delete(final Long id) {
         final User user = userRepository.findById(id)

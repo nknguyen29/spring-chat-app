@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import fr.utc.sr03.chatapp.domain.Chatroom;
 import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
-import fr.utc.sr03.chatapp.model.UserAddDTO;
+import fr.utc.sr03.chatapp.model.UserPostDTO;
 import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserGetDTO;
 import fr.utc.sr03.chatapp.model.UserListDTO;
@@ -98,7 +98,7 @@ public final class UserMapper {
         return userDTO;
     }
 
-    public UserAddDTO mapToDTO(final User user, final UserAddDTO userDTO) {
+    public UserPostDTO mapToDTO(final User user, final UserPostDTO userDTO) {
         userDTO.setId(user.getId());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
@@ -143,7 +143,7 @@ public final class UserMapper {
         return user;
     }
 
-    public User mapToEntity(final UserAddDTO userDTO, final User user) {
+    public User mapToEntity(final UserPostDTO userDTO, final User user) {
         user.setId(userDTO.getId());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());

@@ -3,7 +3,7 @@ package fr.utc.sr03.chatapp.controller;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
 import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserWithoutChatroomDTO;
-import fr.utc.sr03.chatapp.model.UserAddDTO;
+import fr.utc.sr03.chatapp.model.UserPostDTO;
 import fr.utc.sr03.chatapp.service.ChatroomService;
 import fr.utc.sr03.chatapp.service.UserService;
 import fr.utc.sr03.chatapp.util.WebUtils;
@@ -60,12 +60,12 @@ public class UserController {
     }
 
     @GetMapping("/add")
-    public String add(@ModelAttribute("user") final UserAddDTO userDTO) {
+    public String add(@ModelAttribute("user") final UserPostDTO userDTO) {
         return "user/add";
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute("user") @Valid final UserAddDTO userDTO,
+    public String add(@ModelAttribute("user") @Valid final UserPostDTO userDTO,
             final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "user/add";
@@ -83,22 +83,21 @@ public class UserController {
 
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable(name = "id") final Long id, final Model model) {
-        // model.addAttribute("user", userService.getWithoutChatroom(id));
-        // return "user/edit";
-        return "TODO";
+        model.addAttribute("user", userService.edit(id));
+        return "user/edit";
     }
 
-    // @PutMapping("/edit/{id}")
-    // public String edit(@PathVariable(name = "id") final Long id,
-    //         @ModelAttribute("user") @Valid final UserWithoutChatroomDTO userDTO, final BindingResult bindingResult,
-    //         final RedirectAttributes redirectAttributes) {
-    //     if (bindingResult.hasErrors()) {
-    //         return "user/edit";
-    //     }
-    //     userService.update(id, userDTO);
-    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.update.success"));
-    //     return "redirect:/users";
-    // }
+    @PostMapping("/{id}/edit")
+    public String update(@PathVariable(name = "id") final Long id,
+            @ModelAttribute("user") @Valid final UserWithoutChatroomDTO userDTO, final BindingResult bindingResult,
+            final RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "user/edit";
+        }
+        userService.update(id, userDTO);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.update.success"));
+        return "redirect:/users" + id;
+    }
 
     @GetMapping("/{id}/settings")
     public String settings(@PathVariable(name = "id") final Long id, final Model model) {
