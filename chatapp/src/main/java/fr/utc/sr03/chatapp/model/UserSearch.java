@@ -79,6 +79,18 @@ public class UserSearch {
         this.status = status;
     }
 
+    public Boolean isAdmin() {
+        return (role != null && role.equals("admin")) ? Boolean.TRUE
+                : (role != null && role.equals("user")) ? Boolean.FALSE
+                : null;
+    }
+
+    public Boolean isLocked() {
+        return (status != null && status.equals("locked")) ? Boolean.TRUE
+                : (status != null && status.equals("unlocked")) ? Boolean.FALSE
+                : null;
+    }
+
     @Override
     public String toString() {
         return "UserSearch{" +
