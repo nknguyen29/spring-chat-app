@@ -20,7 +20,11 @@
                         >
                     </a>
 
-                    <div class="my-2 max-w-xl min-w-md space-y-3">
+                    <div
+                        th:with="hasError=${param.login_error} or ${#fields.hasGlobalErrors()}"
+                        th:if="${hasError}"
+                        class="my-2 max-w-xl min-w-md space-y-3"
+                    >
                         <div th:if="${param.login_error}">
                             <div class="flex items-start px-5 pt-4 pb-3.5 border border-red-500 border-dashed rounded-lg bg-red-50 gap-4 m-auto flex-wrap gap-y-3.5"
                                 role="alert">
