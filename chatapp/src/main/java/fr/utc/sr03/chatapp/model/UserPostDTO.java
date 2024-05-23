@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 
-public class UserAddDTO {
+public class UserPostDTO {
 
     private Long id;
 
@@ -91,9 +91,13 @@ public class UserAddDTO {
         this.isLocked = isLocked;
     }
 
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
+
     @Override
     public String toString() {
-        return "UserAddDTO{" +
+        return "UserPostDTO{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +

@@ -143,6 +143,10 @@ public class UserGetDTO {
         this.chatrooms.remove(chatroom);
     }
 
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
+
     @Override
     public String toString() {
         return "UserGetDTO{" +
@@ -157,10 +161,6 @@ public class UserGetDTO {
                 ", lockedAt=" + lockedAt +
                 ", chatrooms=" + chatrooms +
                 '}';
-    }
-
-    public String getFullName() {
-        return this.firstName + " " + this.lastName;
     }
 
 }
