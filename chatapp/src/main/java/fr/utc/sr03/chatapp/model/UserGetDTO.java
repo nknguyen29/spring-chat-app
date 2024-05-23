@@ -147,6 +147,10 @@ public class UserGetDTO {
         return this.firstName + " " + this.lastName;
     }
 
+    public Long getChatroomCount() {
+        return Long.valueOf(this.chatrooms.size());
+    }
+
     @Override
     public String toString() {
         return "UserGetDTO{" +

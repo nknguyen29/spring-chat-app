@@ -35,6 +35,8 @@ public class UserPostDTO {
     @JsonProperty("isLocked")
     private Boolean isLocked;
 
+    private Long chatroomCount;
+
     public Long getId() {
         return id;
     }
@@ -91,6 +93,14 @@ public class UserPostDTO {
         this.isLocked = isLocked;
     }
 
+    public Long getChatroomCount() {
+        return chatroomCount;
+    }
+
+    public void setChatroomCount(final Long chatroomCount) {
+        this.chatroomCount = chatroomCount;
+    }
+
     public String getFullName() {
         return this.firstName + " " + this.lastName;
     }
@@ -105,6 +115,7 @@ public class UserPostDTO {
                 ", password='" + password + '\'' +
                 ", isAdmin=" + isAdmin +
                 ", isLocked=" + isLocked +
+                ", chatroomCount=" + chatroomCount +
                 '}';
     }
 

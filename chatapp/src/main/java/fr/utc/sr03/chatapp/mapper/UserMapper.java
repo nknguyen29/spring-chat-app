@@ -106,6 +106,7 @@ public final class UserMapper {
         userDTO.setPassword(user.getPassword());
         userDTO.setIsAdmin(user.getIsAdmin());
         userDTO.setIsLocked(user.getIsLocked());
+        userDTO.setChatroomCount(Long.valueOf(user.getChatrooms().size()));
         return userDTO;
     }
 
