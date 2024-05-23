@@ -147,6 +147,20 @@ public class UserService {
         userRepository.deleteAll();
     }
 
+    public void lock(final Long id) {
+        final User user = userRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        user.setIsLocked(true);
+        userRepository.save(user);
+    }
+
+    public void unlock(final Long id) {
+        final User user = userRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        user.setIsLocked(false);
+        userRepository.save(user);
+    }
+
     public boolean emailExists(final String email) {
         return userRepository.existsByEmailIgnoreCase(email);
     }
