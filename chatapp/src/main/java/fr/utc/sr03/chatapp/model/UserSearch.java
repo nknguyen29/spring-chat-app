@@ -7,21 +7,20 @@ public class UserSearch {
 
     private String search;
 
-    @Pattern(regexp = "lastName|firstName|email|role|status")
-    private String sortBy;
+    @Pattern(regexp = "id|lastName|firstName|email|role|status")
+    private String sortBy = "id";
 
     @Pattern(regexp = "asc|desc")
-    private String sortOrder;
+    private String sortOrder = "asc";
 
-    private Integer page;
-
-    private Integer size;
+    private Integer page = 0;
+    private Integer size = 10;
 
     @Pattern(regexp = "all|admin|user")
-    private String role;
+    private String role = "all";
 
     @Pattern(regexp = "all|locked|unlocked")
-    private String status;
+    private String status = "all";
 
     public String getSearch() {
         return search;
