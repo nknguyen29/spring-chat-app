@@ -31,7 +31,11 @@ public class AuthenticationService {
 
     public void increaseFailedAttempts(HttpUserDetails httpUserDetails) {
         final User user = userRepository.findByEmailIgnoreCase(httpUserDetails.getEmail());
-        user.setFailedConnectionAttempts(user.getFailedConnectionAttempts() + 1);
+        if (user.getFailedConnectionAttempts() == null) {
+            user.setFailedConnectionAttempts(1);
+        } else {
+            user.setFailedConnectionAttempts(user.getFailedConnectionAttempts() + 1);
+        }
         userRepository.save(user);
     }
 

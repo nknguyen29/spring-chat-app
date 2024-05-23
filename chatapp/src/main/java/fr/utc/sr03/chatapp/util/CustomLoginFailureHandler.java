@@ -33,7 +33,8 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 
         if (httpUserDetails != null) {
             if (httpUserDetails.isEnabled() && httpUserDetails.isAccountNonLocked()) {
-                if (httpUserDetails.getFailedConnectionAttempts() < AuthenticationService.MAX_FAILED_ATTEMPTS - 1) {
+                if (httpUserDetails.getFailedConnectionAttempts() != null && httpUserDetails
+                        .getFailedConnectionAttempts() < AuthenticationService.MAX_FAILED_ATTEMPTS - 1) {
                     authService.increaseFailedAttempts(httpUserDetails);
                     exception = new LockedException("Email ou mot de passe incorrect.");
                 } else {
@@ -44,9 +45,10 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
             } else if (!httpUserDetails.isAccountNonLocked()) {
                 if (authService.unlockWhenTimeExpired(httpUserDetails)) {
                     exception = new LockedException("Votre compte a été débloqué. Veuillez réessayer.");
+                } else {
+                    exception = new LockedException(
+                            "Votre compte est bloqué. Veuillez réessayer plus tard ou contactez un administrateur.");
                 }
-                exception = new LockedException(
-                        "Votre compte est bloqué. Veuillez réessayer plus tard ou contactez un administrateur.");
             }
         } else {
             exception = new LockedException("Email ou mot de passe incorrect.");
