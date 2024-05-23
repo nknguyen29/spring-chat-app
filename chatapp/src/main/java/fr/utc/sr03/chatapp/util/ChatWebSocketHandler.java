@@ -1,3 +1,5 @@
+package fr.utc.sr03.chatapp.util;
+
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -13,10 +15,12 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         sessions.add(session);
+        System.out.println("Connection established with session: " + session.getId());
     }
 
     @Override
     public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        System.out.println("Received message: " + message.getPayload() + " from session: " + session.getId());
         for (WebSocketSession s : sessions) {
             s.sendMessage(message);
         }
@@ -25,5 +29,7 @@ public class ChatWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         sessions.remove(session);
+        System.out.println("Connection closed with session: " + session.getId());
     }
 }
+

@@ -4,12 +4,12 @@ function Chat() {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [wsError, setWsError] = useState(null);
-    let socket;
+    const [ws, setWs] = useState(null);
 
     useEffect(() => {
-        try {
-            socket = new WebSocket('ws://localhost:8080/chat');
-            
+        const connectWebSocket = () => {
+            const socket = new WebSocket('ws://localhost:8080/chat');
+
             socket.onopen = () => {
                 console.log('Connected to the chat server');
                 setWsError(null);
@@ -26,27 +26,32 @@ function Chat() {
             };
 
             socket.onclose = () => {
-                console.log('WebSocket connection closed, hmmm pkoi?');
-                setWsError('WebSocket connection closed, hmmm pkoi?');
+                console.log('WebSocket connection closed');
+                setWsError('WebSocket connection closed');
+                // Retry connection
+                // setTimeout(connectWebSocket, 5000);
             };
-        } catch (error) {
-            console.error('WebSocket initialization failed:', error);
-            setWsError('WebSocket initialization failed');
-        }
+
+            setWs(socket);
+        };
+
+        connectWebSocket();
 
         return () => {
-            if (socket) {
-                socket.close();
+            if (ws) {
+                ws.close();
             }
         };
-    }, []);
+    }, [ws]);
 
     const sendMessage = () => {
-        if (socket && socket.readyState === WebSocket.OPEN) {
-            socket.send(input);
+        if (ws && ws.readyState === WebSocket.OPEN) {
+            console.log('Sending message:', input);
+            ws.send(input);
             setInput('');
         } else {
             console.error('WebSocket is not open');
+            setWsError('WebSocket is not open');
         }
     };
 
@@ -55,6 +60,7 @@ function Chat() {
             <h1>Chat</h1>
             {wsError && <p style={{ color: 'red' }}>{wsError}</p>}
             <div id="chat-window">
+                <h2>Received Messages</h2>
                 {messages.map((msg, index) => (
                     <div key={index}>{msg}</div>
                 ))}
