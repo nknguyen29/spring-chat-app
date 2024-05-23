@@ -8,6 +8,8 @@ import fr.utc.sr03.chatapp.service.ChatroomService;
 import fr.utc.sr03.chatapp.service.UserService;
 import fr.utc.sr03.chatapp.util.WebUtils;
 import jakarta.validation.Valid;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/users")
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class UserController {
 
     private final UserService userService;
@@ -96,7 +99,7 @@ public class UserController {
     //     return "redirect:/users";
     // }
 
-    @DeleteMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String delete(@PathVariable(name = "id") final Long id,
             final RedirectAttributes redirectAttributes) {
         userService.delete(id);
@@ -104,27 +107,12 @@ public class UserController {
         return "redirect:/users";
     }
 
-    // @GetMapping("/chatrooms/{id}")
-    // public String chatrooms(@PathVariable(name = "id") final Long id, final Model model) {
-    //     model.addAttribute("user", userService.getPublic(id));
-    //     return "user/chatrooms";
-    // }
-
-    // @GetMapping("/chatrooms/{id}/edit")
-    // public String editChatrooms(@PathVariable(name = "id") final Long id, final Model model) {
-    //     model.addAttribute("user", userService.getPublic(id));
-    //     model.addAttribute("chatrooms", chatroomService.findAllWithoutUser());
-    //     return "user/edit-chatrooms";
-    // }
-
-    // @PutMapping("/chatrooms/{id}/edit")
-    // public String editChatrooms(@PathVariable(name = "id") final Long id,
-    //         @ModelAttribute("user") final UserDTO userDTO, @ModelAttribute("chatrooms") final List<ChatroomWithoutUserDTO> chatrooms,
-    //         final RedirectAttributes redirectAttributes) {
-    //     userService.updateChatrooms(id, userDTO, chatrooms);
-    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.chatrooms.update.success"));
-    //     return "redirect:/users";
-    // }
+    @PostMapping("/delete-all")
+    public String deleteAll(final RedirectAttributes redirectAttributes) {
+        userService.deleteAll();
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.deleteAll.success"));
+        return "redirect:/users";
+    }
 
     // @GetMapping("/__debug")
     // public String debug(final Model model) {

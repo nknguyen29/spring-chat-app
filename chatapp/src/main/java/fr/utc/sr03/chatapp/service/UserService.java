@@ -22,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 @Transactional
@@ -31,14 +32,17 @@ public class UserService {
     private final ChatroomUserRepository chatroomUserRepository;
 
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public UserService(final UserRepository userRepository,
             final ChatroomUserRepository chatroomUserRepository,
-            final UserMapper userMapper) {
+            final UserMapper userMapper,
+            final PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.chatroomUserRepository = chatroomUserRepository;
 
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<UserDTO> findAll() {
@@ -120,6 +124,7 @@ public class UserService {
     public Long create(final UserAddDTO userDTO) {
         final User user = new User();
         userMapper.mapToEntity(userDTO, user);
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         return userRepository.save(user).getId();
     }
 
@@ -136,6 +141,10 @@ public class UserService {
         // remove many-to-many relations at owning side
         user.getChatroomUsers().forEach(chatroomUserRepository::delete);
         userRepository.delete(user);
+    }
+
+    public void deleteAll() {
+        userRepository.deleteAll();
     }
 
     public boolean emailExists(final String email) {
