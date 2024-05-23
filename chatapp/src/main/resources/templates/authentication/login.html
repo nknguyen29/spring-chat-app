@@ -21,8 +21,7 @@
                     </a>
 
                     <div
-                        th:with="hasError=${param.login_error} or ${#fields.hasGlobalErrors()}"
-                        th:if="${hasError}"
+                        th:if="${param.login_error} or ${#fields.hasGlobalErrors()}"
                         class="my-2 max-w-xl min-w-md space-y-3"
                     >
                         <div th:if="${param.login_error}">
