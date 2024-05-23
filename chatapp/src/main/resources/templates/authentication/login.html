@@ -20,30 +20,29 @@
                         >
                     </a>
 
-                    <div
-                        th:if="${param.login_error} or ${#fields.hasGlobalErrors()}"
-                        class="my-2 max-w-xl min-w-md space-y-3"
-                    >
-                        <div th:if="${param.login_error}">
-                            <div class="flex items-start px-5 pt-4 pb-3.5 border border-red-500 border-dashed rounded-lg bg-red-50 gap-4 m-auto flex-wrap gap-y-3.5"
-                                role="alert">
-                                <i class="fa-solid fa-exclamation-circle text-red-500 text-2xl"></i>
-                                <div class="flex flex-col gap-0.5 -mt-1">
-                                    <span class="font-semibold text-xl text-gray-800">Oops!</span>
-                                    <span class="text-gray-800">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</span>
+                    <div th:object="${authentication}" th:remove="tag">
+                        <div
+                            th:if="${param.login_error} or ${#fields.hasGlobalErrors()}"
+                            class="my-2 max-w-xl min-w-md space-y-3"
+                        >
+                            <div th:if="${param.login_error}">
+                                <div class="flex items-start px-5 pt-4 pb-3.5 border border-red-500 border-dashed rounded-lg bg-red-50 gap-4 m-auto flex-wrap gap-y-3.5"
+                                    role="alert">
+                                    <i class="fa-solid fa-exclamation-circle text-red-500 text-2xl"></i>
+                                    <div class="flex flex-col gap-0.5 -mt-1">
+                                        <span class="font-semibold text-xl text-gray-800">Oops!</span>
+                                        <span class="text-gray-800">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!--/*-->
-                        <div th:object="${authentication}" th:remove="tag">
+                            <!--/*-->
                             <div th:if="${#fields.hasGlobalErrors()}">
                                 <div
                                     class="flex items-start px-5 pt-4 pb-3.5 border border-red-500 border-dashed rounded-lg bg-red-50 gap-4 m-auto flex-wrap gap-y-3.5">
                                     <i class="fa-solid fa-exclamation-circle text-red-500 text-2xl"></i>
                                     <div class="flex flex-col gap-1 -mt-1">
-                                        <span class="font-semibold text-gray-800">Oh non! Une erreur s'est
-                                            produite.</span>
+                                        <span class="font-semibold text-gray-800">Oh non! Une erreur s'est produite.</span>
                                         <div class="flex flex-col">
                                             <div th:each="globalError : ${#fields.globalErrors()}" class="font-medium text-sm">
                                                 <span class="text-red-500 me-1">•&nbsp;</span
@@ -53,8 +52,8 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--*/-->
                         </div>
-                        <!--*/-->
                     </div>
 
                     <div class="w-full bg-white rounded-lg shadow md:mt-0 md:max-w-2xl xl:p-0 max-w-xl">

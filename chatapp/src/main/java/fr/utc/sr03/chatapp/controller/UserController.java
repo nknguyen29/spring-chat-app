@@ -70,9 +70,9 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "user/add";
         }
-        userService.create(userDTO);
+        final Long id = userService.create(userDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.create.success"));
-        return "redirect:/users";
+        return "redirect:/users/" + id;
     }
 
     @GetMapping("/{id}")
@@ -81,11 +81,12 @@ public class UserController {
         return "user/view";
     }
 
-    // @GetMapping("/edit/{id}")
-    // public String edit(@PathVariable(name = "id") final Long id, final Model model) {
-    //     model.addAttribute("user", userService.getWithoutChatroom(id));
-    //     return "user/edit";
-    // }
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable(name = "id") final Long id, final Model model) {
+        // model.addAttribute("user", userService.getWithoutChatroom(id));
+        // return "user/edit";
+        return "TODO";
+    }
 
     // @PutMapping("/edit/{id}")
     // public String edit(@PathVariable(name = "id") final Long id,
@@ -99,7 +100,13 @@ public class UserController {
     //     return "redirect:/users";
     // }
 
-    @PostMapping("/delete/{id}")
+    @GetMapping("/{id}/settings")
+    public String settings(@PathVariable(name = "id") final Long id, final Model model) {
+        model.addAttribute("user", userService.get(id));
+        return "user/settings";
+    }
+
+    @PostMapping("/{id}/delete")
     public String delete(@PathVariable(name = "id") final Long id,
             final RedirectAttributes redirectAttributes) {
         userService.delete(id);
@@ -112,6 +119,20 @@ public class UserController {
         userService.deleteAll();
         redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.deleteAll.success"));
         return "redirect:/users";
+    }
+
+    @PostMapping("/{id}/lock")
+    public String lock(@PathVariable(name = "id") final Long id, final RedirectAttributes redirectAttributes) {
+        userService.lock(id);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.lock.success"));
+        return "redirect:/users/{id}";
+    }
+
+    @PostMapping("/{id}/unlock")
+    public String unlock(@PathVariable(name = "id") final Long id, final RedirectAttributes redirectAttributes) {
+        userService.unlock(id);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.unlock.success"));
+        return "redirect:/users/{id}";
     }
 
     // @GetMapping("/__debug")
