@@ -89,14 +89,14 @@ public class UserController {
 
     @PostMapping("/{id}/edit")
     public String update(@PathVariable(name = "id") final Long id,
-            @ModelAttribute("user") @Valid final UserWithoutChatroomDTO userDTO, final BindingResult bindingResult,
+            @ModelAttribute("user") @Valid final UserPostDTO userDTO, final BindingResult bindingResult,
             final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "user/edit";
         }
         userService.update(id, userDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.update.success"));
-        return "redirect:/users" + id;
+        return "redirect:/users/{id}";
     }
 
     @GetMapping("/{id}/settings")

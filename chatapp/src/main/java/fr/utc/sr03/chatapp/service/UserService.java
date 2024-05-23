@@ -109,24 +109,6 @@ public class UserService {
                 .orElseThrow(NotFoundException::new);
     }
 
-    // public UserPublicWithStatsDTO getPublicWithStats(final Long id) {
-    //     return userRepository.findById(id)
-    //             .map(user -> userMapper.mapToDTO(user, new UserPublicWithStatsDTO()))
-    //             .orElseThrow(NotFoundException::new);
-    // }
-
-    // public UserWithoutChatroomDTO getWithoutChatroom(final Long id) {
-    //     return userRepository.findById(id)
-    //             .map(user -> userMapper.mapToDTO(user, new UserWithoutChatroomDTO()))
-    //             .orElseThrow(NotFoundException::new);
-    // }
-
-    // public UserPublicDTO getPublic(final Long id) {
-    //     return userRepository.findById(id)
-    //             .map(user -> userMapper.mapToDTO(user, new UserPublicDTO()))
-    //             .orElseThrow(NotFoundException::new);
-    // }
-
     public Long create(final UserPostDTO userDTO) {
         final User user = new User();
         userMapper.mapToEntity(userDTO, user);
@@ -134,7 +116,7 @@ public class UserService {
         return userRepository.save(user).getId();
     }
 
-    public void update(final Long id, final UserWithoutChatroomDTO userDTO) {
+    public void update(final Long id, final UserPostDTO userDTO) {
         final User user = userRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         userMapper.mapToEntity(userDTO, user);

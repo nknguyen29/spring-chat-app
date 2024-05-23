@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <form th:action="@{/users/add}" method="post">
+    <form th:action="@{__${requestUri}__}" method="post">
         <div class="grid gap-6 mb-6 md:grid-cols-2">
             <div>
                 <label for="firstName" class="block mb-2 text-sm font-medium text-slate-800">Prénom</label>
@@ -92,8 +92,9 @@
         </div>
         <div class="w-1/2 flex items-center justify-center mx-auto pt-6">
             <button type="submit"
-                class="w-full flex items-center justify-center px-3 py-2 text-sm font-medium text-slate-600 bg-gray-100/75 focus:outline-none hover:text-white hover:bg-blue-500 rounded-lg transition-colors duration-150 space-x-3 focus:ring focus:ring-blue-300">
-                Créer un utilisateur
+                class="w-full flex items-center justify-center px-3 py-2 text-sm text-slate-600 bg-gray-100/75 focus:outline-none hover:text-white hover:bg-blue-500 rounded-lg transition-colors duration-150 space-x-2.5 focus:ring focus:ring-blue-300">
+                <i class="fa-solid fa-save"></i>
+                <span class="font-medium">Enregistrer</span>
             </button>
         </div>
     </form>
