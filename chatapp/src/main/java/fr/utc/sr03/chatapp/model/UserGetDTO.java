@@ -159,4 +159,8 @@ public class UserGetDTO {
                 '}';
     }
 
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
+
 }
