@@ -4,6 +4,7 @@ import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
 import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserWithoutChatroomDTO;
 import fr.utc.sr03.chatapp.model.UserPostDTO;
+import fr.utc.sr03.chatapp.model.UserSearch;
 import fr.utc.sr03.chatapp.service.ChatroomService;
 import fr.utc.sr03.chatapp.service.UserService;
 import fr.utc.sr03.chatapp.util.WebUtils;
@@ -38,24 +39,9 @@ public class UserController {
     }
 
     @GetMapping
-    public String list(
-        @RequestParam(name = "search", required = false) final String search,
-        @RequestParam(name = "sort_by", required = false, defaultValue = "id") final String sortBy,
-        @RequestParam(name = "sort_order", required = false, defaultValue = "asc") final String sortOrder,
-        @RequestParam(name = "page", required = false, defaultValue = "0") final Integer page,
-        @RequestParam(name = "size", required = false, defaultValue = "10") final Integer size,
-        @RequestParam(name = "is_admin", required = false) final Boolean isAdmin,
-        @RequestParam(name = "is_locked", required = false) final Boolean isLocked,
-        final Model model
-    ) {
-        model.addAttribute("users", userService.search(search, sortBy, sortOrder, page, size, isAdmin, isLocked));
-        model.addAttribute("search", search);
-        model.addAttribute("sortBy", sortBy);
-        model.addAttribute("sortOrder", sortOrder);
-        model.addAttribute("page", page);
-        model.addAttribute("size", size);
-        model.addAttribute("isAdmin", isAdmin);
-        model.addAttribute("isLocked", isLocked);
+    public String list(@Valid final UserSearch userSearch, final Model model) {
+        model.addAttribute("users", userService.findAll(userSearch));
+        model.addAttribute("userSearch", userSearch);
         return "user/list";
     }
 

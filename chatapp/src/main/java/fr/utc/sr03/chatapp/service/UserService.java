@@ -4,6 +4,7 @@ import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.mapper.UserMapper;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
 import fr.utc.sr03.chatapp.model.UserPostDTO;
+import fr.utc.sr03.chatapp.model.UserSearch;
 import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserListDTO;
 import fr.utc.sr03.chatapp.model.UserGetDTO;
@@ -52,16 +53,17 @@ public class UserService {
                 .toList();
     }
 
-    public Page<UserListDTO> search(
-            final String search,
-            final String sortBy,
-            final String sortOrder,
-            final Integer page,
-            final Integer size,
-            final Boolean isAdmin,
-            final Boolean isLocked
-    ) {
+    public Page<UserListDTO> findAll(final UserSearch userSearch) {
+        final String search = userSearch.getSearch();
+        final String sortBy = userSearch.getSortBy();
+        final String sortOrder = userSearch.getSortOrder();
+        final Integer page = userSearch.getPage();
+        final Integer size = userSearch.getSize();
+        final Boolean isAdmin = userSearch.isAdmin();
+        final Boolean isLocked = userSearch.isLocked();
+
         final Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortOrder), sortBy));
+
         if (search == null || search.isBlank()) {
             if (isAdmin == null && isLocked == null) {
                 return userRepository.findAll(pageable)
