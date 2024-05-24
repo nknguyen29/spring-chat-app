@@ -1,0 +1,55 @@
+<div th:fragment="table">
+    <div class="overflow-x-auto rounded-lg  border border-gray-100">
+        <table class="w-full text-sm text-left">
+            <thead class="text-xs text-slate-500 uppercase bg-white ">
+                <tr>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Id</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Nom</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Prénom</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Adresse email</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Rôle</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Statut</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Date de création</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Dernière connexion</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Nb. salons</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">
+                        <span class="sr-only">Actions</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}" class="odd:bg-gray-50/50 ">
+                    <th scope="row" class="px-4 py-3 font-medium text-slate-800 whitespace-nowrap ">[[${user.id}]]</th>
+                    <th scope="row" class="px-4 py-3 font-medium text-slate-800 whitespace-nowrap ">[[${user.lastName}]]</th>
+                    <th scope="row" class="px-4 py-3 font-medium text-slate-800 whitespace-nowrap ">[[${user.firstName}]]</th>
+                    <th scope="row" class="px-4 py-3 font-medium text-slate-800 whitespace-nowrap ">[[${user.lastName}]]</th>
+                    <th scope="row" class="px-4 py-3 font-medium text-slate-800 whitespace-nowrap ">[[${user.email}]]</th>
+                    <td class="px-4 py-3">[[${user.isAdmin}]]</td>
+                    <td class="px-4 py-3">[[${user.isLocked}]]</td>
+                    <td class="px-4 py-3">[[${user.createdAt}]]</td>
+                    <td class="px-4 py-3">[[${user.lastConnection}]]</td>
+                    <td class="px-4 py-3">[[${user.chatroomCount}]]</td>
+                    <td class="px-4 py-3 flex items-center justify-end gap-x-2.5 gap-y-2 flex-wrap">
+                        <a href="#" class="bg-gray-100/75 font-medium px-2.5 py-1.5 rounded-lg flex items-center justify-center text-blue-500 hover:bg-gray-100 hover:text-blue-600 
+                            transition-colors duration-75 border border-gray-100
+                        ">
+                            <i class="w-3.5 h-3.5 fa-solid fa-eye"></i>
+                        </a>
+                        <a href="#" class="bg-gray-100/75 font-medium px-2.5 py-1.5 rounded-lg flex items-center justify-center text-blue-500 hover:bg-gray-100 hover:text-blue-600 
+                        transition-colors duration-75 border border-gray-100
+                        ">
+                            <i class="w-3.5 h-3.5 fa-solid fa-edit"></i>
+                        </a>
+                        <a href="#" class="bg-gray-100/75 font-medium px-2.5 py-1.5 rounded-lg flex items-center justify-center text-red-500 hover:bg-gray-100 hover:text-red-600 
+                        transition-colors duration-75 border border-gray-100
+                        ">
+                            <i class="w-3.5 h-3.5 fa-solid fa-trash"></i>
+                        </a>
+                        <a href="#" class="text-gray-500 hover:text-gray-600 focus:ring-4 focus:ring-gray-300 font-medium text-xs px-2 py-1 focus:outline-none">Bloquer</a>
+                        <a href="#" class="text-green-500 hover:text-green-600 focus:ring-4 focus:ring-green-300 font-medium text-xs px-2 py-1 focus:outline-none">Débloquer</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
