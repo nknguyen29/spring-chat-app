@@ -7,11 +7,10 @@ public class UserSearch {
 
     private String search;
 
-    @Pattern(regexp = "id|lastName|firstName|email|role|status")
+    @Pattern(regexp = "id|lastName|firstName|email|createdAt|lastConnection")
     private String sortBy = "id";
 
-    @Pattern(regexp = "asc|desc")
-    private String sortOrder = "asc";
+    private Boolean sortDesc = Boolean.FALSE;
 
     private Integer page = 0;
     private Integer size = 10;
@@ -38,12 +37,12 @@ public class UserSearch {
         this.sortBy = sortBy;
     }
 
-    public String getSortOrder() {
-        return sortOrder;
+    public Boolean getSortDesc() {
+        return sortDesc;
     }
 
-    public void setSortOrder(final String sortOrder) {
-        this.sortOrder = sortOrder;
+    public void setSortDesc(final Boolean sortDesc) {
+        this.sortDesc = sortDesc;
     }
 
     public Integer getPage() {
@@ -78,16 +77,20 @@ public class UserSearch {
         this.status = status;
     }
 
+    public String getSortOrder() {
+        return sortDesc ? "desc" : "asc";
+    }
+
     public Boolean isAdmin() {
         return (role != null && role.equals("admin")) ? Boolean.TRUE
                 : (role != null && role.equals("user")) ? Boolean.FALSE
-                : null;
+                        : null;
     }
 
     public Boolean isLocked() {
         return (status != null && status.equals("locked")) ? Boolean.TRUE
                 : (status != null && status.equals("unlocked")) ? Boolean.FALSE
-                : null;
+                        : null;
     }
 
     @Override
@@ -95,7 +98,7 @@ public class UserSearch {
         return "UserSearch{" +
                 "search='" + search + '\'' +
                 ", sortBy='" + sortBy + '\'' +
-                ", sortOrder='" + sortOrder + '\'' +
+                ", sortOrder='" + getSortOrder() + '\'' +
                 ", page=" + page +
                 ", size=" + size +
                 ", role='" + role + '\'' +

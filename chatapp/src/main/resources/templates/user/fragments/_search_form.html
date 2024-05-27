@@ -58,7 +58,7 @@
                     <div class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
                         <div class="px-6 pt-4 pb-6 space-y-5">
                             <div class="space-y-2">
-                                <label class="form-label font-medium text-slate-800" for="is_admin">Rôle :</label>
+                                <label class="form-label font-medium text-slate-800" for="role">Rôle :</label>
                                 <select id="role" name="role" th:field="*{userSearch.role}" form="searchForm"
                                 class="bg-gray-100 border border-none text-slate-500 text-sm rounded-lg focus:bg-gray-200/75 focus:ring-0 block w-full px-4 py-2.5 font-medium">
                                     <option th:value="all">Tous</option>
@@ -67,7 +67,7 @@
                                 </select>
                             </div>
                             <div class="space-y-2">
-                                <label class="form-label font-medium text-slate-800" for="is_admin">Statut :</label>
+                                <label class="form-label font-medium text-slate-800" for="status">Statut :</label>
                                 <select id="status" name="status" th:field="*{userSearch.status}" form="searchForm"
                                 class="bg-gray-100 border border-none text-slate-500 text-sm rounded-lg focus:bg-gray-200/75 focus:ring-0 block w-full px-4 py-2.5 font-medium">
                                     <option th:value="all">Tous</option>
@@ -91,17 +91,20 @@
                     <div class="space-y-2 text-sm" aria-labelledby="sortDropdownButton">
                         <form action="#" method="POST" class="px-6 pt-4 pb-6 space-y-5">
                             <div class="space-y-2">
-                                <label class="form-label font-medium text-slate-800" for="sortRole">Trier par :</label>
-                                <select id="sortRole" name="sortRole" class="bg-gray-100 border border-none text-slate-500 text-sm rounded-lg focus:bg-gray-200/75 focus:ring-0 block w-full px-4 py-2.5 font-medium">
-                                    <option value="asc">Nom</option>
-                                    <option value="desc">Prénom</option>
-                                    <option value="desc">Email</option>
-                                    <option value="desc">Date de création</option>
-                                    <option value="desc">Derière connexion</option>
+                                <label class="form-label font-medium text-slate-800" for="sortBy">Trier par :</label>
+                                <select id="sortBy" name="sortBy" th:field="*{userSearch.sortBy}" form="searchForm"
+                                class="bg-gray-100 border border-none text-slate-500 text-sm rounded-lg focus:bg-gray-200/75 focus:ring-0 block w-full px-4 py-2.5 font-medium">
+                                    <option th:value="id">Id</option>
+                                    <option th:value="lastName">Nom</option>
+                                    <option th:value="firstName">Prénom</option>
+                                    <option th:value="email">Email</option>
+                                    <option th:value="createdAt">Date de création</option>
+                                    <option th:value="lastConnection">Derière connexion</option>
                                 </select>
                             </div>
                             <label class="inline-flex items-center mb-5 cursor-pointer">
-                                <input type="checkbox" value="" class="sr-only peer" checked>
+                                <input type="checkbox" name="sortAsc" th:field="*{userSearch.sortDesc}" 
+                                form="searchForm" class="sr-only peer" />
                                 <div class="relative w-9 h-5 bg-gray-200/75 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-blue-500 peer-checked:after:start-[1px] after:content-[''] after:absolute after:top-[2px] after:start-[0.175rem] after:bg-white after:border-gray-200/75 after:border after:rounded-full after:w-4 after:h-4 after:transition-all peer-checked:bg-blue-500"></div>
                                 <span class="ms-3 text-sm font-medium text-slate-500">Descendant</span>
                             </label>
