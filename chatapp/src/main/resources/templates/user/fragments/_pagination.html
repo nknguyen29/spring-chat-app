@@ -39,7 +39,7 @@
         NbPremier ?: [[${users.isFirst}]]
 
 
-        <ul class="flex items-center justify-center space-x-2 text-sm font-medium flex-wrap">
+        <ul class="flex items-center justify-center gap-x-2 gap-y-1 text-sm font-medium flex-wrap">
             <li th:if="${users.hasPrevious()}">
                 <a th:with="prevPage=${users.number - 1}"
                 th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', prevPage).build().toUriString()} }"
@@ -56,7 +56,7 @@
             <li>
                 <a th:with="currentPage=${users.number}, targetPage=0"
                 th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', targetPage).build().toUriString()} }"
-                class="flex items-center aspect-square justify-center px-3 py-1.5 rounded-lg text-base"
+                class="flex items-center justify-center px-3 py-1.5 rounded-lg text-base"
                 th:classappend="${currentPage == targetPage} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
                 [[${targetPage}]]
                 </a>
@@ -66,7 +66,7 @@
                 <li th:each="page : ${#numbers.sequence(1, users.totalPages - 2)}">
                     <a th:with="currentPage=${users.number}, targetPage=${page}"
                     th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', targetPage).build().toUriString()} }"
-                    class="flex items-center aspect-square justify-center px-3 py-1.5 rounded-lg text-base"
+                    class="flex items-center justify-center px-3 py-1.5 rounded-lg text-base"
                     th:classappend="${currentPage == targetPage} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
                     [[${targetPage}]]
                     </a>
@@ -76,7 +76,7 @@
             <li>
                 <a th:with="currentPage=${users.number}, targetPage=${users.totalPages - 1}"
                 th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', targetPage).build().toUriString()} }"
-                class="flex items-center aspect-square justify-center px-3 py-1.5 rounded-lg text-base"
+                class="flex items-center justify-center px-3 py-1.5 rounded-lg text-base"
                 th:classappend="${currentPage == targetPage} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
                 [[${targetPage}]]
                 </a>
