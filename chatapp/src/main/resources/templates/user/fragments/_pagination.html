@@ -37,24 +37,26 @@
             </li>
 
             <li th:if="${currentPage > delta}">
-                <div class="flex items-center justify-center px-2.5 py-2.5 text-gray-500 bg-white rounded-s-lg rounded-e-sm -me-0.5">
+                <div class="flex items-center justify-center px-2 py-1 text-gray-500 bg-white rounded-lg -me-0.5 font-semibold">
                     &hellip;
                 </div>
             </li>
 
-            <th:block th:each="page, iterStat : ${users}">
-                <li th:if="${iterStat.index >= currentPage - delta and iterStat.index <= currentPage + delta}">
+            <th:block th:each="page : ${#numbers.sequence(0, users.totalPages - 1)}">
+                <li th:if="${page >= currentPage - delta and page <= currentPage + delta}">
                     <a 
-                    th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', iterStat.index).build().toUriString()} }"
+                    th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', page).build().toUriString()} }"
                     class="flex items-center justify-center px-3 py-1.5 rounded-lg text-base"
-                    th:classappend="${currentPage == iterStat.index} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
-                        [[${iterStat.index + 1}]]
+                    th:classappend="${currentPage == page} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
+                        [[${page + 1}]]
                     </a>
                 </li>
             </th:block>
 
             <li th:if="${currentPage < users.totalPages - delta - 1}">
-                ...
+                <div class="flex items-center justify-center px-2 py-1 text-gray-500 bg-white rounded-lg -ms-0.5 font-semibold">
+                    &hellip;
+                </div>
             </li>
 
             <li th:if="${users.hasNext()}">
