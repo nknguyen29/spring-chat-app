@@ -1,13 +1,8 @@
-import React from 'react';
-import UserList from './components/UserList';
-import Chat from './components/Chat';
+import Login from './components/Login';
 
 function App() {
     return (
-        <div>
-            <UserList />
-            <Chat />
-        </div>
+        <Login/>
     );
 }
 
