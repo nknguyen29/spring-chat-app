@@ -12,57 +12,17 @@
                 <span class="text-sm font-medium text-gray-400 leading-6"
                 th:with="start=${users.size} * (${users.number}) + 1, end=${T(java.lang.Math).min(__${users.size}__ * __${users.number}__ + __${users.size}__, __${users.totalElements}__)}">
                     Affichage de
-                    <span class="font-semibold text-gray-500 dark:text-white">[[${start}]]</span>
+                    <span class="font-semibold text-gray-500">[[${start}]]</span>
                     à
-                    <span class="font-semibold text-gray-500 dark:text-white">[[${end}]]</span>
+                    <span class="font-semibold text-gray-500">[[${end}]]</span>
                     sur
-                    <span class="font-semibold text-gray-500 dark:text-white">[[${users.totalElements}]]</span>
+                    <span class="font-semibold text-gray-500">[[${users.totalElements}]]</span>
                     éléments
                 </span>
         </div>
 
-        <ul class="pager" th:with="currentPage=${users.number}">
-            <span th:unless="${currentPage == 0}">
-                <li><a title="First Page"
-                    href="#"
-                    >&laquo;</a>
-                </li>
-                <li>
-                    <a title="Previous Page"
-                    href="#"
-                    >&lsaquo;</a>
-                </li>
-                <li th:if="${currentPage>3}">
-                    <a title="Previous Pages" 
-                    href="#"
-                    >...</a>
-                </li>
-            </span>
-            <li th:each="page,i:${users}" th:class="${i.index==currentPage?'active':''}"  th:if="${i.index > currentPage-4 AND i.index < currentPage+4}" >
-                <a 
-                href="#"
-                th:text="${i.index+1}"> </a>
-            </li>
-            
-            <span th:unless="${currentPage == users.totalPages-1 || users.totalPages == 0}" >
-                <li th:if="${currentPage+4<users.totalPages}">
-                    <a title="Next Pages" 
-                    href="#"
-                    >...</a>
-                </li>
-                <li><a title="Next Page"
-                    href="#"
-                    >&rsaquo;</a>
-                </li>
-                <li><a 
-                    href="#"
-                    title="Last Page">&raquo;</a>
-                </li>
-            </span>
-        </ul>
-
-
-        <ul class="flex items-center justify-center gap-x-2 gap-y-1 text-sm font-medium flex-wrap">
+        <ul class="flex items-center justify-center gap-x-2 gap-y-1 text-sm font-medium flex-wrap" 
+        th:with="currentPage=${users.number}, delta=2">
             <li th:if="${users.hasPrevious()}">
                 <a th:with="prevPage=${users.number - 1}"
                 th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', prevPage).build().toUriString()} }"
@@ -76,41 +36,25 @@
                 </div>
             </li>
 
-            <li>
-                <a th:with="currentPage=${users.number}, targetPage=0"
-                th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', targetPage).build().toUriString()} }"
-                class="flex items-center justify-center px-3 py-1.5 rounded-lg text-base"
-                th:classappend="${currentPage == targetPage} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
-                [[${targetPage + 1}]]
-                </a>
+            <li th:if="${currentPage > delta}">
+                <div class="flex items-center justify-center px-2.5 py-2.5 text-gray-500 bg-white rounded-s-lg rounded-e-sm -me-0.5">
+                    &hellip;
+                </div>
             </li>
 
-            <div th:if="${users.totalPages > 1}" th:remove="tag">
-                <th:block th:each="page : ${#numbers.sequence(1, users.totalPages - 2)}">
-                    <li th:if="${page >= users.number - 1 and page <= users.number + 1}">
-                        <a th:with="currentPage=${users.number}, targetPage=${page}"
-                        th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', targetPage).build().toUriString()} }"
-                        class="flex items-center justify-center px-3 py-1.5 rounded-lg text-base"
-                        th:classappend="${currentPage == targetPage} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
-                        [[${targetPage + 1}]]
-                        </a>
-                        <th:block th:with="hasJump=${false}"></th:block>
-                    </li>
-                    <th:block th:if="${page < users.number - 1 or page > users.number + 1}">
-                        <li>
-                            ...
-                        </li>
-                    </th:block>
-                </th:block>
-            </div>
+            <th:block th:each="page, iterStat : ${users}">
+                <li th:if="${iterStat.index >= currentPage - delta and iterStat.index <= currentPage + delta}">
+                    <a 
+                    th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', iterStat.index).build().toUriString()} }"
+                    class="flex items-center justify-center px-3 py-1.5 rounded-lg text-base"
+                    th:classappend="${currentPage == iterStat.index} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
+                        [[${iterStat.index + 1}]]
+                    </a>
+                </li>
+            </th:block>
 
-            <li>
-                <a th:with="currentPage=${users.number}, targetPage=${users.totalPages - 1}"
-                th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', targetPage).build().toUriString()} }"
-                class="flex items-center justify-center px-3 py-1.5 rounded-lg text-base"
-                th:classappend="${currentPage == targetPage} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
-                [[${targetPage + 1}]]
-                </a>
+            <li th:if="${currentPage < users.totalPages - delta - 1}">
+                ...
             </li>
 
             <li th:if="${users.hasNext()}">
@@ -125,7 +69,6 @@
                     <i class="w-3 h-3 fa-solid fa-chevron-right"></i>
                 </div>
             </li>
-
         </ul>
 
     </nav>
