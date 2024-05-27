@@ -41,39 +41,65 @@
 
     <nav aria-label="Pagination">
         <ul class="flex items-center justify-center space-x-2 text-sm font-medium flex-wrap">
-            <th:block>
-                <div th:if="${users.hasPrevious()}" th:remove="tag">
-                    <a th:with="prevPage=${users.number - 1}"
-                    th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', prevPage).build().toUriString()} }"
-                    class="flex items-center justify-center px-2.5 py-2.5 text-zinc-300 bg-white rounded-s-lg rounded-e-sm hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75 -me-0.5">
-                        <i class="w-3 h-3 fa-solid fa-chevron-left"></i>
-                    </a>
+            <li th:if="${users.hasPrevious()}">
+                <a th:with="prevPage=${users.number - 1}"
+                th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', prevPage).build().toUriString()} }"
+                class="flex items-center justify-center px-2.5 py-2.5 text-zinc-300 bg-white rounded-s-lg rounded-e-sm hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75 -me-0.5">
+                    <i class="w-3 h-3 fa-solid fa-chevron-left"></i>
+                </a>
+            </li>
+            <li th:if="${!users.hasPrevious()}">
+                <div class="flex items-center justify-center px-2.5 py-2.5 text-zinc-300 bg-white rounded-s-lg rounded-e-sm -me-0.5">
+                    <i class="w-3 h-3 fa-solid fa-chevron-left"></i>
                 </div>
-                <div th:if="${!users.hasPrevious()}" th:remove="tag">
-                    <div href="#" class="flex items-center justify-center px-2.5 py-2.5 text-zinc-300 bg-white rounded-s-lg rounded-e-sm -me-0.5">
-                        <i class="w-3 h-3 fa-solid fa-chevron-left"></i>
-                    </div>
-                </div>
-            </th:block>
+            </li>
 
+            <li>
+                <a th:with="currentPage=${users.number}, targetPage=0"
+                th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', targetPage).build().toUriString()} }"
+                class="flex items-center aspect-square justify-center px-3 py-1.5 rounded-lg text-base"
+                th:classappend="${currentPage == targetPage} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
+                [[${targetPage}]]
+                </a>
+            </li>
+
+            <div th:if="${users.totalPages > 1}" th:remove="tag">
+                <li th:each="page : ${#numbers.sequence(1, users.totalPages - 2)}">
+                    <a th:with="currentPage=${users.number}, targetPage=${page}"
+                    th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', targetPage).build().toUriString()} }"
+                    class="flex items-center aspect-square justify-center px-3 py-1.5 rounded-lg text-base"
+                    th:classappend="${currentPage == targetPage} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
+                    [[${targetPage}]]
+                    </a>
+                </li>
+            </div>
+
+            <li>
+                <a th:with="currentPage=${users.number}, targetPage=${users.totalPages - 1}"
+                th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', targetPage).build().toUriString()} }"
+                class="flex items-center aspect-square justify-center px-3 py-1.5 rounded-lg text-base"
+                th:classappend="${currentPage == targetPage} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
+                [[${targetPage}]]
+                </a>
+            </li>
+
+            <li th:if="${users.hasNext()}">
+                <a th:with="nextPage=${users.number + 1}"
+                th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', nextPage).build().toUriString()} }"
+                class="flex items-center justify-center px-2.5 py-2.5 text-zinc-300 bg-white rounded-e-lg rounded-s-sm hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75 -ms-0.5">
+                    <i class="w-3 h-3 fa-solid fa-chevron-right"></i>
+                </a>
+            </li>
+            <li th:if="${!users.hasNext()}">
+                <div class="flex items-center justify-center px-2.5 py-2.5 text-zinc-300 bg-white rounded-e-lg rounded-s-sm -ms-0.5">
+                    <i class="w-3 h-3 fa-solid fa-chevron-right"></i>
+                </div>
+            </li>
     
         </ul>
     </nav>
 
-        <a href="#" class="flex items-center justify-center aspect-square px-3 py-1.5 text-gray-500 bg-white rounded-lg  hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75">1
-        </a>
-        <a href="#" class="flex items-center aspect-square justify-center px-3 py-1.5 text-white bg-blue-500 rounded-lg">2
-        </a>
-        <a href="#" class="flex items-center justify-center px-3 py-1.5 text-gray-500 bg-white rounded-lg  hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75">3
-        </a>
-        <a href="#" class="flex items-center justify-center px-3 py-1.5 text-gray-500 bg-white rounded-lg  hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75">4
-        <a href="#" class="flex items-center justify-center px-2.5 py-2.5 text-zinc-300 bg-white rounded-s-lg rounded-e-sm hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75 -ms-1">
-            <i class="w-3 h-3 fa-solid fa-chevron-right"></i>
-        </a>
-        
-
-
-
+    
     <!-- <ul class="inline-flex items-stretch -space-x-px">
         <li th:each="page : ${#numbers.sequence(1, 10)}">
             <a href="#" class="flex items-center justify-center h-full py-1.5 px-3 text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
