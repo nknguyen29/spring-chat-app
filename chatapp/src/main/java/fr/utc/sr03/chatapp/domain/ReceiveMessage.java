@@ -1,13 +1,13 @@
 package fr.utc.sr03.chatapp.domain;
 
-public class Greeting {
+public class ReceiveMessage {
 
   private String content;
 
-  public Greeting() {
+  public ReceiveMessage() {
   }
 
-  public Greeting(String content) {
+  public ReceiveMessage(String content) {
     this.content = content;
   }
 

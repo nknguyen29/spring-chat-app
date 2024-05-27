@@ -27,7 +27,7 @@ export default function App() {
     //Initialize Stomp connection
     //The Connection can be used by all child components via the hooks or hocs.
     <StompSessionProvider
-      url={"ws://localhost:8080/gs-guide-websocket"}
+      url={"http://localhost:8080/ws"}
       //All options supported by @stomp/stompjs can be used here
       debug={(str) => {
         console.log(str);
@@ -51,11 +51,11 @@ export default function App() {
 export function Subscribing() {
   const [lastMessage, setLastMessage] = useState("No message received yet");
 
-  //Subscribe to /topic/greetings, and use handler for all received messages
+  //Subscribe to /topic/receive-message, and use handler for all received messages
   //Note that all subscriptions made through the library are automatically removed when their owning component gets unmounted.
   //If the STOMP connection itself is lost they are however restored on reconnect.
   //You can also supply an array as the first parameter, which will subscribe to all destinations in the array
-  useSubscription("/topic/greetings", (message) => setLastMessage(message.body));
+  useSubscription("/topic/receive-message", (message) => setLastMessage(message.body));
 
   return (
     <Box>Last Message: {lastMessage}</Box>
@@ -71,13 +71,13 @@ export function SendingMessages() {
   //Note: This will be undefined if the client is currently not connected
   const stompClient = useStompClient();
   //echo reply 
-  useSubscription("/topic/greetings", (message) => setLastMessage(message.body));
+  useSubscription("/topic/receive-message", (message) => setLastMessage(message.body));
 
   const sendMessage = () => {
     if(stompClient) {
       //Send Message
       stompClient.publish({
-        destination: "/app/hello",
+        destination: "/app/send-message",
         body: JSON.stringify({'name': input})
       });
     }
@@ -106,7 +106,7 @@ export function DynamicSubscription() {
 
   useSubscription(
     //The value of the first parameter can be mutated to dynamically subscribe/unsubscribe from topics
-    subscribed ? ["/topic/greetings"] : [],
+    subscribed ? ["/topic/receive-message"] : [],
     (message) => setLastMessage(message.body)
   );
 

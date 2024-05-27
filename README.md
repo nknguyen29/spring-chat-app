@@ -1,11 +1,5 @@
 # SR03 - Spring Chat App
 
-Après modification de chat-frontend dans /chatapp/chat-frontend :
-
-npm run build
-
-cp -r -f build/* ../src/main/resources/react/
-
 ## Getting started
 
 To make it easy for you to get started with GitLab, here's a list of recommended next steps.

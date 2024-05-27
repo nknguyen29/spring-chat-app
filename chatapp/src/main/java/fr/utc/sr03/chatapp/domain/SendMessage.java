@@ -1,13 +1,13 @@
 package fr.utc.sr03.chatapp.domain;
 
-public class HelloMessage {
+public class SendMessage {
 
   private String name;
 
-  public HelloMessage() {
+  public SendMessage() {
   }
 
-  public HelloMessage(String name) {
+  public SendMessage(String name) {
     this.name = name;
   }
 
