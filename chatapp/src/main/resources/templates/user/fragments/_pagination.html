@@ -9,11 +9,14 @@
                     <option value="40">40</option>
                     <option value="50">50</option>
                 </select>
-                <span class="text-sm font-medium text-gray-400 leading-6">
+                <span class="text-sm font-medium text-gray-400 leading-6"
+                th:with="start=${users.size} * (${users.number}) + 1, end=${T(java.lang.Math).min(__${users.size}__ * __${users.number}__ + __${users.size}__, __${users.totalElements}__)}">
                     Affichage de
-                    <span class="font-semibold text-gray-500 dark:text-white">1-10</span>
+                    <span class="font-semibold text-gray-500 dark:text-white">[[${start}]]</span>
+                    à
+                    <span class="font-semibold text-gray-500 dark:text-white">[[${end}]]</span>
                     sur
-                    <span class="font-semibold text-gray-500 dark:text-white">1000</span>
+                    <span class="font-semibold text-gray-500 dark:text-white">[[${users.totalElements}]]</span>
                     éléments
                 </span>
         </div>
@@ -63,14 +66,22 @@
             </li>
 
             <div th:if="${users.totalPages > 1}" th:remove="tag">
-                <li th:each="page : ${#numbers.sequence(1, users.totalPages - 2)}">
-                    <a th:with="currentPage=${users.number}, targetPage=${page}"
-                    th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', targetPage).build().toUriString()} }"
-                    class="flex items-center justify-center px-3 py-1.5 rounded-lg text-base"
-                    th:classappend="${currentPage == targetPage} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
-                    [[${targetPage}]]
-                    </a>
-                </li>
+                <th:block th:each="page : ${#numbers.sequence(1, users.totalPages - 2)}">
+                    <li th:if="${page >= users.number - 1 and page <= users.number + 1}">
+                        <a th:with="currentPage=${users.number}, targetPage=${page}"
+                        th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', targetPage).build().toUriString()} }"
+                        class="flex items-center justify-center px-3 py-1.5 rounded-lg text-base"
+                        th:classappend="${currentPage == targetPage} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
+                        [[${targetPage}]]
+                        </a>
+                        <th:block th:with="hasJump=${false}"></th:block>
+                    </li>
+                    <th:block th:if="${page < users.number - 1 or page > users.number + 1}">
+                        <li>
+                            ...
+                        </li>
+                    </th:block>
+                </th:block>
             </div>
 
             <li>
