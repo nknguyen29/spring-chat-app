@@ -21,25 +21,45 @@
                 </span>
         </div>
 
-                    
-        
-        <!-- <a th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', 1).build().toUriString()} }">NEW</a> -->
-
-        <br>
-        [[${users}]]
-        <br>
-        [[${users.empty}]]
-        <br>
-        Nb page total: [[${users.totalPages}]]
-        <br>
-        Nb éléments total: [[${users.totalElements}]]
-        Nb éléments total: [[${users.totalElements}]]
-        <br>
-        Page actuel: [[${users.number}]]
-        <br>
-        Nb éléments page: [[${users.size}]]
-        <br>
-        NbPremier ?: [[${users.isFirst}]]
+        <ul class="pager" th:with="currentPage=${users.number}">
+            <span th:unless="${currentPage == 0}">
+                <li><a title="First Page"
+                    href="#"
+                    >&laquo;</a>
+                </li>
+                <li>
+                    <a title="Previous Page"
+                    href="#"
+                    >&lsaquo;</a>
+                </li>
+                <li th:if="${currentPage>3}">
+                    <a title="Previous Pages" 
+                    href="#"
+                    >...</a>
+                </li>
+            </span>
+            <li th:each="page,i:${users}" th:class="${i.index==currentPage?'active':''}"  th:if="${i.index > currentPage-4 AND i.index < currentPage+4}" >
+                <a 
+                href="#"
+                th:text="${i.index+1}"> </a>
+            </li>
+            
+            <span th:unless="${currentPage == users.totalPages-1 || users.totalPages == 0}" >
+                <li th:if="${currentPage+4<users.totalPages}">
+                    <a title="Next Pages" 
+                    href="#"
+                    >...</a>
+                </li>
+                <li><a title="Next Page"
+                    href="#"
+                    >&rsaquo;</a>
+                </li>
+                <li><a 
+                    href="#"
+                    title="Last Page">&raquo;</a>
+                </li>
+            </span>
+        </ul>
 
 
         <ul class="flex items-center justify-center gap-x-2 gap-y-1 text-sm font-medium flex-wrap">
@@ -61,7 +81,7 @@
                 th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', targetPage).build().toUriString()} }"
                 class="flex items-center justify-center px-3 py-1.5 rounded-lg text-base"
                 th:classappend="${currentPage == targetPage} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
-                [[${targetPage}]]
+                [[${targetPage + 1}]]
                 </a>
             </li>
 
@@ -72,7 +92,7 @@
                         th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', targetPage).build().toUriString()} }"
                         class="flex items-center justify-center px-3 py-1.5 rounded-lg text-base"
                         th:classappend="${currentPage == targetPage} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
-                        [[${targetPage}]]
+                        [[${targetPage + 1}]]
                         </a>
                         <th:block th:with="hasJump=${false}"></th:block>
                     </li>
@@ -89,7 +109,7 @@
                 th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', targetPage).build().toUriString()} }"
                 class="flex items-center justify-center px-3 py-1.5 rounded-lg text-base"
                 th:classappend="${currentPage == targetPage} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
-                [[${targetPage}]]
+                [[${targetPage + 1}]]
                 </a>
             </li>
 
