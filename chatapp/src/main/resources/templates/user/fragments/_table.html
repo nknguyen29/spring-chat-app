@@ -17,7 +17,7 @@
             </thead>
             <tbody>
                 <tr th:each="user : ${users}" class="odd:bg-gray-50/50 hover:bg-gray-100/50 transition-colors duration-75
-                border-b border-gray-200 border-dashed last:border-0">
+                border-b border-gray-200/75 border-dashed last:border-0">
                     <td class="whitespace-nowrap p-4 text-center">
                         <div class="px-1.5 py-0.5 font-mono font-medium text-gray-800 bg-gray-100 border border-gray-200 rounded-full text-sm">
                             [[${user.id}]]
@@ -107,16 +107,18 @@
                                     <form th:case="true" th:action="@{/users/{id}/unlock(id=${user.id})}" method="post">
                                         <button type="submit" class="font-medium px-2.5 py-1.5 rounded-lg flex items-center justify-center text-violet-600
                                         focus:outline-none bg-gray-100/75 hover:bg-violet-600 hover:text-white
-                                        focus:bg-violet-600 focus:text-white transition-colors duration-75
-                                        ">
+                                        focus:bg-violet-600 focus:text-white transition-colors duration-75"
+                                        onclick="return confirm('Êtes-vous sûr de vouloir déverrouiller cet utilisateur ?')"
+                                        >
                                             <i class="w-3.5 h-3.5 fa-solid fa-lock-open"></i>
                                         </button>
                                     </form>
                                     <form th:case="false" th:action="@{/users/{id}/lock(id=${user.id})}" method="post">
                                         <button type="submit" class="font-medium px-2.5 py-1.5 rounded-lg flex items-center justify-center text-violet-600
                                         focus:outline-none bg-gray-100/75 hover:bg-violet-600 hover:text-white
-                                        focus:bg-violet-600 focus:text-white transition-colors duration-75
-                                        ">
+                                        focus:bg-violet-600 focus:text-white transition-colors duration-75"
+                                        onclick="return confirm('Êtes-vous sûr de vouloir verrouiller cet utilisateur ?')"
+                                        >
                                             <i class="w-3.5 h-3.5 fa-solid fa-lock"></i>
                                         </button>
                                     </form>
@@ -125,7 +127,9 @@
                                     <button type="submit" class="font-medium px-2.5 py-1.5 rounded-lg flex items-center justify-center text-red-500
                                     focus:outline-none bg-gray-100/75 hover:bg-red-500 hover:text-white
                                     focus:bg-red-500 focus:text-white transition-colors duration-75
-                                    ">
+                                    "
+                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')"
+                                    >
                                         <i class="w-3.5 h-3.5 fa-solid fa-trash"></i>
                                     </button>
                                 </form>
