@@ -12,25 +12,23 @@
                     <th scope="col" class="font-semibold px-4 py-3" align="center">Date de création</th>
                     <th scope="col" class="font-semibold px-4 py-3" align="center">Dernière connexion</th>
                     <th scope="col" class="font-semibold px-4 py-3" align="center">Nb. salons</th>
-                    <th scope="col" class="font-semibold px-4 py-3" align="center">
-                        <span class="sr-only">Actions</span>
-                    </th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="user : ${users}" class="odd:bg-gray-50/50 hover:bg-gray-100/50 transition-colors duration-75">
-                    <td class="whitespace-nowrap px-4 py-3 text-center">
-                        <div class="px-1.5 py-0.5 font-mono font-medium text-gray-800 bg-gray-100 border border-gray-200 rounded-full">
+                    <td class="whitespace-nowrap p-4 text-center">
+                        <div class="px-1.5 py-0.5 font-mono font-medium text-gray-800 bg-gray-100 border border-gray-200 rounded-full text-sm">
                             [[${user.id}]]
                         </div>
                     </th>
-                    <td class="whitespace-nowrap px-4 py-3 text-center">
-                        <div class="font-medium text-sm text-gray-700">[[${user.lastName}]]</div>
+                    <td class="whitespace-nowrap p-4 text-center">
+                        <div class="font-semibold text-gray-800">[[${user.lastName}]]</div>
                     </td>
-                    <td class="whitespace-nowrap px-4 py-3 text-center">
-                        <div class="font-medium text-sm text-gray-700">[[${user.firstName}]]</div>
+                    <td class="whitespace-nowrap p-4 text-center">
+                        <div class="font-semibold text-gray-800">[[${user.firstName}]]</div>
                     </td>
-                    <td class="whitespace-nowrap px-4 py-3 text-center">
+                    <td class="whitespace-nowrap p-4 text-center">
                         <a th:href="@{'mailto:' + ${user.email}}">
                             <span
                                 class="text-gray-700 hover:text-blue-500 transition-colors duration-75 font-medium"
@@ -38,16 +36,16 @@
                             >
                         </a>
                     </td>
-                    <td class="whitespace-nowrap px-4 py-3 text-center">
+                    <td class="whitespace-nowrap p-4 text-center">
                         <div th:switch="${user.isAdmin}">
                             <span
                                 th:case="true"
-                                class="bg-red-50 text-red-500 text-xs font-medium px-2.5 py-1 rounded-lg"
+                                class="bg-rose-50 text-rose-600 text-xs font-semibold px-3 py-2 rounded-md"
                                 >Admin</span
                             >
                             <span
                                 th:case="false"
-                                class="bg-green-100 text-green-400 text-xs font-medium px-2.5 py-1 rounded-lg"
+                                class="bg-green-100 text-green-400 text-xs font-semibold px-3 py-2 rounded-md"
                                 >Utilisateur</span
                             >
                         </div>
@@ -56,32 +54,37 @@
                         <div th:switch="${user.isLocked}">
                             <span
                                 th:case="true"
-                                class="bg-red-50 text-red-500 text-xs font-medium px-2.5 py-1 rounded-lg"
+                                class="bg-rose-50 text-rose-600 text-xs font-semibold px-3 py-2 rounded-md"
                                 >Désactivé</span
                             >
                             <span
                                 th:case="false"
-                                class="bg-green-100 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-lg"
+                                class="bg-green-100 text-gray-700 text-xs font-semibold px-3 py-2 rounded-md"
                                 >Actif</span
                             >
                         </div>
                     </td>
-                    <td class="whitespace-nowrap px-4 py-3 text-center">
-                        <div class="font-medium text-sm text-gray-700">[[${#dates.format(user.createdAt, 'dd/MM/yyyy HH:mm')}]]</div>
+                    <td class="whitespace-nowrap p-4 text-center">
+                        <div class="font-semibold text-gray-800">[[${#dates.format(user.createdAt, 'd MMM yyyy')}]]</div>
                     </td>
-                    <td class="whitespace-nowrap px-4 py-3 text-center">
+                    <td class="whitespace-nowrap p-4 text-center">
                         <th:block th:switch="${user.lastConnection}">
-                            <div th:case="null" class="font-medium text-sm text-gray-700">Jamais connecté</div>
+                            <div th:case="null">
+                                <span
+                                    class="bg-violet-50 text-violet-600 text-xs font-semibold px-3 py-2 rounded-md"
+                                    >Jamais connecté</span
+                                >
+                            </div>
                             <div th:case="*">
-                                <div class="font-medium text-sm text-gray-700">[[${#dates.format(user.lastConnection, 'dd/MM/yyyy HH:mm')}]]</div>
+                                <div class="font-semibold text-gray-800">[[${#dates.format(user.lastConnection, 'dd MMM yyyy HH:mm')}]]</div>
                             </div>
                         </th:block>
                     </td>
-                    <td class="whitespace-nowrap px-4 py-3 text-center">
+                    <td class="whitespace-nowrap p-4 text-center">
                         <div class="font-medium text-sm text-gray-700">[[${user.chatroomCount}]]</div>
                     </td>
-                    <td class="whitespace-nowrap px-4 py-3 text-center"> 
-                        <div class="px-4 py-3 flex flex-col items-center justify-center gap-y-2 flex-wrap">
+                    <td class="whitespace-nowrap p-4 text-center"> 
+                        <div class="flex flex-col items-center justify-center gap-y-2 flex-wrap">
                             <div class="flex items-center gap-x-2.5 flex-nowrap">
                                 <a th:href="@{/users/{id}(id=${user.id})}" 
                                 class="font-medium px-2.5 py-1.5 rounded-lg flex items-center justify-center text-blue-500

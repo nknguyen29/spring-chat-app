@@ -3,11 +3,11 @@
         <div class="flex items-center flex-wrap gap-x-3 gap-y-2">
             <select class="bg-gray-100 border border-none text-slate-500 text-sm rounded-lg focus:bg-gray-200/75 focus:ring-0 block px-3 py-2 font-medium"
             aria-label="Nombre d'éléments par page" id="size" name="size" th:field="*{userSearch.size}" form="searchForm">
+                    <option th:value="5">5</option>
                     <option th:value="10">10</option>
                     <option th:value="20">20</option>
-                    <option th:value="30">30</option>
-                    <option th:value="40">40</option>
                     <option th:value="50">50</option>
+                    <option th:value="100">100</option>
                 </select>
                 <span class="text-sm font-medium text-gray-400 leading-6"
                 th:with="start=${users.size} * (${users.number}) + 1, end=${T(java.lang.Math).min(__${users.size}__ * __${users.number}__ + __${users.size}__, __${users.totalElements}__)}">

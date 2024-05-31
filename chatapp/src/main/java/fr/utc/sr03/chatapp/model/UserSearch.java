@@ -13,7 +13,7 @@ public class UserSearch {
     private Boolean sortDesc = Boolean.FALSE;
 
     private Integer page = 0;
-    private Integer size = 10;
+    private Integer size = 5;
 
     @Pattern(regexp = "all|admin|user")
     private String role = "all";
