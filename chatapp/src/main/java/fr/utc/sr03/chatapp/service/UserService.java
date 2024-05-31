@@ -15,6 +15,7 @@ import fr.utc.sr03.chatapp.util.NotFoundException;
 import jakarta.validation.constraints.NotNull;
 import jakarta.transaction.Transactional;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -142,6 +143,7 @@ public class UserService {
         final User user = userRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         user.setIsLocked(true);
+        user.setLockedAt(new Timestamp(System.currentTimeMillis()));
         userRepository.save(user);
     }
 
@@ -149,6 +151,7 @@ public class UserService {
         final User user = userRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         user.setIsLocked(false);
+        user.setLockedAt(null);
         userRepository.save(user);
     }
 
