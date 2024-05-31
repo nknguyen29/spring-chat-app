@@ -143,6 +143,14 @@ public class UserGetDTO {
         this.chatrooms.remove(chatroom);
     }
 
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
+
+    public Long getChatroomCount() {
+        return Long.valueOf(this.chatrooms.size());
+    }
+
     @Override
     public String toString() {
         return "UserGetDTO{" +

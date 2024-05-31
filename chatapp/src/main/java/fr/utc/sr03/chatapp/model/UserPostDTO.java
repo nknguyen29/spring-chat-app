@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 
-public class UserAddDTO {
+public class UserPostDTO {
 
     private Long id;
 
@@ -24,7 +24,7 @@ public class UserAddDTO {
     private String email;
 
     @NotNull
-    @Size(max = 255)
+    @Size(min = 8, max = 255)
     private String password;
 
     @NotNull
@@ -34,6 +34,8 @@ public class UserAddDTO {
     @NotNull
     @JsonProperty("isLocked")
     private Boolean isLocked;
+
+    private Long chatroomCount;
 
     public Long getId() {
         return id;
@@ -91,9 +93,21 @@ public class UserAddDTO {
         this.isLocked = isLocked;
     }
 
+    public Long getChatroomCount() {
+        return chatroomCount;
+    }
+
+    public void setChatroomCount(final Long chatroomCount) {
+        this.chatroomCount = chatroomCount;
+    }
+
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
+
     @Override
     public String toString() {
-        return "UserAddDTO{" +
+        return "UserPostDTO{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -101,6 +115,7 @@ public class UserAddDTO {
                 ", password='" + password + '\'' +
                 ", isAdmin=" + isAdmin +
                 ", isLocked=" + isLocked +
+                ", chatroomCount=" + chatroomCount +
                 '}';
     }
 

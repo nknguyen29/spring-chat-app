@@ -3,11 +3,14 @@ package fr.utc.sr03.chatapp.controller;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
 import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserWithoutChatroomDTO;
-import fr.utc.sr03.chatapp.model.UserAddDTO;
+import fr.utc.sr03.chatapp.model.UserPostDTO;
+import fr.utc.sr03.chatapp.model.UserSearch;
 import fr.utc.sr03.chatapp.service.ChatroomService;
 import fr.utc.sr03.chatapp.service.UserService;
 import fr.utc.sr03.chatapp.util.WebUtils;
 import jakarta.validation.Valid;
+
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/users")
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class UserController {
 
     private final UserService userService;
@@ -35,41 +39,26 @@ public class UserController {
     }
 
     @GetMapping
-    public String list(
-        @RequestParam(name = "search", required = false) final String search,
-        @RequestParam(name = "sort_by", required = false, defaultValue = "id") final String sortBy,
-        @RequestParam(name = "sort_order", required = false, defaultValue = "asc") final String sortOrder,
-        @RequestParam(name = "page", required = false, defaultValue = "0") final Integer page,
-        @RequestParam(name = "size", required = false, defaultValue = "10") final Integer size,
-        @RequestParam(name = "is_admin", required = false) final Boolean isAdmin,
-        @RequestParam(name = "is_locked", required = false) final Boolean isLocked,
-        final Model model
-    ) {
-        model.addAttribute("users", userService.search(search, sortBy, sortOrder, page, size, isAdmin, isLocked));
-        model.addAttribute("search", search);
-        model.addAttribute("sortBy", sortBy);
-        model.addAttribute("sortOrder", sortOrder);
-        model.addAttribute("page", page);
-        model.addAttribute("size", size);
-        model.addAttribute("isAdmin", isAdmin);
-        model.addAttribute("isLocked", isLocked);
+    public String list(@Valid final UserSearch userSearch, final Model model) {
+        model.addAttribute("users", userService.findAll(userSearch));
+        model.addAttribute("userSearch", userSearch);
         return "user/list";
     }
 
     @GetMapping("/add")
-    public String add(@ModelAttribute("user") final UserAddDTO userDTO) {
+    public String add(@ModelAttribute("user") final UserPostDTO userDTO) {
         return "user/add";
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute("user") @Valid final UserAddDTO userDTO,
+    public String add(@ModelAttribute("user") @Valid final UserPostDTO userDTO,
             final BindingResult bindingResult, final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "user/add";
         }
-        userService.create(userDTO);
+        final Long id = userService.create(userDTO);
         redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.create.success"));
-        return "redirect:/users";
+        return "redirect:/users/" + id;
     }
 
     @GetMapping("/{id}")
@@ -78,25 +67,31 @@ public class UserController {
         return "user/view";
     }
 
-    // @GetMapping("/edit/{id}")
-    // public String edit(@PathVariable(name = "id") final Long id, final Model model) {
-    //     model.addAttribute("user", userService.getWithoutChatroom(id));
-    //     return "user/edit";
-    // }
+    @GetMapping("/{id}/edit")
+    public String edit(@PathVariable(name = "id") final Long id, final Model model) {
+        model.addAttribute("user", userService.edit(id));
+        return "user/edit";
+    }
 
-    // @PutMapping("/edit/{id}")
-    // public String edit(@PathVariable(name = "id") final Long id,
-    //         @ModelAttribute("user") @Valid final UserWithoutChatroomDTO userDTO, final BindingResult bindingResult,
-    //         final RedirectAttributes redirectAttributes) {
-    //     if (bindingResult.hasErrors()) {
-    //         return "user/edit";
-    //     }
-    //     userService.update(id, userDTO);
-    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.update.success"));
-    //     return "redirect:/users";
-    // }
+    @PostMapping("/{id}/edit")
+    public String update(@PathVariable(name = "id") final Long id,
+            @ModelAttribute("user") @Valid final UserPostDTO userDTO, final BindingResult bindingResult,
+            final RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            return "user/edit";
+        }
+        userService.update(id, userDTO);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.update.success"));
+        return "redirect:/users/{id}";
+    }
 
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/{id}/settings")
+    public String settings(@PathVariable(name = "id") final Long id, final Model model) {
+        model.addAttribute("user", userService.get(id));
+        return "user/settings";
+    }
+
+    @PostMapping("/{id}/delete")
     public String delete(@PathVariable(name = "id") final Long id,
             final RedirectAttributes redirectAttributes) {
         userService.delete(id);
@@ -104,27 +99,26 @@ public class UserController {
         return "redirect:/users";
     }
 
-    // @GetMapping("/chatrooms/{id}")
-    // public String chatrooms(@PathVariable(name = "id") final Long id, final Model model) {
-    //     model.addAttribute("user", userService.getPublic(id));
-    //     return "user/chatrooms";
-    // }
+    @PostMapping("/delete-all")
+    public String deleteAll(final RedirectAttributes redirectAttributes) {
+        userService.deleteAll();
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.deleteAll.success"));
+        return "redirect:/users";
+    }
 
-    // @GetMapping("/chatrooms/{id}/edit")
-    // public String editChatrooms(@PathVariable(name = "id") final Long id, final Model model) {
-    //     model.addAttribute("user", userService.getPublic(id));
-    //     model.addAttribute("chatrooms", chatroomService.findAllWithoutUser());
-    //     return "user/edit-chatrooms";
-    // }
+    @PostMapping("/{id}/lock")
+    public String lock(@PathVariable(name = "id") final Long id, final RedirectAttributes redirectAttributes) {
+        userService.lock(id);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.lock.success"));
+        return "redirect:/users/{id}";
+    }
 
-    // @PutMapping("/chatrooms/{id}/edit")
-    // public String editChatrooms(@PathVariable(name = "id") final Long id,
-    //         @ModelAttribute("user") final UserDTO userDTO, @ModelAttribute("chatrooms") final List<ChatroomWithoutUserDTO> chatrooms,
-    //         final RedirectAttributes redirectAttributes) {
-    //     userService.updateChatrooms(id, userDTO, chatrooms);
-    //     redirectAttributes.addFlashAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("user.chatrooms.update.success"));
-    //     return "redirect:/users";
-    // }
+    @PostMapping("/{id}/unlock")
+    public String unlock(@PathVariable(name = "id") final Long id, final RedirectAttributes redirectAttributes) {
+        userService.unlock(id);
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.unlock.success"));
+        return "redirect:/users/{id}";
+    }
 
     // @GetMapping("/__debug")
     // public String debug(final Model model) {

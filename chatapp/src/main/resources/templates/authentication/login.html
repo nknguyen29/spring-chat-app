@@ -15,17 +15,44 @@
                     <a th:href="@{/}" class="flex items-center flex-wrap gap-x-3.5 gap-y-1.5">
                         <img th:src="@{/img/chat-svgrepo-com.svg}" alt="ChatApp Logo" class="m-auto md:w-9 sm:h-9 h-7 w-7" />
                         <span
-                            class="m-auto self-center text-slate-800 text-xl font-['ABC_Ginto_Nord_Unlicensed_Trial'] font-semibold md:text-2xl whitespace-nowrap">Diskette</span>
+                            class="m-auto self-center text-slate-800 text-xl font-['ABC_Ginto_Nord_Unlicensed_Trial'] font-semibold md:text-2xl whitespace-nowrap"
+                            >Diskette</span
+                        >
                     </a>
 
-                    <div th:if="${param.login_error}" class="my-2 max-w-xl min-w-md">
-                        <div class="flex items-start px-5 pt-4 pb-3.5 border border-red-500 border-dashed rounded-lg bg-red-50 gap-4 m-auto flex-wrap gap-y-3.5"
-                            role="alert">
-                            <i class="fa-solid fa-exclamation-circle text-red-500 text-2xl"></i>
-                            <div class="flex flex-col gap-0.5 -mt-1">
-                                <span class="font-semibold text-xl text-slate-800">Oops!</span>
-                                <span class="text-slate-800">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</span>
+                    <div th:object="${authentication}" th:remove="tag">
+                        <div
+                            th:if="${param.login_error} or ${#fields.hasGlobalErrors()}"
+                            class="my-2 max-w-xl min-w-md space-y-3"
+                        >
+                            <div th:if="${param.login_error}">
+                                <div class="flex items-start px-5 pt-4 pb-3.5 border border-red-500 border-dashed rounded-lg bg-red-50 gap-4 m-auto flex-wrap gap-y-3.5"
+                                    role="alert">
+                                    <i class="fa-solid fa-exclamation-circle text-red-500 text-2xl"></i>
+                                    <div class="flex flex-col gap-0.5 -mt-1">
+                                        <span class="font-semibold text-xl text-gray-800">Oops!</span>
+                                        <span class="text-gray-800">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</span>
+                                    </div>
+                                </div>
                             </div>
+
+                            <!--/*-->
+                            <div th:if="${#fields.hasGlobalErrors()}">
+                                <div
+                                    class="flex items-start px-5 pt-4 pb-3.5 border border-red-500 border-dashed rounded-lg bg-red-50 gap-4 m-auto flex-wrap gap-y-3.5">
+                                    <i class="fa-solid fa-exclamation-circle text-red-500 text-2xl"></i>
+                                    <div class="flex flex-col gap-1 -mt-1">
+                                        <span class="font-semibold text-gray-800">Oh non! Une erreur s'est produite.</span>
+                                        <div class="flex flex-col">
+                                            <div th:each="globalError : ${#fields.globalErrors()}" class="font-medium text-sm">
+                                                <span class="text-red-500 me-1">•&nbsp;</span
+                                                ><span class="text-gray-600">[[${globalError}]]</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--*/-->
                         </div>
                     </div>
 
@@ -36,8 +63,10 @@
                                     <h1 class="text-3xl font-semibold leading-tight tracking-tight text-slate-800 md:text-4xl">
                                         Se connecter
                                     </h1>
-                                    <span class="block text-gray-400 font-medium text-sm md:text-base">Prenez le contrôle et accédez à votre espace
-                                        administrateur</span>
+                                    <span
+                                        class="block text-gray-400 font-medium text-sm md:text-base"
+                                        >Prenez le contrôle et accédez à votre espace administrateur</span
+                                    >
                                 </div>
                                 <form th:action="@{/login}" method="post" class="space-y-8 md:space-y-9">
                                     <div class="space-y-6 md:space-y-8">

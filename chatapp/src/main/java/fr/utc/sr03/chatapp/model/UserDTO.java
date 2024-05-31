@@ -30,7 +30,7 @@ public class UserDTO {
     private String email;
 
     @NotNull
-    @Size(max = 255)
+    @Size(min = 8, max = 255)
     private String password;
 
     @NotNull
