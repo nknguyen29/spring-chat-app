@@ -1,10 +1,11 @@
 package fr.utc.sr03.chatapp.util;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
-
 import org.springframework.web.util.UriComponentsBuilder;
+
+import jakarta.servlet.http.HttpServletRequest;
+
 
 /**
  * Provide attributes available in all templates.
@@ -24,12 +25,6 @@ public class WebAdvice {
         return request.getRequestURI();
     }
 
-    /**
-     * Add the request query string to the model.
-     * 
-     * @param request the HTTP request
-     * @return the request query string
-     */
     @ModelAttribute("requestQueryString")
     public String getRequestQueryString(final HttpServletRequest request) {
         return request.getQueryString();
@@ -37,7 +32,7 @@ public class WebAdvice {
 
     @ModelAttribute("requestUriWithQueryString")
     public String getRequestUriWithQueryString(final HttpServletRequest request) {
-        return request.getRequestURI() + (request.getQueryString() != null ? "?" + request.getQueryString() : ""); 
+        return request.getRequestURI() + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
     }
 
     @ModelAttribute("requestUrl")
@@ -47,7 +42,8 @@ public class WebAdvice {
 
     @ModelAttribute("requestUrlWithQueryString")
     public String getRequestUrlWithQueryString(final HttpServletRequest request) {
-        return request.getRequestURL().toString() + (request.getQueryString() != null ? "?" + request.getQueryString() : ""); 
+        return request.getRequestURL().toString()
+                + (request.getQueryString() != null ? "?" + request.getQueryString() : "");
     }
 
     /**

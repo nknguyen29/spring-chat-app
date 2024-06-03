@@ -1,56 +1,103 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{base}" >
+<html
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base}"
+>
     <div layout:fragment="body" class="m-0 p-0 h-screen flex flex-col">
+        <!-- Use auto margins for centering, allowing access to overflowing parts of flex items -->
+        <!-- Replace justify-content: center with margin: auto on flex items for better accessibility -->
         <!-- https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container -->
         <section class="bg-stone-50 flex justify-content-center">
+
             <div class="flex justify-content-center px-8 py-10 min-h-screen w-full m-auto">
                 <div class="m-auto flex flex-col items-center justify-center min-w-full gap-y-5">
                     <a th:href="@{/}" class="flex items-center flex-wrap gap-x-3.5 gap-y-1.5">
                         <img th:src="@{/img/chat-svgrepo-com.svg}" alt="ChatApp Logo" class="m-auto md:w-9 sm:h-9 h-7 w-7" />
-                        <span class="m-auto self-center text-slate-800 text-xl font-['ABC_Ginto_Nord_Unlicensed_Trial'] font-semibold md:text-2xl whitespace-nowrap">Diskette</span>
+                        <span
+                            class="m-auto self-center text-slate-800 text-xl font-['ABC_Ginto_Nord_Unlicensed_Trial'] font-semibold md:text-2xl whitespace-nowrap"
+                            >Diskette</span
+                        >
                     </a>
+
+                    <div th:object="${authentication}" th:remove="tag">
+                        <div
+                            th:if="${param.login_error} or ${#fields.hasGlobalErrors()}"
+                            class="my-2 max-w-xl min-w-md space-y-3"
+                        >
+                            <div th:if="${param.login_error}">
+                                <div class="flex items-start px-5 pt-4 pb-3.5 border border-red-500 border-dashed rounded-lg bg-red-50 gap-4 m-auto flex-wrap gap-y-3.5"
+                                    role="alert">
+                                    <i class="fa-solid fa-exclamation-circle text-red-500 text-2xl"></i>
+                                    <div class="flex flex-col gap-0.5 -mt-1">
+                                        <span class="font-semibold text-xl text-gray-800">Oops!</span>
+                                        <span class="text-gray-800">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--/*-->
+                            <div th:if="${#fields.hasGlobalErrors()}">
+                                <div
+                                    class="flex items-start px-5 pt-4 pb-3.5 border border-red-500 border-dashed rounded-lg bg-red-50 gap-4 m-auto flex-wrap gap-y-3.5">
+                                    <i class="fa-solid fa-exclamation-circle text-red-500 text-2xl"></i>
+                                    <div class="flex flex-col gap-1 -mt-1">
+                                        <span class="font-semibold text-gray-800">Oh non! Une erreur s'est produite.</span>
+                                        <div class="flex flex-col">
+                                            <div th:each="globalError : ${#fields.globalErrors()}" class="font-medium text-sm">
+                                                <span class="text-red-500 me-1">•&nbsp;</span
+                                                ><span class="text-gray-600">[[${globalError}]]</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--*/-->
+                        </div>
+                    </div>
+
                     <div class="w-full bg-white rounded-lg shadow md:mt-0 md:max-w-2xl xl:p-0 max-w-xl">
                         <div class="flex items-stretch justify-between gap-x-2">
                             <div class="px-8 md:space-y-9 sm:px-10 grow space-y-8 pb-10 pt-8 sm:pt-10 sm:pb-13">
                                 <div class="space-y-2">
-                                    <h1 class="text-3xl font-semibold leading-tight tracking-tight text-slate-800 md:text-4xl">Se connecter</h1>
-                                    <span class="block text-gray-400 font-medium text-sm md:text-base">You are one step away from chatting with your friends</span>
+                                    <h1 class="text-3xl font-semibold leading-tight tracking-tight text-slate-800 md:text-4xl">
+                                        Se connecter
+                                    </h1>
+                                    <span
+                                        class="block text-gray-400 font-medium text-sm md:text-base"
+                                        >Prenez le contrôle et accédez à votre espace administrateur</span
+                                    >
                                 </div>
                                 <form th:action="@{/login}" method="post" class="space-y-8 md:space-y-9">
                                     <div class="space-y-6 md:space-y-8">
                                         <div>
-                                            <label for="email" class="block mb-2.5 text-sm font-medium text-slate-800">Email address</label>
-                                            <input type="email" id="email" name="email" class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full px-5 py-3" placeholder="john.doe@company.com" required />
-                                        </div> 
+                                            <label for="email" class="block mb-2.5 text-sm font-medium text-slate-800">Adresse e-mail</label>
+                                            <input type="email" id="email" name="email"
+                                                class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full px-5 py-3"
+                                                placeholder="john.doe@company.com" required />
+                                        </div>
                                         <div>
-                                            <label for="password" class="block mb-2.5 text-sm font-medium text-slate-800">Password</label>
-                                            <input type="password" id="password" name="password"  class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full px-5 py-3" placeholder="•••••••••" required />
+                                            <label for="password" class="block mb-2.5 text-sm font-medium text-slate-800">Mot de passe</label>
+                                            <input type="password" id="password" name="password"
+                                                class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full px-5 py-3"
+                                                placeholder="•••••••••" minlength="8" required />
                                         </div>
                                     </div>
-                                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg px-5 py-3
-                                        transition-colors duration-75 text-center
-                                    " /> Login </button>
+                                    <button type="submit"
+                                        class="bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg px-5 py-3 transition-colors duration-75 text-center">
+                                        Se connecter
+                                    </button>
                                 </form>
                             </div>
                             <div class="w-1/3 py-5 md:block hidden">
-                                <div class="h-full rounded-r-lg bg-cover bg-center
-                                -me-6 " style="background-image: url('https://cataas.com/cat')"></div>
+                                <div class="h-full rounded-r-lg bg-cover bg-center -me-6" style="background-image: url('https://cataas.com/cat');">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </section>
-
-        <div th:if="${param.error}">
-            <p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
-        </div>
-
-        <div th:object="${authentication}" th:remove="tag">
-            <div th:if="${#fields.hasGlobalErrors()}" class="mt-1">
-                <p th:each="globalError : ${#fields.globalErrors()}" class="text-red-600 text-sm">[[${globalError}]]</p>
-            </div>
-        </div>
-
     </div>
 </html>

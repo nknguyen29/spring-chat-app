@@ -1,11 +1,12 @@
 package fr.utc.sr03.chatapp.controller;
 
-import fr.utc.sr03.chatapp.util.WebUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import fr.utc.sr03.chatapp.model.AuthenticationRequest;
+import fr.utc.sr03.chatapp.util.WebUtils;
 
 
 @Controller
@@ -29,6 +30,9 @@ public class AuthenticationController {
         return "authentication/login";
     }
 
-    // Spring Security also automatically provides a /logout endpoint, but we have to address it via POST.
+    // Spring Security provides a /logout endpoint by default, but it must be
+    // accessed via a POST request.
+    // Ensure your logout process uses POST to comply with Spring Security's default
+    // configuration.
 
 }

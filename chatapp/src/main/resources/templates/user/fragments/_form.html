@@ -1,0 +1,101 @@
+<div th:fragment="form (user)">
+    <div th:object="${user}" th:remove="tag">
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <div class="my-2 max-w-xl min-w-md mb-9">
+                <div
+                    class="flex items-start px-3.5 pt-3.5 pb-3 border border-red-500 border-dashed rounded-lg bg-red-50 gap-3 m-auto flex-wrap gap-y-3.5">
+                    <i class="fa-solid fa-exclamation-circle text-red-500 text-xl"></i>
+                    <div class="flex flex-col gap-1 -mt-1">
+                        <span class="font-semibold text-gray-800">Oh non! Une erreur s'est produite.</span>
+                        <div class="flex flex-col gap-0.5">
+                            <div th:each="globalError : ${#fields.globalErrors()}" class="font-medium text-sm">
+                                <span class="text-red-500">•&nbsp;&nbsp;</span
+                                ><span class="text-gray-600">[[${globalError}]]</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form th:action="@{__${requestUri}__}" method="post">
+        <div class="grid gap-6 mb-6 md:grid-cols-2">
+            <div>
+                <label for="firstName" class="block mb-2 text-sm font-medium text-slate-800">Prénom</label>
+                <input type="text" id="firstName" name="firstName" th:field="*{user.firstName}"
+                    class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 text-sm rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full py-2.5 px-[1.125rem]"
+                    placeholder="John" required />
+                <div th:if="${#fields.hasErrors('user.firstName')}" th:errors="*{user.firstName}"
+                    class="text-red-500 font-medium text-xs ms-0.5 mt-2">
+                    Prénom invalide
+                </div>
+            </div>
+            <div>
+                <label for="lastName" class="block mb-2 text-sm font-medium text-slate-800">Nom</label>
+                <input type="text" id="last_name" name="lastName" th:field="*{user.lastName}"
+                    class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 text-sm rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full py-2.5 px-[1.125rem]"
+                    placeholder="Doe" required />
+                <div th:if="${#fields.hasErrors('user.lastName')}" th:errors="*{user.lastName}"
+                    class="text-red-500 font-medium text-xs ms-0.5 mt-2">
+                    Nom invalide
+                </div>
+            </div>
+        </div>
+        <div class="mb-6">
+            <label for="email" class="block mb-2 text-sm font-medium text-slate-800">Adresse email</label>
+            <input type="email" id="email" name="email" th:field="*{user.email}"
+                class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 text-sm rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full py-2.5 px-[1.125rem]"
+                placeholder="john.doe@company.com" required />
+            <div th:if="${#fields.hasErrors('user.email')}" th:errors="*{user.email}"
+                class="text-red-500 font-medium text-xs ms-0.5 mt-2">
+                Adresse email invalide
+            </div>
+        </div>
+        <div class="mb-6">
+            <label for="password" class="block mb-2 text-sm font-medium text-slate-800">Mot de passe</label>
+            <input type="password" id="password" name="password" th:field="*{user.password}"
+                class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 text-sm rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full py-2.5 px-[1.125rem]"
+                placeholder="•••••••••" minlength="8" required />
+            <div th:if="${#fields.hasErrors('user.password')}" th:errors="*{user.password}"
+                class="text-red-500 font-medium text-xs ms-0.5 mt-2">
+                Mot de passe invalide
+            </div>
+        </div>
+        <div class="grid gap-6 mb-6 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div>
+                <label for="isAdmin" class="inline-flex items-center text-sm font-medium text-slate-800 gap-x-4 gap-y-2 flex-wrap">
+                    <span class="peer-checked:text-blue-500">Administrateur</span>
+                    <input type="checkbox" id="isAdmin" name="isAdmin" th:field="*{user.isAdmin}" class="sr-only peer" />
+                    <div
+                        class="relative w-9 h-5 bg-gray-200/75 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-blue-500 peer-checked:after:start-[1px] after:content-[''] after:absolute after:top-[2px] after:start-[0.175rem] after:bg-white after:border-gray-200/75 after:border after:rounded-full after:w-4 after:h-4 after:transition-all peer-checked:bg-blue-500"
+                    ></div>
+                    <div th:if="${#fields.hasErrors('user.isAdmin')}" th:errors="*{user.isAdmin}"
+                        class="text-red-500 font-medium text-xs ms-0.5 mt-2">
+                        Admin invalide
+                    </div>
+                </label>
+            </div>
+            <div>
+                <label for="isLocked" class="inline-flex items-center text-sm font-medium text-slate-800 gap-x-4 gap-y-2 flex-wrap">
+                    <span class="peer-checked:text-blue-500">Verrouillé</span>
+                    <input type="checkbox" id="isLocked" name="isLocked" th:field="*{user.isLocked}" class="sr-only peer" />
+                    <div
+                        class="relative w-9 h-5 bg-gray-200/75 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-blue-500 peer-checked:after:start-[1px] after:content-[''] after:absolute after:top-[2px] after:start-[0.175rem] after:bg-white after:border-gray-200/75 after:border after:rounded-full after:w-4 after:h-4 after:transition-all peer-checked:bg-blue-500"
+                    ></div>
+                    <div th:if="${#fields.hasErrors('user.isLocked')}" th:errors="*{user.isLocked}"
+                        class="text-red-500 font-medium text-xs ms-0.5 mt-2">
+                        Verrouillage invalide
+                    </div>
+                </label>
+            </div>
+        </div>
+        <div class="w-1/2 flex items-center justify-center mx-auto pt-6">
+            <button type="submit"
+                class="w-full flex items-center justify-center px-3 py-2 text-sm text-slate-600 bg-gray-100/75 focus:outline-none hover:text-white hover:bg-blue-500 rounded-lg transition-colors duration-150 space-x-2.5 focus:ring focus:ring-blue-300">
+                <i class="fa-solid fa-save"></i>
+                <span class="font-medium">Enregistrer</span>
+            </button>
+        </div>
+    </form>
+</div>

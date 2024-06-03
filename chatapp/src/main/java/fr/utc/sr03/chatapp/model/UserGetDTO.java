@@ -1,14 +1,16 @@
 package fr.utc.sr03.chatapp.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 
 public class UserGetDTO {
 
@@ -41,6 +43,9 @@ public class UserGetDTO {
     @NotNull
     @JsonProperty("isLocked")
     private Boolean isLocked;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp lockedAt;
 
     @NotNull
     @JsonProperty("chatrooms")
@@ -114,6 +119,14 @@ public class UserGetDTO {
         this.isLocked = isLocked;
     }
 
+    public Timestamp getLockedAt() {
+        return lockedAt;
+    }
+
+    public void setLockedAt(final Timestamp lockedAt) {
+        this.lockedAt = lockedAt;
+    }
+
     public List<ChatroomWithoutUserDTO> getChatrooms() {
         return chatrooms;
     }
@@ -130,6 +143,14 @@ public class UserGetDTO {
         this.chatrooms.remove(chatroom);
     }
 
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
+
+    public Long getChatroomCount() {
+        return Long.valueOf(this.chatrooms.size());
+    }
+
     @Override
     public String toString() {
         return "UserGetDTO{" +
@@ -141,6 +162,7 @@ public class UserGetDTO {
                 ", createdAt=" + createdAt +
                 ", lastConnection=" + lastConnection +
                 ", isLocked=" + isLocked +
+                ", lockedAt=" + lockedAt +
                 ", chatrooms=" + chatrooms +
                 '}';
     }
