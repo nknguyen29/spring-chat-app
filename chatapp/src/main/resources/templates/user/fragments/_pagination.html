@@ -1,32 +1,36 @@
 <div th:fragment="pagination">
-    <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 px-1 py-5" aria-label="Table navigation">
+    <nav class="flex flex-col md:flex-row justify-between items-start md:items-center space-y-3 md:space-y-0 px-1 py-5"
+        aria-label="Table navigation">
         <div class="flex items-center flex-wrap gap-x-3 gap-y-2">
-            <select class="bg-gray-100 border border-none text-slate-500 text-sm rounded-lg focus:bg-gray-200/75 focus:ring-0 block px-3 py-2 font-medium"
-            aria-label="Nombre d'éléments par page" id="size" name="size" th:field="*{userSearch.size}" form="searchForm">
-                    <option th:value="5">5</option>
-                    <option th:value="10">10</option>
-                    <option th:value="20">20</option>
-                    <option th:value="50">50</option>
-                    <option th:value="100">100</option>
-                </select>
-                <span class="text-sm font-medium text-gray-400 leading-6"
+            <select
+                class="bg-gray-100 border border-none text-slate-500 text-sm rounded-lg focus:bg-gray-200/75 focus:ring-0 block px-3 py-2 font-medium"
+                aria-label="Nombre d'éléments par page" id="size" name="size" th:field="*{userSearch.size}" form="searchForm">
+                <option th:value="5">5</option>
+                <option th:value="10">10</option>
+                <option th:value="20">20</option>
+                <option th:value="50">50</option>
+                <option th:value="100">100</option>
+            </select>
+            <span class="text-sm font-medium text-gray-400 leading-6"
                 th:with="start=${users.size} * (${users.number}) + 1, end=${T(java.lang.Math).min(__${users.size}__ * __${users.number}__ + __${users.size}__, __${users.totalElements}__)}">
-                    Affichage de
-                    <span class="font-semibold text-gray-500">[[${start}]]</span>
-                    à
-                    <span class="font-semibold text-gray-500">[[${end}]]</span>
-                    sur
-                    <span class="font-semibold text-gray-500">[[${users.totalElements}]]</span>
-                    éléments
-                </span>
+                Affichage de
+                <span class="font-semibold text-gray-500">[[${start}]]</span>
+                à
+                <span class="font-semibold text-gray-500">[[${end}]]</span>
+                sur
+                <span class="font-semibold text-gray-500"
+                    >[[${users.totalElements}]]</span
+                >
+                éléments
+            </span>
         </div>
 
-        <ul class="flex items-center justify-center gap-x-2 gap-y-1 text-sm font-medium flex-wrap" 
-        th:with="currentPage=${users.number}, delta=2">
+        <ul class="flex items-center justify-center gap-x-2 gap-y-1 text-sm font-medium flex-wrap"
+            th:with="currentPage=${users.number}, delta=2">
             <li th:if="${users.hasPrevious()}">
                 <a th:with="prevPage=${users.number - 1}"
-                th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', prevPage).build().toUriString()} }"
-                class="flex items-center justify-center px-2.5 py-2.5 text-zinc-300 bg-white rounded-s-lg rounded-e-sm hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75 -me-0.5">
+                    th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', prevPage).build().toUriString()} }"
+                    class="flex items-center justify-center px-2.5 py-2.5 text-zinc-300 bg-white rounded-s-lg rounded-e-sm hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75 -me-0.5">
                     <i class="w-3 h-3 fa-solid fa-chevron-left"></i>
                 </a>
             </li>
@@ -44,10 +48,9 @@
 
             <th:block th:each="page : ${#numbers.sequence(0, users.totalPages - 1)}">
                 <li th:if="${page >= currentPage - delta and page <= currentPage + delta}">
-                    <a 
-                    th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', page).build().toUriString()} }"
-                    class="flex items-center justify-center px-3 py-1.5 rounded-lg text-base"
-                    th:classappend="${currentPage == page} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
+                    <a th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', page).build().toUriString()} }"
+                        class="flex items-center justify-center px-3 py-1.5 rounded-lg text-base"
+                        th:classappend="${currentPage == page} ? 'text-white bg-blue-500' : 'text-gray-500 bg-white hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75'">
                         [[${page + 1}]]
                     </a>
                 </li>
@@ -61,8 +64,8 @@
 
             <li th:if="${users.hasNext()}">
                 <a th:with="nextPage=${users.number + 1}"
-                th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', nextPage).build().toUriString()} }"
-                class="flex items-center justify-center px-2.5 py-2.5 text-zinc-300 bg-white rounded-e-lg rounded-s-sm hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75 -ms-0.5">
+                    th:href="@{ ${uriComponentsBuilder.replaceQueryParam('page', nextPage).build().toUriString()} }"
+                    class="flex items-center justify-center px-2.5 py-2.5 text-zinc-300 bg-white rounded-e-lg rounded-s-sm hover:bg-gray-100/75 hover:text-blue-500 transition-colors duration-75 -ms-0.5">
                     <i class="w-3 h-3 fa-solid fa-chevron-right"></i>
                 </a>
             </li>
@@ -72,6 +75,5 @@
                 </div>
             </li>
         </ul>
-
     </nav>
 </div>
