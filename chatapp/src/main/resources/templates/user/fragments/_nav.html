@@ -67,9 +67,10 @@
                             th:href="@{/users/__${user.id}__}"
                             class="inline-block px-1 py-3.5 border-b-2 rounded-t-lg font-semibold transition-colors duration-75"
                             th:with="is_active=${#strings.startsWith(requestUri, '/users/' + user.id)}
-                            and ${!#strings.startsWith(requestUri, '/users/' + user.id + '/edit')}"
-                            th:classappend="${is_active} ? 
-                         'text-blue-500 border-blue-500 active' : 'border-transparent hover:border-blue-500 text-gray-400'"
+                                and ${!#strings.startsWith(requestUri, '/users/' + user.id + '/edit')}
+                                and ${!#strings.startsWith(requestUri, '/users/' + user.id + '/settings')}"
+                            th:classappend="${is_active} ?
+                               'text-blue-500 border-blue-500 active' : 'border-transparent hover:border-blue-500 text-gray-400'"
                             th:aria-current="${is_active} ? 'page' : null"
                             >Profil</a
                         >
@@ -79,8 +80,8 @@
                             th:href="@{/users/__${user.id}__/edit}"
                             class="inline-block px-1 py-3.5 border-b-2 rounded-t-lg font-semibold transition-colors duration-75"
                             th:with="is_active=${#strings.startsWith(requestUri, '/users/' + user.id + '/edit')}"
-                            th:classappend="${is_active} ? 
-                         'text-blue-500 border-blue-500 active' : 'border-transparent hover:border-blue-500 text-gray-400'"
+                            th:classappend="${is_active} ?
+                               'text-blue-500 border-blue-500 active' : 'border-transparent hover:border-blue-500 text-gray-400'"
                             th:aria-current="${is_active} ? 'page' : null"
                             >Modifier</a
                         >
@@ -90,8 +91,8 @@
                             th:href="@{/users/__${user.id}__/settings}"
                             class="inline-block px-1 py-3.5 border-b-2 rounded-t-lg font-semibold transition-colors duration-75"
                             th:with="is_active=${#strings.startsWith(requestUri, '/users/' + user.id + '/settings')}"
-                            th:classappend="${is_active} ? 
-                         'text-blue-500 border-blue-500 active' : 'border-transparent hover:border-blue-500 text-gray-400'"
+                            th:classappend="${is_active} ?
+                               'text-blue-500 border-blue-500 active' : 'border-transparent hover:border-blue-500 text-gray-400'"
                             th:aria-current="${is_active} ? 'page' : null"
                             >Paramètres</a
                         >

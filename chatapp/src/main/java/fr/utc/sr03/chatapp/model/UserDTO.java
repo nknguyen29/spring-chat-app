@@ -166,6 +166,14 @@ public class UserDTO {
         this.chatrooms.remove(chatroom);
     }
 
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
+
+    public Long getChatroomCount() {
+        return Long.valueOf(this.chatrooms.size());
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -180,6 +188,26 @@ public class UserDTO {
                 ", isLocked=" + isLocked +
                 ", lockedAt=" + lockedAt +
                 ", chatrooms=" + chatrooms +
+                '}';
+    }
+
+    public String toJson() {
+        final String chatroomsJson = this.chatrooms.stream()
+                .map(ChatroomWithoutUserDTO::toJson)
+                .reduce((a, b) -> a + "," + b)
+                .orElse("");
+        return "{" +
+                "\"id\":" + id +
+                ",\"firstName\":\"" + firstName + '\"' +
+                ",\"lastName\":\"" + lastName + '\"' +
+                ",\"email\":\"" + email + '\"' +
+                ",\"isAdmin\":" + isAdmin +
+                ",\"createdAt\":\"" + createdAt + '\"' +
+                ",\"lastConnection\":\"" + lastConnection + '\"' +
+                ",\"failedConnectionAttempts\":" + failedConnectionAttempts +
+                ",\"isLocked\":" + isLocked +
+                ",\"lockedAt\":\"" + lockedAt + '\"' +
+                ",\"chatrooms\":" + "[" + chatroomsJson + "]" +
                 '}';
     }
 

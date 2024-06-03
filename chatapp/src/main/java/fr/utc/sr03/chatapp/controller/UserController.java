@@ -78,7 +78,7 @@ public class UserController {
 
     @GetMapping("/{id}/settings")
     public String settings(@PathVariable(name = "id") final Long id, final Model model) {
-        model.addAttribute("user", userService.get(id));
+        model.addAttribute("user", userService.getParameters(id));
         return "user/settings";
     }
 
