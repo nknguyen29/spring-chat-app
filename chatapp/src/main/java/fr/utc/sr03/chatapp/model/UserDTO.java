@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -192,23 +193,14 @@ public class UserDTO {
     }
 
     public String toJson() {
-        final String chatroomsJson = this.chatrooms.stream()
-                .map(ChatroomWithoutUserDTO::toJson)
-                .reduce((a, b) -> a + "," + b)
-                .orElse("");
-        return "{" +
-                "\"id\":" + id +
-                ",\"firstName\":\"" + firstName + '\"' +
-                ",\"lastName\":\"" + lastName + '\"' +
-                ",\"email\":\"" + email + '\"' +
-                ",\"isAdmin\":" + isAdmin +
-                ",\"createdAt\":\"" + createdAt + '\"' +
-                ",\"lastConnection\":\"" + lastConnection + '\"' +
-                ",\"failedConnectionAttempts\":" + failedConnectionAttempts +
-                ",\"isLocked\":" + isLocked +
-                ",\"lockedAt\":\"" + lockedAt + '\"' +
-                ",\"chatrooms\":" + "[" + chatroomsJson + "]" +
-                '}';
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper
+                    .writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(this);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }
