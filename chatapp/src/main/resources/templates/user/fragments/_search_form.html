@@ -22,10 +22,8 @@
 
         <div class="w-full md:w-auto flex flex-col md:flex-row space-y-3 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
             <div th:if="${requestQueryString}">
-                <a
-                    th:href="@{/users}"
-                    class="w-full flex items-center justify-center px-2 py-1.5 text-sm font-medium text-white focus:outline-none bg-red-500 rounded-lg hover:bg-red-600 transition-colors duration-75 space-x-3 focus:ring focus:ring-red-300"
-                >
+                <a th:href="@{/users}"
+                    class="w-full flex items-center justify-center px-2 py-1.5 text-sm font-medium text-white focus:outline-none bg-red-500 rounded-lg hover:bg-red-600 transition-colors duration-75 space-x-3 focus:ring focus:ring-red-300">
                     <i class="h-4 w-4 fa-solid fa-xmark"></i>
                     <span class="text-xs font-medium text-white md:hidden block"
                         >Effacer la recherche</span
@@ -43,10 +41,8 @@
                     <i class="-ms-1 me-1.5 w-3.5 h-3.5 fa-solid fa-ellipsis-v"></i>
                     <span>Actions</span>
                 </button>
-                <div
-                    id="actionsDropdown"
-                    class="hidden z-10 w-auto bg-white rounded shadow-[0px_0px_50px_0px_rgba(82,63,105,0.15)] border border-gray-100 divide-y divide-gray-100"
-                >
+                <div id="actionsDropdown"
+                    class="hidden z-10 w-auto bg-white rounded shadow-[0px_0px_50px_0px_rgba(82,63,105,0.15)] border border-gray-100 divide-y divide-gray-100">
                     <h6 class="px-5 py-4 font-semibold text-sm text-slate-800">
                         Actions
                     </h6>
@@ -76,21 +72,15 @@
                     <span>Filter</span>
                     <i class="-me-0.5 ms-3 w-3 h-3 fa-solid fa-chevron-down"></i>
                 </button>
-                <div
-                    id="filterDropdown"
-                    class="hidden z-10 w-[15rem] bg-white rounded shadow-[0px_0px_50px_0px_rgba(82,63,105,0.15)] border border-gray-100 divide-y divide-gray-100"
-                >
+                <div id="filterDropdown"
+                    class="hidden z-10 w-[15rem] bg-white rounded shadow-[0px_0px_50px_0px_rgba(82,63,105,0.15)] border border-gray-100 divide-y divide-gray-100">
                     <h6 class="px-5 py-4 font-semibold text-sm text-slate-800">
                         Sélectionner un filtre
                     </h6>
                     <div class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
                         <div class="px-6 pt-4 pb-6 space-y-5">
                             <div class="space-y-2">
-                                <label
-                                    class="form-label font-medium text-slate-800"
-                                    for="role"
-                                    >Rôle :</label
-                                >
+                                <label class="form-label font-medium text-slate-800" for="role">Rôle :</label>
                                 <select
                                     id="role"
                                     name="role"
@@ -104,11 +94,7 @@
                                 </select>
                             </div>
                             <div class="space-y-2">
-                                <label
-                                    class="form-label font-medium text-slate-800"
-                                    for="status"
-                                    >Statut :</label
-                                >
+                                <label class="form-label font-medium text-slate-800" for="status">Statut :</label>
                                 <select
                                     id="status"
                                     name="status"
@@ -136,21 +122,15 @@
                     <span>Trier</span>
                     <i class="-me-0.5 ms-3 w-3 h-3 fa-solid fa-chevron-down"></i>
                 </button>
-                <div
-                    id="sortDropdown"
-                    class="hidden z-10 w-[15rem] bg-white rounded shadow-[0px_0px_50px_0px_rgba(82,63,105,0.15)] border border-gray-100 divide-y divide-gray-100"
-                >
+                <div id="sortDropdown"
+                    class="hidden z-10 w-[15rem] bg-white rounded shadow-[0px_0px_50px_0px_rgba(82,63,105,0.15)] border border-gray-100 divide-y divide-gray-100">
                     <h6 class="px-5 py-4 font-semibold text-sm text-slate-800">
                         Sélectionner un tri
                     </h6>
                     <div class="space-y-2 text-sm" aria-labelledby="sortDropdownButton">
                         <div class="px-6 pt-4 pb-6 space-y-5">
                             <div class="space-y-2">
-                                <label
-                                    class="form-label font-medium text-slate-800"
-                                    for="sortBy"
-                                    >Trier par :</label
-                                >
+                                <label class="form-label font-medium text-slate-800" for="sortBy">Trier par :</label>
                                 <select
                                     id="sortBy"
                                     name="sortBy"
@@ -167,20 +147,11 @@
                                 </select>
                             </div>
                             <label class="inline-flex items-center mb-5 cursor-pointer">
-                                <input
-                                    type="checkbox"
-                                    name="sortAsc"
-                                    th:field="*{userSearch.sortDesc}"
-                                    form="searchForm"
-                                    class="sr-only peer"
-                                />
+                                <input type="checkbox" name="sortAsc" th:field="*{userSearch.sortDesc}" form="searchForm" class="sr-only peer" />
                                 <div
                                     class="relative w-9 h-5 bg-gray-200/75 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-blue-500 peer-checked:after:start-[1px] after:content-[''] after:absolute after:top-[2px] after:start-[0.175rem] after:bg-white after:border-gray-200/75 after:border after:rounded-full after:w-4 after:h-4 after:transition-all peer-checked:bg-blue-500"
                                 ></div>
-                                <span
-                                    class="ms-3 text-sm font-medium text-slate-500"
-                                    >Descendant</span
-                                >
+                                <span class="ms-3 text-sm font-medium text-slate-500">Descendant</span>
                             </label>
                         </div>
                     </div>
