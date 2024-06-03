@@ -106,6 +106,12 @@ public class UserService {
                 .orElseThrow(NotFoundException::new);
     }
 
+    public UserDTO getParameters(final Long id) {
+        return userRepository.findById(id)
+                .map(user -> userMapper.mapToDTO(user, new UserDTO()))
+                .orElseThrow(NotFoundException::new);
+    }
+
     public UserPostDTO edit(final Long id) {
         return userRepository.findById(id)
                 .map(user -> userMapper.mapToDTO(user, new UserPostDTO()))
