@@ -1,30 +1,27 @@
 package fr.utc.sr03.chatapp.service;
 
+import java.sql.Timestamp;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.mapper.UserMapper;
-import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
+import fr.utc.sr03.chatapp.model.UserDTO;
+import fr.utc.sr03.chatapp.model.UserGetDTO;
+import fr.utc.sr03.chatapp.model.UserListDTO;
 import fr.utc.sr03.chatapp.model.UserPostDTO;
 import fr.utc.sr03.chatapp.model.UserSearch;
-import fr.utc.sr03.chatapp.model.UserDTO;
-import fr.utc.sr03.chatapp.model.UserListDTO;
-import fr.utc.sr03.chatapp.model.UserGetDTO;
-import fr.utc.sr03.chatapp.model.UserWithoutChatroomDTO;
 import fr.utc.sr03.chatapp.repos.ChatroomUserRepository;
 import fr.utc.sr03.chatapp.repos.UserRepository;
 import fr.utc.sr03.chatapp.util.NotFoundException;
-import jakarta.validation.constraints.NotNull;
 import jakarta.transaction.Transactional;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
 @Transactional
@@ -85,16 +82,19 @@ public class UserService {
                         search, search, search, pageable)
                         .map(user -> userMapper.mapToDTO(user, new UserListDTO()));
             } else if (isAdmin == null) {
-                return userRepository.findAllByFirstNameContainingOrLastNameContainingOrEmailContainingIgnoreCaseAndIsLocked(
-                        search, search, search, isLocked, pageable)
+                return userRepository
+                        .findAllByFirstNameContainingOrLastNameContainingOrEmailContainingIgnoreCaseAndIsLocked(
+                                search, search, search, isLocked, pageable)
                         .map(user -> userMapper.mapToDTO(user, new UserListDTO()));
             } else if (isLocked == null) {
-                return userRepository.findAllByFirstNameContainingOrLastNameContainingOrEmailContainingIgnoreCaseAndIsAdmin(
-                        search, search, search, isAdmin, pageable)
+                return userRepository
+                        .findAllByFirstNameContainingOrLastNameContainingOrEmailContainingIgnoreCaseAndIsAdmin(
+                                search, search, search, isAdmin, pageable)
                         .map(user -> userMapper.mapToDTO(user, new UserListDTO()));
             } else {
-                return userRepository.findAllByFirstNameContainingOrLastNameContainingOrEmailContainingIgnoreCaseAndIsAdminAndIsLocked(
-                        search, search, search, isAdmin, isLocked, pageable)
+                return userRepository
+                        .findAllByFirstNameContainingOrLastNameContainingOrEmailContainingIgnoreCaseAndIsAdminAndIsLocked(
+                                search, search, search, isAdmin, isLocked, pageable)
                         .map(user -> userMapper.mapToDTO(user, new UserListDTO()));
             }
         }
