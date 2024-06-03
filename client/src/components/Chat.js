@@ -49,21 +49,24 @@ export default function App() {
 }
 
 export function Subscribing() {
+  const [roomId, setRoomId] = useState("");
   const [lastMessage, setLastMessage] = useState("No message received yet");
 
-  //Subscribe to /topic/receive-message, and use handler for all received messages
-  //Note that all subscriptions made through the library are automatically removed when their owning component gets unmounted.
-  //If the STOMP connection itself is lost they are however restored on reconnect.
-  //You can also supply an array as the first parameter, which will subscribe to all destinations in the array
-  useSubscription("/topic/receive-message", (message) => setLastMessage(message.body));
-
+  useSubscription("/topic/" + roomId, (message) => setLastMessage(message.body));
+  
   return (
-    <Box>Last Message: {lastMessage}</Box>
+    <> <Grid container direction="row" spacing={3}>
+      <Grid item><Typography>Subscribe to Room ID:</Typography></Grid>
+      <Grid item><TextField variant="standard" value={roomId}
+        onChange={(event => setRoomId(event.target.value))} /></Grid>
+    </Grid><Box>Last Message: {lastMessage}</Box> </>
   );
 }
 
+
 export function SendingMessages() {
   const [input, setInput] = useState("");
+  const [roomId, setRoomId] = useState("");
   const [lastMessage, setLastMessage] = useState("No message received yet");
 
   //Get Instance of StompClient
@@ -71,13 +74,13 @@ export function SendingMessages() {
   //Note: This will be undefined if the client is currently not connected
   const stompClient = useStompClient();
   //echo reply 
-  useSubscription("/topic/receive-message", (message) => setLastMessage(message.body));
+  useSubscription("/topic/" + roomId, (message) => setLastMessage(message.body));
 
   const sendMessage = () => {
     if(stompClient) {
       //Send Message
       stompClient.publish({
-        destination: "/app/send-message",
+        destination: "/app/chat/" + roomId,
         body: JSON.stringify({'name': input})
       });
     }
@@ -91,6 +94,9 @@ export function SendingMessages() {
       <Grid item><Button variant={"contained"} onClick={sendMessage}>Send Message</Button></Grid>
       <Grid item><TextField variant="standard" value={input}
                             onChange={(event => setInput(event.target.value))} /></Grid>
+      <Grid item><Typography>to Room ID:</Typography></Grid>
+      <Grid item><TextField variant="standard" value={roomId} 
+                            onChange={(event => setRoomId(event.target.value))} /></Grid>  
       <Grid item>
         <Typography variant={"body1"}>
           Last Message received: {lastMessage}
@@ -103,15 +109,20 @@ export function SendingMessages() {
 export function DynamicSubscription() {
   const [lastMessage, setLastMessage] = useState("No message received yet");
   const [subscribed, setSubscribed] = useState(false);
+  const [roomId, setRoomId] = useState("");
 
   useSubscription(
     //The value of the first parameter can be mutated to dynamically subscribe/unsubscribe from topics
-    subscribed ? ["/topic/receive-message"] : [],
+    subscribed ? ["/topic/"] + roomId : [],
     (message) => setLastMessage(message.body)
   );
 
   return (
     <Box sx={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
+      <Box>Subscribe to Room ID:</Box>
+      <Box><TextField variant="standard" value={roomId}
+                      onChange={(event => setRoomId(event.target.value))}></TextField></Box>
+      
       <Box>Last Message: {lastMessage}</Box>
       <Box>
         <Button onClick={() => setSubscribed(!subscribed)}>{subscribed ? "Unsubscribe" : "Subscribe"}</Button>

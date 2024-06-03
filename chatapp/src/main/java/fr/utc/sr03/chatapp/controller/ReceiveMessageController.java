@@ -12,8 +12,8 @@ import fr.utc.sr03.chatapp.domain.SendMessage;
 public class ReceiveMessageController {
 
 
-  @MessageMapping("/send-message")
-  @SendTo("/topic/receive-message")
+  @MessageMapping("/chat/{roomId}")
+  @SendTo("/topic/{roomId}")
   public ReceiveMessage receiveMessage(SendMessage message) throws Exception {
     return new ReceiveMessage("Message : " + HtmlUtils.htmlEscape(message.getName()) + "!");
   }
