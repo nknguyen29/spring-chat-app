@@ -1,13 +1,7 @@
 <div th:fragment="dump (obj)">
-    <code
-        class="text-xs inline-flex text-left items-center space-x-4 bg-gray-800 text-white rounded-lg p-4 whitespace-pre-wrap">
-        <span class="flex gap-4">
-            <span class="shrink-0 text-gray-500">$</span>
-            <span class="flex-1" th:id="${obj_id}">[[${obj.toJson()}]]</span>
-            <script th:inline="javascript">
-                var userSettings = JSON.parse(document.getElementById([[${ obj_id }]]).textContent);
-                document.getElementById([[${ obj_id }]]).textContent = JSON.stringify(userSettings, null, 2);
-            </script>
-        </span>
-    </code>
+    <pre class="!rounded-lg !text-xs inline-flex text-left items-center !p-4 w-96"><!--/*
+        */--><code class="language-json !font-mono"><!--/*
+            */--><span class="flex-1">[[${obj.toJson()}]]</span><!--/*
+        */--></code><!--/*
+    */--></pre>
 </div>
