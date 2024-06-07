@@ -14,7 +14,6 @@ import fr.utc.sr03.chatapp.repos.UserRepository;
 public class HttpUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
-
     private final HttpUserMapper httpUserMapper;
 
     public HttpUserDetailsService(
@@ -36,7 +35,7 @@ public class HttpUserDetailsService implements UserDetailsService {
             final String email) throws UsernameNotFoundException {
         final User user = userRepository.findByEmailIgnoreCase(email);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("User not found with email: " + email);
         }
         return httpUserMapper.mapToDTO(user);
     }
