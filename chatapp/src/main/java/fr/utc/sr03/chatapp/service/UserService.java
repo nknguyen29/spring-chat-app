@@ -20,6 +20,8 @@ import fr.utc.sr03.chatapp.model.UserSearch;
 import fr.utc.sr03.chatapp.repos.ChatroomUserRepository;
 import fr.utc.sr03.chatapp.repos.UserRepository;
 import fr.utc.sr03.chatapp.util.NotFoundException;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import jakarta.transaction.Transactional;
 
 
@@ -163,6 +165,11 @@ public class UserService {
 
     public boolean emailExists(final String email) {
         return userRepository.existsByEmailIgnoreCase(email);
+    }
+
+    public void update(Long id, @Valid UserDTO userDTO) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
 }
