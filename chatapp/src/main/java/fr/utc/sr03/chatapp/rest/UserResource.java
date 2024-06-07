@@ -1,6 +1,6 @@
 package fr.utc.sr03.chatapp.rest;
 
-import fr.utc.sr03.chatapp.model.UserAddDTO;
+// import fr.utc.sr03.chatapp.model.UserAddDTO;
 import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserGetDTO;
 import fr.utc.sr03.chatapp.service.UserService;
@@ -40,25 +40,25 @@ public class UserResource {
         return ResponseEntity.ok(userService.get(id));
     }
 
-    @PostMapping
-    @ApiResponse(responseCode = "201")
-    public ResponseEntity<Long> createUser(@RequestBody @Valid final UserAddDTO userDTO) {
-        final Long createdId = userService.create(userDTO);
-        return new ResponseEntity<>(createdId, HttpStatus.CREATED);
-    }
+    // @PostMapping
+    // @ApiResponse(responseCode = "201")
+    // public ResponseEntity<Long> createUser(@RequestBody @Valid final UserAddDTO userDTO) {
+    //     final Long createdId = userService.create(userDTO);
+    //     return new ResponseEntity<>(createdId, HttpStatus.CREATED);
+    // }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Long> updateUser(@PathVariable(name = "id") final Long id,
-            @RequestBody @Valid final UserDTO userDTO) {
-        userService.update(id, userDTO);
-        return ResponseEntity.ok(id);
-    }
+    // @PutMapping("/{id}")
+    // public ResponseEntity<Long> updateUser(@PathVariable(name = "id") final Long id,
+    //         @RequestBody @Valid final UserDTO userDTO) {
+    //     userService.update(id, userDTO);
+    //     return ResponseEntity.ok(id);
+    // }
 
-    @DeleteMapping("/{id}")
-    @ApiResponse(responseCode = "204")
-    public ResponseEntity<Void> deleteUser(@PathVariable(name = "id") final Long id) {
-        userService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
+    // @DeleteMapping("/{id}")
+    // @ApiResponse(responseCode = "204")
+    // public ResponseEntity<Void> deleteUser(@PathVariable(name = "id") final Long id) {
+    //     userService.delete(id);
+    //     return ResponseEntity.noContent().build();
+    // }
 
 }
