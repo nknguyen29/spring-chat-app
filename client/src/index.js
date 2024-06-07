@@ -8,19 +8,12 @@ import {
     Routes,
     Route,
 } from "react-router-dom";
-import ChatList from "./components/ChatList";
 import Chat from "./components/Chat";
-import UserList from "./components/UserList";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
-        <Routes>
-            <Route path="/" element={<App />} />
-            <Route path="/chats" element={<ChatList />} />
-            <Route path="/demo-chat" element={<Chat />} />
-            <Route path="/users" element={<UserList />} />
-        </Routes>
+            <Chat />
     </BrowserRouter>
 );
 
