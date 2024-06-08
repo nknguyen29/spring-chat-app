@@ -41,7 +41,7 @@ public class WebSecurityConfig {
     @Order(value = 1)
     public SecurityFilterChain apiFilterChain(final HttpSecurity http) throws Exception {
         return http.cors(withDefaults())
-                .csrf(withDefaults())
+                .csrf(csrf -> csrf.disable())
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/api/**").permitAll()

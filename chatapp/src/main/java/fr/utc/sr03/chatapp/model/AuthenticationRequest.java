@@ -8,7 +8,6 @@ public class AuthenticationRequest {
 
     @NotNull
     @Size(max = 255)
-    @UserEmailUnique
     private String email;
 
     @NotNull
