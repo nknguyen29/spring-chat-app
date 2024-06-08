@@ -38,6 +38,11 @@ public class JwtTokenService {
                 .withIssuer("app")
                 .withIssuedAt(now)
                 .withExpiresAt(now.plusMillis(JWT_TOKEN_VALIDITY.toMillis()))
+                .withClaim("id", userDetails.getId())
+                .withClaim("firstName", userDetails.getFirstName())
+                .withClaim("lastName", userDetails.getLastName())
+                .withClaim("isAdmin", userDetails.getIsAdmin())
+                .withClaim("isLocked", userDetails.isAccountNonLocked())
                 .sign(this.hmac512);
     }
 
