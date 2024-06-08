@@ -156,22 +156,6 @@ public class UserDTO {
         this.lockedAt = lockedAt;
     }
 
-    public List<ChatroomWithoutUserDTO> getChatrooms() {
-        return chatrooms;
-    }
-
-    public void setChatrooms(final List<ChatroomWithoutUserDTO> chatrooms) {
-        this.chatrooms = chatrooms;
-    }
-
-    public void addChatroom(final ChatroomWithoutUserDTO chatroom) {
-        this.chatrooms.add(chatroom);
-    }
-
-    public void removeChatroom(final ChatroomWithoutUserDTO chatroom) {
-        this.chatrooms.remove(chatroom);
-    }
-
     public List<TokenWithoutUserDTO> getTokens() {
         return tokens;
     }
@@ -186,6 +170,22 @@ public class UserDTO {
 
     public void removeToken(final TokenWithoutUserDTO token) {
         this.tokens.remove(token);
+    }
+
+    public List<ChatroomWithoutUserDTO> getChatrooms() {
+        return chatrooms;
+    }
+
+    public void setChatrooms(final List<ChatroomWithoutUserDTO> chatrooms) {
+        this.chatrooms = chatrooms;
+    }
+
+    public void addChatroom(final ChatroomWithoutUserDTO chatroom) {
+        this.chatrooms.add(chatroom);
+    }
+
+    public void removeChatroom(final ChatroomWithoutUserDTO chatroom) {
+        this.chatrooms.remove(chatroom);
     }
 
     public String getFullName() {

@@ -1,6 +1,8 @@
 package fr.utc.sr03.chatapp.model;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -51,6 +53,14 @@ public class UserWithoutChatroomDTO {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Timestamp lockedAt;
+
+    @NotNull
+    @JsonProperty("tokens")
+    private List<TokenWithoutUserDTO> tokens;
+
+    public UserWithoutChatroomDTO() {
+        this.tokens = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -140,6 +150,22 @@ public class UserWithoutChatroomDTO {
         this.lockedAt = lockedAt;
     }
 
+    public List<TokenWithoutUserDTO> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(final List<TokenWithoutUserDTO> tokens) {
+        this.tokens = tokens;
+    }
+
+    public void addToken(final TokenWithoutUserDTO token) {
+        this.tokens.add(token);
+    }
+
+    public void removeToken(final TokenWithoutUserDTO token) {
+        this.tokens.remove(token);
+    }
+
     @Override
     public String toString() {
         return "UserWithoutChatroomDTO{" +
@@ -154,6 +180,7 @@ public class UserWithoutChatroomDTO {
                 ", failedConnectionAttempts=" + failedConnectionAttempts +
                 ", isLocked=" + isLocked +
                 ", lockedAt=" + lockedAt +
+                ", tokens=" + tokens +
                 '}';
     }
 

@@ -148,6 +148,8 @@ public final class UserMapper {
     }
 
     public UserWithoutChatroomDTO mapToDTO(final User user, final UserWithoutChatroomDTO userDTO) {
+        final TokenMapper tokenMapper = getTokenMapper();
+
         userDTO.setId(user.getId());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
@@ -159,6 +161,8 @@ public final class UserMapper {
         userDTO.setFailedConnectionAttempts(user.getFailedConnectionAttempts());
         userDTO.setIsLocked(user.getIsLocked());
         userDTO.setLockedAt(user.getLockedAt());
+        user.getTokens().forEach(
+                token -> userDTO.addToken(tokenMapper.mapToDTO(token, new TokenWithoutUserDTO())));
         return userDTO;
     }
 
