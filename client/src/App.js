@@ -1,10 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { CssBaseline } from "@mui/material";
 import { Route, Routes, Navigate, Outlet } from 'react-router-dom';
 
 import {
   StompSessionProvider,
 } from "react-stomp-hooks";
+
+import { jwtDecode } from 'jwt-decode';
 
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
@@ -24,6 +26,18 @@ const PrivateWrapper = () => {
 };
 
 export default function App() {
+  const [user, setUser] = useState(null);
+  // will be used to store the user's name by Login and Logout
+
+  useEffect(() => {
+    const token = sessionStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      setUser(decodedToken.sub);
+    }
+  }
+  , [setUser]);
+
   return (
     // Wrap the entire app in the AuthProvider, so that the AuthContext is available to all child components.
     <AuthProvider> 
@@ -38,7 +52,7 @@ export default function App() {
       >
         <div className="app">
           <CssBaseline />
-          <Header />
+          <Header user={user} />
           <div className="layout">
             <div className="sidebar">
               <Sidebar />
@@ -46,8 +60,8 @@ export default function App() {
 
             <div className="main-content">
               <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/login" element={<Login />} />
+                <Route path="/" element={<Login setUser={setUser} />} />
+                <Route path="/login" element={<Login setUser={setUser} />} />
 
                 <Route element={<PrivateWrapper />}>
                   <Route path="/chats" element={<ChatList />} />
@@ -65,7 +79,7 @@ export default function App() {
                   <Route path="/join" element={<Join />} />
                 </Route>
                 <Route element={<PrivateWrapper />}>
-                  <Route path="/logout" element={<Logout />} />
+                  <Route path="/logout" element={<Logout setUser={setUser} />} />
                 </Route>
               </Routes>
             </div>

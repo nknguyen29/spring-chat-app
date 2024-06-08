@@ -4,7 +4,9 @@ import axios from "axios";
 
 import { AuthContext } from './AuthContext';
 
-const Login = (props) => {
+import { jwtDecode } from 'jwt-decode';
+
+const Login = ({ setUser }) => {
     const navigate = useNavigate();
 
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
@@ -34,6 +36,10 @@ const Login = (props) => {
                     console.log("token = " + res.data.accessToken)
                     sessionStorage.setItem("token", res.data.accessToken)
                 }
+
+                // Decode the token and set the user state
+                const decodedToken = jwtDecode(res.data.accessToken);
+                setUser(decodedToken.sub);
 
                 // Change isAuthenticated to true
                 setIsAuthenticated(true);
