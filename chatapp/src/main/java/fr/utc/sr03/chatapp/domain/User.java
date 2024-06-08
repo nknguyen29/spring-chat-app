@@ -54,6 +54,9 @@ public class User {
     @Column(name = "\"lockedAt\"")
     private Timestamp lockedAt;
 
+    @OneToMany(targetEntity = Token.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "user")
+    private Set<Token> tokens;
+
     // Use ManyToMany annotation on both sides of the relationship
     // It creates a join table to store the relationship
     // See: https://www.baeldung.com/jpa-many-to-many#2-implementation-in-jpa
@@ -174,6 +177,22 @@ public class User {
 
     public void setLockedAt(final Timestamp lockedAt) {
         this.lockedAt = lockedAt;
+    }
+
+    public Set<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(final Set<Token> tokens) {
+        this.tokens = tokens;
+    }
+
+    public void addToken(final Token token) {
+        tokens.add(token);
+    }
+
+    public void removeToken(final Token token) {
+        tokens.remove(token);
     }
 
     public Set<ChatroomUser> getChatroomUsers() {
