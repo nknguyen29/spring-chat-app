@@ -54,7 +54,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public String view(@PathVariable(name = "id") final Long id, final Model model) {
-        model.addAttribute("user", userService.get(id));
+        model.addAttribute("user", userService.getProfile(id));
         return "user/view";
     }
 
@@ -78,7 +78,7 @@ public class UserController {
 
     @GetMapping("/{id}/settings")
     public String settings(@PathVariable(name = "id") final Long id, final Model model) {
-        model.addAttribute("user", userService.getParameters(id));
+        model.addAttribute("user", userService.get(id));
         return "user/settings";
     }
 

@@ -7,13 +7,12 @@ import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 
-public class UserDTO {
+public class UserPublicDTO {
 
     private Long id;
 
@@ -29,10 +28,6 @@ public class UserDTO {
     @Size(max = 255)
     @UserEmailUnique
     private String email;
-
-    @NotNull
-    @Size(min = 8, max = 255)
-    private String password;
 
     @NotNull
     @JsonProperty("isAdmin")
@@ -59,7 +54,7 @@ public class UserDTO {
     @JsonProperty("chatrooms")
     private List<ChatroomWithoutUserDTO> chatrooms;
 
-    public UserDTO() {
+    public UserPublicDTO() {
         this.chatrooms = new ArrayList<>();
     }
 
@@ -93,14 +88,6 @@ public class UserDTO {
 
     public void setEmail(final String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(final String password) {
-        this.password = password;
     }
 
     public Boolean getIsAdmin() {
@@ -182,7 +169,6 @@ public class UserDTO {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", isAdmin=" + isAdmin +
                 ", createdAt=" + createdAt +
                 ", lastConnection=" + lastConnection +
@@ -191,17 +177,6 @@ public class UserDTO {
                 ", lockedAt=" + lockedAt +
                 ", chatrooms=" + chatrooms +
                 '}';
-    }
-
-    public String toJson() {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper
-                    .writerWithDefaultPrettyPrinter()
-                    .writeValueAsString(this);
-        } catch (Exception e) {
-            return null;
-        }
     }
 
 }

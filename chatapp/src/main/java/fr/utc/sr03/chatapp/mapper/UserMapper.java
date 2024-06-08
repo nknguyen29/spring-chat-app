@@ -5,10 +5,11 @@ import org.springframework.stereotype.Component;
 import fr.utc.sr03.chatapp.domain.Chatroom;
 import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
-import fr.utc.sr03.chatapp.model.UserPostDTO;
 import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserGetDTO;
 import fr.utc.sr03.chatapp.model.UserListDTO;
+import fr.utc.sr03.chatapp.model.UserPostDTO;
+import fr.utc.sr03.chatapp.model.UserPublicDTO;
 import fr.utc.sr03.chatapp.model.UserWithoutChatroomDTO;
 
 
@@ -56,6 +57,24 @@ public final class UserMapper {
         userDTO.setLastName(user.getLastName());
         userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
+        userDTO.setIsAdmin(user.getIsAdmin());
+        userDTO.setCreatedAt(user.getCreatedAt());
+        userDTO.setLastConnection(user.getLastConnection());
+        userDTO.setFailedConnectionAttempts(user.getFailedConnectionAttempts());
+        userDTO.setIsLocked(user.getIsLocked());
+        userDTO.setLockedAt(user.getLockedAt());
+        user.getChatrooms().forEach(
+                chatroom -> userDTO.addChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
+        return userDTO;
+    }
+
+    public UserPublicDTO mapToDTO(final User user, final UserPublicDTO userDTO) {
+        ChatroomMapper chatroomMapper = getChatroomMapper();
+
+        userDTO.setId(user.getId());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setEmail(user.getEmail());
         userDTO.setIsAdmin(user.getIsAdmin());
         userDTO.setCreatedAt(user.getCreatedAt());
         userDTO.setLastConnection(user.getLastConnection());

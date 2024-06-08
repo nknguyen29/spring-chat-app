@@ -16,6 +16,7 @@ import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserGetDTO;
 import fr.utc.sr03.chatapp.model.UserListDTO;
 import fr.utc.sr03.chatapp.model.UserPostDTO;
+import fr.utc.sr03.chatapp.model.UserPublicDTO;
 import fr.utc.sr03.chatapp.model.UserSearch;
 import fr.utc.sr03.chatapp.repos.ChatroomUserRepository;
 import fr.utc.sr03.chatapp.repos.UserRepository;
@@ -100,15 +101,28 @@ public class UserService {
         }
     }
 
-    public UserGetDTO get(final Long id) {
+    public List<UserPublicDTO> findAllPublic() {
+        final List<User> users = userRepository.findAll(Sort.by("id"));
+        return users.stream()
+                .map(user -> userMapper.mapToDTO(user, new UserPublicDTO()))
+                .toList();
+    }
+
+    public UserDTO get(final Long id) {
+        return userRepository.findById(id)
+                .map(user -> userMapper.mapToDTO(user, new UserDTO()))
+                .orElseThrow(NotFoundException::new);
+    }
+
+    public UserGetDTO getProfile(final Long id) {
         return userRepository.findById(id)
                 .map(user -> userMapper.mapToDTO(user, new UserGetDTO()))
                 .orElseThrow(NotFoundException::new);
     }
 
-    public UserDTO getParameters(final Long id) {
+    public UserPublicDTO getPublic(final Long id) {
         return userRepository.findById(id)
-                .map(user -> userMapper.mapToDTO(user, new UserDTO()))
+                .map(user -> userMapper.mapToDTO(user, new UserPublicDTO()))
                 .orElseThrow(NotFoundException::new);
     }
 

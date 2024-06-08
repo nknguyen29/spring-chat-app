@@ -3,6 +3,7 @@ package fr.utc.sr03.chatapp.rest;
 // import fr.utc.sr03.chatapp.model.UserAddDTO;
 import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserGetDTO;
+import fr.utc.sr03.chatapp.model.UserPublicDTO;
 import fr.utc.sr03.chatapp.service.UserService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
@@ -31,10 +32,17 @@ public class UserResource {
         this.userService = userService;
     }
 
+    ////////////////////////////////
     @GetMapping("/hello")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<String> hello() {
         return ResponseEntity.ok("Hello");
+    }
+    ////////////////////////////////
+
+    @GetMapping("/public")
+    public ResponseEntity<List<UserPublicDTO>> getAllPublicUsers() {
+        return ResponseEntity.ok(userService.findAllPublic());
     }
 
     @GetMapping
@@ -42,8 +50,13 @@ public class UserResource {
         return ResponseEntity.ok(userService.findAll());
     }
 
+    @GetMapping("/public/{id}")
+    public ResponseEntity<UserPublicDTO> getPublicUser(@PathVariable(name = "id") final Long id) {
+        return ResponseEntity.ok(userService.getPublic(id));
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<UserGetDTO> getUser(@PathVariable(name = "id") final Long id) {
+    public ResponseEntity<UserDTO> getUser(@PathVariable(name = "id") final Long id) {
         return ResponseEntity.ok(userService.get(id));
     }
 
