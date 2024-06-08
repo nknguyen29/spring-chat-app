@@ -78,14 +78,4 @@ public class ChatroomWithoutUserDTO {
                 '}';
     }
 
-    public String toJson() {
-        return "{" +
-                "\"id\":" + id +
-                ",\"title\":\"" + title + '\"' +
-                ",\"description\":\"" + description + '\"' +
-                ",\"startDate\":\"" + startDate + '\"' +
-                ",\"validityDuration\":\"" + validityDuration + '\"' +
-                '}';
-    }
-
 }
