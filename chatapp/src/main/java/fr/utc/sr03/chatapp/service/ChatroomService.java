@@ -74,9 +74,9 @@ public class ChatroomService {
     //     chatroomRepository.save(chatroom);
     // }
 
-    // public void delete(final Long id) {
-    //     chatroomRepository.deleteById(id);
-    // }
+    public void delete(final Long id) {
+        chatroomRepository.deleteById(id);
+    }
 
     // private ChatroomDTO mapToDTO(final Chatroom chatroom, final ChatroomDTO chatroomDTO) {
     //     chatroomDTO.setId(chatroom.getId());

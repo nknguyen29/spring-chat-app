@@ -30,24 +30,24 @@ public class ChatroomResource {
         this.chatroomService = chatroomService;
     }
 
-    @GetMapping("/public")
-    public ResponseEntity<List<ChatroomPublicDTO>> getAllPublicChatrooms() {
-        return ResponseEntity.ok(chatroomService.findAllPublic());
-    }
-
     @GetMapping
     public ResponseEntity<List<ChatroomDTO>> getAllChatrooms() {
         return ResponseEntity.ok(chatroomService.findAll());
     }
 
-    @GetMapping("/public/{id}")
-    public ResponseEntity<ChatroomPublicDTO> getPublicChatroom(@PathVariable(name = "id") final Long id) {
-        return ResponseEntity.ok(chatroomService.getPublic(id));
+    @GetMapping("/public")
+    public ResponseEntity<List<ChatroomPublicDTO>> getAllPublicChatrooms() {
+        return ResponseEntity.ok(chatroomService.findAllPublic());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ChatroomDTO> getChatroom(@PathVariable(name = "id") final Long id) {
         return ResponseEntity.ok(chatroomService.get(id));
+    }
+
+    @GetMapping("{id}/public")
+    public ResponseEntity<ChatroomPublicDTO> getPublicChatroom(@PathVariable(name = "id") final Long id) {
+        return ResponseEntity.ok(chatroomService.getPublic(id));
     }
 
     // @PostMapping
@@ -64,11 +64,11 @@ public class ChatroomResource {
     //     return ResponseEntity.ok(id);
     // }
 
-    // @DeleteMapping("/{id}")
-    // @ApiResponse(responseCode = "204")
-    // public ResponseEntity<Void> deleteChatroom(@PathVariable(name = "id") final Long id) {
-    //     chatroomService.delete(id);
-    //     return ResponseEntity.noContent().build();
-    // }
+    @DeleteMapping("/{id}")
+    @ApiResponse(responseCode = "204")
+    public ResponseEntity<Void> deleteChatroom(@PathVariable(name = "id") final Long id) {
+        chatroomService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }

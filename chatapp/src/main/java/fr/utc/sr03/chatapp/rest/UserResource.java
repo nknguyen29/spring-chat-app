@@ -40,24 +40,24 @@ public class UserResource {
     }
     ////////////////////////////////
 
-    @GetMapping("/public")
-    public ResponseEntity<List<UserPublicDTO>> getAllPublicUsers() {
-        return ResponseEntity.ok(userService.findAllPublic());
-    }
-
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.findAll());
     }
 
-    @GetMapping("/public/{id}")
-    public ResponseEntity<UserPublicDTO> getPublicUser(@PathVariable(name = "id") final Long id) {
-        return ResponseEntity.ok(userService.getPublic(id));
+    @GetMapping("/public")
+    public ResponseEntity<List<UserPublicDTO>> getAllPublicUsers() {
+        return ResponseEntity.ok(userService.findAllPublic());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable(name = "id") final Long id) {
         return ResponseEntity.ok(userService.get(id));
+    }
+
+    @GetMapping("{id}/public")
+    public ResponseEntity<UserPublicDTO> getPublicUser(@PathVariable(name = "id") final Long id) {
+        return ResponseEntity.ok(userService.getPublic(id));
     }
 
     // @PostMapping
