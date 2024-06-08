@@ -2,9 +2,9 @@ package fr.utc.sr03.chatapp.mapper;
 
 import org.springframework.stereotype.Component;
 
-import fr.utc.sr03.chatapp.domain.Chatroom;
 import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
+import fr.utc.sr03.chatapp.model.TokenWithoutUserDTO;
 import fr.utc.sr03.chatapp.model.UserDTO;
 import fr.utc.sr03.chatapp.model.UserGetDTO;
 import fr.utc.sr03.chatapp.model.UserListDTO;
@@ -20,6 +20,7 @@ public final class UserMapper {
     // The field must be declared volatile so that double check lock would work
     // correctly.
     private static volatile ChatroomMapper chatroomMapper;
+    private static volatile TokenMapper tokenMapper;
 
     public static ChatroomMapper getChatroomMapper() {
         // The approach taken here is called double-checked locking (DCL). It
@@ -46,12 +47,26 @@ public final class UserMapper {
         }
     }
 
+    public static TokenMapper getTokenMapper() {
+        TokenMapper result = tokenMapper;
+        if (result != null) {
+            return result;
+        }
+        synchronized (TokenMapper.class) {
+            if (tokenMapper == null) {
+                tokenMapper = new TokenMapper();
+            }
+            return tokenMapper;
+        }
+    }
+
     public UserDTO mapToDTO(final User user, final UserDTO userDTO) {
         // This is a workaround to avoid circular dependencies
         // See: https://stackoverflow.com/a/40702503
         // See:
         // https://docs.spring.io/spring-framework/docs/4.3.10.RELEASE/spring-framework-reference/htmlsingle/#beans-setter-injection
-        ChatroomMapper chatroomMapper = getChatroomMapper();
+        final ChatroomMapper chatroomMapper = getChatroomMapper();
+        final TokenMapper tokenMapper = getTokenMapper();
 
         userDTO.setId(user.getId());
         userDTO.setFirstName(user.getFirstName());
@@ -64,13 +79,15 @@ public final class UserMapper {
         userDTO.setFailedConnectionAttempts(user.getFailedConnectionAttempts());
         userDTO.setIsLocked(user.getIsLocked());
         userDTO.setLockedAt(user.getLockedAt());
+        user.getTokens().forEach(
+                token -> userDTO.addToken(tokenMapper.mapToDTO(token, new TokenWithoutUserDTO())));
         user.getChatrooms().forEach(
                 chatroom -> userDTO.addChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
         return userDTO;
     }
 
     public UserPublicDTO mapToDTO(final User user, final UserPublicDTO userDTO) {
-        ChatroomMapper chatroomMapper = getChatroomMapper();
+        final ChatroomMapper chatroomMapper = getChatroomMapper();
 
         userDTO.setId(user.getId());
         userDTO.setFirstName(user.getFirstName());
@@ -159,25 +176,6 @@ public final class UserMapper {
         return userDTO;
     }
 
-    public User mapToEntity(final UserDTO userDTO, final User user) {
-        ChatroomMapper chatroomMapper = getChatroomMapper();
-
-        user.setId(userDTO.getId());
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
-        user.setIsAdmin(userDTO.getIsAdmin());
-        user.setCreatedAt(userDTO.getCreatedAt());
-        user.setLastConnection(userDTO.getLastConnection());
-        user.setFailedConnectionAttempts(userDTO.getFailedConnectionAttempts());
-        user.setIsLocked(userDTO.getIsLocked());
-        user.setLockedAt(userDTO.getLockedAt());
-        userDTO.getChatrooms().forEach(
-                chatroomDTO -> user.addChatroom(chatroomMapper.mapToEntity(chatroomDTO, new Chatroom())));
-        return user;
-    }
-
     public User mapToEntity(final UserPostDTO userDTO, final User user) {
         user.setId(userDTO.getId());
         user.setFirstName(userDTO.getFirstName());
@@ -186,21 +184,6 @@ public final class UserMapper {
         user.setPassword(userDTO.getPassword());
         user.setIsAdmin(userDTO.getIsAdmin());
         user.setIsLocked(userDTO.getIsLocked());
-        return user;
-    }
-
-    public User mapToEntity(final UserWithoutChatroomDTO userDTO, final User user) {
-        user.setId(userDTO.getId());
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
-        user.setIsAdmin(userDTO.getIsAdmin());
-        user.setCreatedAt(userDTO.getCreatedAt());
-        user.setLastConnection(userDTO.getLastConnection());
-        user.setFailedConnectionAttempts(userDTO.getFailedConnectionAttempts());
-        user.setIsLocked(userDTO.getIsLocked());
-        user.setLockedAt(userDTO.getLockedAt());
         return user;
     }
 

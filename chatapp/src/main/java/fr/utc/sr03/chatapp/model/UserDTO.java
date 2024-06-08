@@ -56,11 +56,16 @@ public class UserDTO {
     private Timestamp lockedAt;
 
     @NotNull
+    @JsonProperty("tokens")
+    private List<TokenWithoutUserDTO> tokens;
+
+    @NotNull
     @JsonProperty("chatrooms")
     private List<ChatroomWithoutUserDTO> chatrooms;
 
     public UserDTO() {
         this.chatrooms = new ArrayList<>();
+        this.tokens = new ArrayList<>();
     }
 
     public Long getId() {
@@ -167,6 +172,22 @@ public class UserDTO {
         this.chatrooms.remove(chatroom);
     }
 
+    public List<TokenWithoutUserDTO> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(final List<TokenWithoutUserDTO> tokens) {
+        this.tokens = tokens;
+    }
+
+    public void addToken(final TokenWithoutUserDTO token) {
+        this.tokens.add(token);
+    }
+
+    public void removeToken(final TokenWithoutUserDTO token) {
+        this.tokens.remove(token);
+    }
+
     public String getFullName() {
         return this.firstName + " " + this.lastName;
     }
@@ -189,6 +210,7 @@ public class UserDTO {
                 ", failedConnectionAttempts=" + failedConnectionAttempts +
                 ", isLocked=" + isLocked +
                 ", lockedAt=" + lockedAt +
+                ", tokens=" + tokens +
                 ", chatrooms=" + chatrooms +
                 '}';
     }
