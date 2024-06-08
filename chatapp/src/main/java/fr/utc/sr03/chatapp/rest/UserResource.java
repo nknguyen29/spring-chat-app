@@ -32,14 +32,6 @@ public class UserResource {
         this.userService = userService;
     }
 
-    ////////////////////////////////
-    @GetMapping("/hello")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<String> hello() {
-        return ResponseEntity.ok("Hello");
-    }
-    ////////////////////////////////
-
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.findAll());
