@@ -74,11 +74,11 @@ public class UserResource {
     //     return ResponseEntity.ok(id);
     // }
 
-    // @DeleteMapping("/{id}")
-    // @ApiResponse(responseCode = "204")
-    // public ResponseEntity<Void> deleteUser(@PathVariable(name = "id") final Long id) {
-    //     userService.delete(id);
-    //     return ResponseEntity.noContent().build();
-    // }
+    @DeleteMapping("/{id}")
+    @ApiResponse(responseCode = "204")
+    public ResponseEntity<Void> deleteUser(@PathVariable(name = "id") final Long id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }
