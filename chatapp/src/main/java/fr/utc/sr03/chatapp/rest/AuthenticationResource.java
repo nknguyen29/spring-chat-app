@@ -22,6 +22,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
+@CrossOrigin(origins = "http://localhost:3000") // pay attention to the allowed origins localhost:3000
 public class AuthenticationResource {
 
     private final HttpUserDetailsService httpUserDetailsService;
@@ -36,8 +37,6 @@ public class AuthenticationResource {
         this.authenticationManager = authenticationManager;
     }
 
-    // pay attention to the allowed origins
-    @CrossOrigin(origins = "*")
     @PostMapping("/login")
     public AuthenticationResponse authenticate(@RequestBody @Valid final AuthenticationRequest authenticationRequest) {
         final String email = authenticationRequest.getEmail();

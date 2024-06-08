@@ -20,6 +20,7 @@ public final class UserMapper {
     // The field must be declared volatile so that double check lock would work
     // correctly.
     private static volatile ChatroomMapper chatroomMapper;
+
     private static volatile TokenMapper tokenMapper;
 
     public static ChatroomMapper getChatroomMapper() {
