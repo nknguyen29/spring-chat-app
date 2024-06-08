@@ -19,6 +19,7 @@ import Join from "./components/Join";
 import Login from "./components/Login";
 import Logout from "./components/Logout";
 import { AuthContext, AuthProvider } from "./components/AuthContext";
+import ChatroomList from "./components/ChatroomList";
 
 const PrivateWrapper = () => {
   const { isAuthenticated } = useContext(AuthContext);
@@ -54,11 +55,13 @@ export default function App() {
           <CssBaseline />
           <Header user={user} />
           <div className="layout">
-            <div className="sidebar">
-              <Sidebar />
-            </div>
+
+          {/* Only render the sidebar when the user is authenticated. */}
+          {user && <Sidebar />}
 
             <div className="main-content">
+              {/* Here are all the routes used in the app. */}
+              {/* To change the order & routes used in the sidebar, go to components/Sidebar.js. */}
               <Routes>
                 <Route path="/" element={<Login setUser={setUser} />} />
                 <Route path="/login" element={<Login setUser={setUser} />} />
@@ -71,6 +74,9 @@ export default function App() {
                 </Route>
                 <Route element={<PrivateWrapper />}>
                   <Route path="/users" element={<UserList />} />
+                </Route>
+                <Route element={<PrivateWrapper />}>
+                  <Route path="/chatrooms" element={<ChatroomList />} />
                 </Route>
                 <Route element={<PrivateWrapper />}>
                   <Route path="/discussion/:roomId" element={<Discussion />} />
