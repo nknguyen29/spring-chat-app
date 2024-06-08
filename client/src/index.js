@@ -10,6 +10,7 @@ import {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
+            {/* All the routes are defined in App.js */}
             <App />
     </BrowserRouter>
 );
