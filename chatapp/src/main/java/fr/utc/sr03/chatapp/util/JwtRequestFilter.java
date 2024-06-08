@@ -11,9 +11,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import fr.utc.sr03.chatapp.model.JwtUserDetails;
+import fr.utc.sr03.chatapp.model.HttpUserDetails;
+import fr.utc.sr03.chatapp.service.HttpUserDetailsService;
 import fr.utc.sr03.chatapp.service.JwtTokenService;
-import fr.utc.sr03.chatapp.service.JwtUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +27,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     private JwtTokenService jwtTokenService;
 
     @Autowired
-    private JwtUserDetailsService jwtUserDetailsService;
+    private HttpUserDetailsService httpUserDetailsService;
 
     @Override
     protected void doFilterInternal(@NonNull final HttpServletRequest request,
@@ -49,7 +49,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         // set user details on spring security context
-        final JwtUserDetails userDetails = jwtUserDetailsService.loadUserByUsername(username);
+        final HttpUserDetails userDetails = httpUserDetailsService.loadUserByUsername(username);
         final UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                 userDetails, null, userDetails.getAuthorities());
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

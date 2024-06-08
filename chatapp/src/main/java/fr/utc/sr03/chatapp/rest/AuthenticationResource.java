@@ -13,9 +13,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import fr.utc.sr03.chatapp.model.AuthenticationRequest;
 import fr.utc.sr03.chatapp.model.AuthenticationResponse;
-import fr.utc.sr03.chatapp.model.JwtUserDetails;
+import fr.utc.sr03.chatapp.model.HttpUserDetails;
+import fr.utc.sr03.chatapp.service.HttpUserDetailsService;
 import fr.utc.sr03.chatapp.service.JwtTokenService;
-import fr.utc.sr03.chatapp.service.JwtUserDetailsService;
 import jakarta.validation.Valid;
 
 
@@ -23,14 +23,14 @@ import jakarta.validation.Valid;
 @RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AuthenticationResource {
 
-    private final JwtUserDetailsService jwtUserDetailsService;
+    private final HttpUserDetailsService httpUserDetailsService;
     private final JwtTokenService jwtTokenService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResource(final JwtUserDetailsService jwtUserDetailsService,
+    public AuthenticationResource(final HttpUserDetailsService httpUserDetailsService,
             final JwtTokenService jwtTokenService,
             final AuthenticationManager authenticationManager) {
-        this.jwtUserDetailsService = jwtUserDetailsService;
+        this.httpUserDetailsService = httpUserDetailsService;
         this.jwtTokenService = jwtTokenService;
         this.authenticationManager = authenticationManager;
     }
@@ -45,7 +45,7 @@ public class AuthenticationResource {
         } catch (final BadCredentialsException ex) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        final JwtUserDetails userDetails = jwtUserDetailsService.loadUserByUsername(email);
+        final HttpUserDetails userDetails = httpUserDetailsService.loadUserByUsername(email);
 
         final AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         authenticationResponse.setAccessToken(jwtTokenService.generateToken(userDetails));

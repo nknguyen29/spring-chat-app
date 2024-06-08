@@ -13,7 +13,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.JWTVerifier;
 
-import fr.utc.sr03.chatapp.model.JwtUserDetails;
+import fr.utc.sr03.chatapp.model.HttpUserDetails;
 
 
 @Service
@@ -31,7 +31,7 @@ public class JwtTokenService {
         this.verifier = JWT.require(this.hmac512).build();
     }
 
-    public String generateToken(final JwtUserDetails userDetails) {
+    public String generateToken(final HttpUserDetails userDetails) {
         final Instant now = Instant.now();
         return JWT.create()
                 .withSubject(userDetails.getUsername())
