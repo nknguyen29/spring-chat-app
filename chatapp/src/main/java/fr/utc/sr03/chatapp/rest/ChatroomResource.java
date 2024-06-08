@@ -1,6 +1,7 @@
 package fr.utc.sr03.chatapp.rest;
 
 import fr.utc.sr03.chatapp.model.ChatroomDTO;
+import fr.utc.sr03.chatapp.model.ChatroomPublicDTO;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
 import fr.utc.sr03.chatapp.service.ChatroomService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -29,15 +30,25 @@ public class ChatroomResource {
         this.chatroomService = chatroomService;
     }
 
+    @GetMapping("/public")
+    public ResponseEntity<List<ChatroomPublicDTO>> getAllPublicChatrooms() {
+        return ResponseEntity.ok(chatroomService.findAllPublic());
+    }
+
     @GetMapping
     public ResponseEntity<List<ChatroomDTO>> getAllChatrooms() {
         return ResponseEntity.ok(chatroomService.findAll());
     }
 
-    // @GetMapping("/{id}")
-    // public ResponseEntity<ChatroomDTO> getChatroom(@PathVariable(name = "id") final Long id) {
-    //     return ResponseEntity.ok(chatroomService.get(id));
-    // }
+    @GetMapping("/public/{id}")
+    public ResponseEntity<ChatroomPublicDTO> getPublicChatroom(@PathVariable(name = "id") final Long id) {
+        return ResponseEntity.ok(chatroomService.getPublic(id));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ChatroomDTO> getChatroom(@PathVariable(name = "id") final Long id) {
+        return ResponseEntity.ok(chatroomService.get(id));
+    }
 
     // @PostMapping
     // @ApiResponse(responseCode = "201")

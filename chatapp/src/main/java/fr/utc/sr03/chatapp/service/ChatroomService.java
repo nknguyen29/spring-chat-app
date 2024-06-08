@@ -4,6 +4,7 @@ import fr.utc.sr03.chatapp.domain.Chatroom;
 import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.mapper.ChatroomMapper;
 import fr.utc.sr03.chatapp.model.ChatroomDTO;
+import fr.utc.sr03.chatapp.model.ChatroomPublicDTO;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
 import fr.utc.sr03.chatapp.repos.ChatroomRepository;
 import fr.utc.sr03.chatapp.repos.UserRepository;
@@ -26,11 +27,12 @@ public class ChatroomService {
     private final ChatroomMapper chatroomMapper;
 
     public ChatroomService(final ChatroomRepository chatroomRepository,
-            final UserRepository userRepository) {
+            final UserRepository userRepository,
+            final ChatroomMapper chatroomMapper) {
         this.chatroomRepository = chatroomRepository;
         this.userRepository = userRepository;
 
-        this.chatroomMapper = new ChatroomMapper();
+        this.chatroomMapper = chatroomMapper;
     }
 
     public List<ChatroomDTO> findAll() {
@@ -40,11 +42,24 @@ public class ChatroomService {
                 .toList();
     }
 
-    // public ChatroomDTO get(final Long id) {
-    //     return chatroomRepository.findById(id)
-    //             .map(chatroom -> mapToDTO(chatroom, new ChatroomDTO()))
-    //             .orElseThrow(NotFoundException::new);
-    // }
+    public List<ChatroomPublicDTO> findAllPublic() {
+        final List<Chatroom> chatrooms = chatroomRepository.findAll(Sort.by("id"));
+        return chatrooms.stream()
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomPublicDTO()))
+                .toList();
+    }
+
+    public ChatroomDTO get(final Long id) {
+        return chatroomRepository.findById(id)
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomDTO()))
+                .orElseThrow(NotFoundException::new);
+    }
+
+    public ChatroomPublicDTO getPublic(final Long id) {
+        return chatroomRepository.findById(id)
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomPublicDTO()))
+                .orElseThrow(NotFoundException::new);
+    }
 
     // public Long create(final ChatroomDTO chatroomDTO) {
     //     final Chatroom chatroom = new Chatroom();

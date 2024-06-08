@@ -10,6 +10,7 @@ import fr.utc.sr03.chatapp.model.UserGetDTO;
 import fr.utc.sr03.chatapp.model.UserListDTO;
 import fr.utc.sr03.chatapp.model.UserPostDTO;
 import fr.utc.sr03.chatapp.model.UserPublicDTO;
+import fr.utc.sr03.chatapp.model.UserPublicWithoutChatroomDTO;
 import fr.utc.sr03.chatapp.model.UserWithoutChatroomDTO;
 
 
@@ -135,6 +136,20 @@ public final class UserMapper {
         userDTO.setLastName(user.getLastName());
         userDTO.setEmail(user.getEmail());
         userDTO.setPassword(user.getPassword());
+        userDTO.setIsAdmin(user.getIsAdmin());
+        userDTO.setCreatedAt(user.getCreatedAt());
+        userDTO.setLastConnection(user.getLastConnection());
+        userDTO.setFailedConnectionAttempts(user.getFailedConnectionAttempts());
+        userDTO.setIsLocked(user.getIsLocked());
+        userDTO.setLockedAt(user.getLockedAt());
+        return userDTO;
+    }
+
+    public UserPublicWithoutChatroomDTO mapToDTO(final User user, final UserPublicWithoutChatroomDTO userDTO) {
+        userDTO.setId(user.getId());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setEmail(user.getEmail());
         userDTO.setIsAdmin(user.getIsAdmin());
         userDTO.setCreatedAt(user.getCreatedAt());
         userDTO.setLastConnection(user.getLastConnection());
