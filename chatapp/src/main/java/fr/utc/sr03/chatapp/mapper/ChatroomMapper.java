@@ -3,7 +3,6 @@ package fr.utc.sr03.chatapp.mapper;
 import org.springframework.stereotype.Component;
 
 import fr.utc.sr03.chatapp.domain.Chatroom;
-import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.model.ChatroomDTO;
 import fr.utc.sr03.chatapp.model.ChatroomPublicDTO;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
@@ -62,26 +61,6 @@ public class ChatroomMapper {
         chatroomDTO.setStartDate(chatroom.getStartDate());
         chatroomDTO.setValidityDuration(chatroom.getValidityDuration());
         return chatroomDTO;
-    }
-
-    public Chatroom mapToEntity(final ChatroomDTO chatroomDTO, final Chatroom chatroom) {
-        UserMapper userMapper = getChatroomMapper();
-
-        chatroom.setTitle(chatroomDTO.getTitle());
-        chatroom.setDescription(chatroomDTO.getDescription());
-        chatroom.setStartDate(chatroomDTO.getStartDate());
-        chatroom.setValidityDuration(chatroomDTO.getValidityDuration());
-        chatroomDTO.getUsers().forEach(
-                userDTO -> chatroom.addUser(userMapper.mapToEntity(userDTO, new User())));
-        return chatroom;
-    }
-
-    public Chatroom mapToEntity(final ChatroomWithoutUserDTO chatroomDTO, final Chatroom chatroom) {
-        chatroom.setTitle(chatroomDTO.getTitle());
-        chatroom.setDescription(chatroomDTO.getDescription());
-        chatroom.setStartDate(chatroomDTO.getStartDate());
-        chatroom.setValidityDuration(chatroomDTO.getValidityDuration());
-        return chatroom;
     }
 
 }
