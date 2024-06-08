@@ -51,6 +51,7 @@ const Login = (props) => {
                 <br></br>
                 <Link to="/chats">POUR TEST UNIQUEMENT</Link> <br/>
                 <Link to="/demo-chat">Demo de chat</Link> <br/>
+                <Link to="/debugging">Test d'envoi et de réception</Link> <br/>
                 <Link to="/users">Liste d'utilisateurs</Link>
             </form>
         </div>
