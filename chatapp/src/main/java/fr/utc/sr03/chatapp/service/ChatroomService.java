@@ -2,6 +2,7 @@ package fr.utc.sr03.chatapp.service;
 
 import fr.utc.sr03.chatapp.domain.Chatroom;
 import fr.utc.sr03.chatapp.domain.User;
+import fr.utc.sr03.chatapp.mapper.ChatroomMapper;
 import fr.utc.sr03.chatapp.model.ChatroomDTO;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
 import fr.utc.sr03.chatapp.repos.ChatroomRepository;
@@ -22,18 +23,22 @@ public class ChatroomService {
     private final ChatroomRepository chatroomRepository;
     private final UserRepository userRepository;
 
+    private final ChatroomMapper chatroomMapper;
+
     public ChatroomService(final ChatroomRepository chatroomRepository,
             final UserRepository userRepository) {
         this.chatroomRepository = chatroomRepository;
         this.userRepository = userRepository;
+
+        this.chatroomMapper = new ChatroomMapper();
     }
 
-    // public List<ChatroomDTO> findAll() {
-    //     final List<Chatroom> chatrooms = chatroomRepository.findAll(Sort.by("id"));
-    //     return chatrooms.stream()
-    //             .map(chatroom -> mapToDTO(chatroom, new ChatroomDTO()))
-    //             .toList();
-    // }
+    public List<ChatroomDTO> findAll() {
+        final List<Chatroom> chatrooms = chatroomRepository.findAll(Sort.by("id"));
+        return chatrooms.stream()
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomDTO()))
+                .toList();
+    }
 
     // public ChatroomDTO get(final Long id) {
     //     return chatroomRepository.findById(id)

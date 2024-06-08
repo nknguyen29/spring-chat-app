@@ -1,6 +1,7 @@
 package fr.utc.sr03.chatapp.model;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -33,6 +34,10 @@ public class ChatroomDTO {
     @NotNull
     @JsonProperty("users")
     private List<UserWithoutChatroomDTO> users;
+
+    public ChatroomDTO() {
+        this.users = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -83,11 +88,11 @@ public class ChatroomDTO {
     }
 
     public void addUser(final UserWithoutChatroomDTO user) {
-        users.add(user);
+        this.users.add(user);
     }
 
     public void removeUser(final UserWithoutChatroomDTO user) {
-        users.remove(user);
+        this.users.remove(user);
     }
 
     @Override
