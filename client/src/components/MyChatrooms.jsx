@@ -5,12 +5,17 @@ import useGetChatrooms from '../hooks/useGetChatrooms';
 function MyChatrooms({ user }) {
     const { chatrooms, error } = useGetChatrooms(user.id);
 
+    if (!Array.isArray(chatrooms)) {
+        console.error('Hello, expected an array from the API endpoint, but did not receive one.');
+        return null;
+    }
+
     return (
         <div>
             <h1>All My Chatrooms</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <ul>
-                {chatrooms.map(chatroom => (
+                {chatrooms && chatrooms.map(chatroom => (
                     <li key={chatroom.id}>
                         <h2>{chatroom.title}</h2>
                         <p>{chatroom.description}</p>
