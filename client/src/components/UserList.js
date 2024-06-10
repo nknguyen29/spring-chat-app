@@ -1,19 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+
+import useGetAllUsers from '../hooks/useGetAllUsers';
 
 function UserList() {
-    const [users, setUsers] = useState([]);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        axios.get('/api/users')
-            .then(response => {
-                setUsers(response.data);
-            })
-            .catch(error => {
-                setError(error.message);
-            });
-    }, []);
+    const {users, error} = useGetAllUsers();
 
     return (
         <div>

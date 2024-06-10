@@ -107,7 +107,8 @@ export function SendingMessages() {
       //Send Message
       stompClient.publish({
         destination: "/app/chat/" + roomId,
-        body: JSON.stringify({'name': input})
+        body: JSON.stringify({'content': input}) 
+        // no sender, should be empty
       });
     }
     else {

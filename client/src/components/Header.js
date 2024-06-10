@@ -5,7 +5,7 @@ const Header = ({ user }) => {
   return (
     <header className="header">
       <Link to="/"><h1>Chat App</h1></Link>
-      {user && <div>Welcome, {user}!</div>}
+      {user && <div>Welcome, {user.firstName} {user.lastName} !</div>}
     </header>
   );
 };

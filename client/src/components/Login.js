@@ -13,7 +13,7 @@ const Login = ({ setUser }) => {
     useEffect(() => {
         if (isAuthenticated) {
             // go to the main page
-            navigate('/discussion/MainRoom');
+            navigate('/chatrooms');
         }
     }, [isAuthenticated, navigate]);
 
@@ -39,7 +39,7 @@ const Login = ({ setUser }) => {
 
                 // Decode the token and set the user state
                 const decodedToken = jwtDecode(res.data.accessToken);
-                setUser(decodedToken.sub);
+                setUser(decodedToken);
 
                 // Change isAuthenticated to true
                 setIsAuthenticated(true);
