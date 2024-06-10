@@ -36,8 +36,11 @@ public class ChatroomMapper {
         chatroomDTO.setDescription(chatroom.getDescription());
         chatroomDTO.setStartDate(chatroom.getStartDate());
         chatroomDTO.setValidityDuration(chatroom.getValidityDuration());
-        chatroom.getUsers().forEach(
-                user -> chatroomDTO.addUser(userMapper.mapToDTO(user, new UserWithoutChatroomDTO())));
+        chatroomDTO.setUsers(chatroom.getUsers().stream()
+                .map(user -> userMapper.mapToDTO(user, new UserWithoutChatroomDTO()))
+                .toList());
+        // chatroom.getUsers().forEach(
+        //         user -> chatroomDTO.addUser(userMapper.mapToDTO(user, new UserWithoutChatroomDTO())));
         chatroomDTO.setCreatedBy(userMapper.mapToDTO(chatroom.getCreatedBy(), new UserWithoutChatroomDTO()));
         return chatroomDTO;
     }
@@ -67,5 +70,19 @@ public class ChatroomMapper {
         chatroomDTO.setCreatedBy(userMapper.mapToDTO(chatroom.getCreatedBy(), new UserWithoutChatroomDTO()));
         return chatroomDTO;
     }
+
+    // private Chatroom mapToEntity(final ChatroomDTO chatroomDTO, final Chatroom chatroom) {
+    //     chatroom.setTitle(chatroomDTO.getTitle());
+    //     chatroom.setDescription(chatroomDTO.getDescription());
+    //     chatroom.setStartDate(chatroomDTO.getStartDate());
+    //     chatroom.setValidityDuration(chatroomDTO.getValidityDuration());
+    //     final List<User> users = userRepository.findAllById(
+    //             chatroomDTO.getUsers() == null ? Collections.emptyList() : chatroomDTO.getUsers());
+    //     if (users.size() != (chatroomDTO.getUsers() == null ? 0 : chatroomDTO.getUsers().size())) {
+    //         throw new NotFoundException("one of users not found");
+    //     }
+    //     chatroom.setUsers(new HashSet<>(users));
+    //     return chatroom;
+    // }
 
 }
