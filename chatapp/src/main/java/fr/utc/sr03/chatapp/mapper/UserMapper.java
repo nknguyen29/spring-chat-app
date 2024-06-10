@@ -80,14 +80,18 @@ public final class UserMapper {
         userDTO.setFailedConnectionAttempts(user.getFailedConnectionAttempts());
         userDTO.setIsLocked(user.getIsLocked());
         userDTO.setLockedAt(user.getLockedAt());
-        user.getTokens().forEach(
-                token -> userDTO.addToken(tokenMapper.mapToDTO(token, new TokenWithoutUserDTO())));
-        user.getChatrooms().forEach(
-                chatroom -> userDTO.addChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
-        user.getCreatedChatrooms().forEach(
-                chatroom -> userDTO.addCreatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
-        user.getUpdatedChatrooms().forEach(
-                chatroom -> userDTO.addUpdatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
+        userDTO.setTokens(user.getTokens().stream()
+                .map(token -> tokenMapper.mapToDTO(token, new TokenWithoutUserDTO()))
+                .toList());
+        userDTO.setChatrooms(user.getChatrooms().stream()
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO()))
+                .toList());
+        userDTO.setCreatedChatrooms(user.getCreatedChatrooms().stream()
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO()))
+                .toList());
+        userDTO.setUpdatedChatrooms(user.getUpdatedChatrooms().stream()
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO()))
+                .toList());
         return userDTO;
     }
 
@@ -104,12 +108,15 @@ public final class UserMapper {
         userDTO.setFailedConnectionAttempts(user.getFailedConnectionAttempts());
         userDTO.setIsLocked(user.getIsLocked());
         userDTO.setLockedAt(user.getLockedAt());
-        user.getChatrooms().forEach(
-                chatroom -> userDTO.addChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
-        user.getCreatedChatrooms().forEach(
-                chatroom -> userDTO.addCreatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
-        user.getUpdatedChatrooms().forEach(
-                chatroom -> userDTO.addUpdatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
+        userDTO.setChatrooms(user.getChatrooms().stream()
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO()))
+                .toList());
+        userDTO.setCreatedChatrooms(user.getCreatedChatrooms().stream()
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO()))
+                .toList());
+        userDTO.setUpdatedChatrooms(user.getUpdatedChatrooms().stream()
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO()))
+                .toList());
         return userDTO;
     }
 
@@ -139,12 +146,15 @@ public final class UserMapper {
         userDTO.setLastConnection(user.getLastConnection());
         userDTO.setIsLocked(user.getIsLocked());
         userDTO.setLockedAt(user.getLockedAt());
-        user.getChatrooms().forEach(
-                chatroom -> userDTO.addChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
-        user.getCreatedChatrooms().forEach(
-                chatroom -> userDTO.addCreatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
-        user.getUpdatedChatrooms().forEach(
-                chatroom -> userDTO.addUpdatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
+        userDTO.setChatrooms(user.getChatrooms().stream()
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO()))
+                .toList());
+        userDTO.setCreatedChatrooms(user.getCreatedChatrooms().stream()
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO()))
+                .toList());
+        userDTO.setUpdatedChatrooms(user.getUpdatedChatrooms().stream()
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO()))
+                .toList());
         return userDTO;
     }
 
@@ -174,8 +184,9 @@ public final class UserMapper {
         userDTO.setFailedConnectionAttempts(user.getFailedConnectionAttempts());
         userDTO.setIsLocked(user.getIsLocked());
         userDTO.setLockedAt(user.getLockedAt());
-        user.getTokens().forEach(
-                token -> userDTO.addToken(tokenMapper.mapToDTO(token, new TokenWithoutUserDTO())));
+        userDTO.setTokens(user.getTokens().stream()
+                .map(token -> tokenMapper.mapToDTO(token, new TokenWithoutUserDTO()))
+                .toList());
         return userDTO;
     }
 
