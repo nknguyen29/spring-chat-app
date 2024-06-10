@@ -67,4 +67,18 @@ public class UserResource {
         return ResponseEntity.noContent().build();
     }
 
+    @DeleteMapping("/{id}/lock")
+    @ApiResponse(responseCode = "204")
+    public ResponseEntity<Void> lockUser(@PathVariable(name = "id") final Long id) {
+        userService.lock(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}/unlock")
+    @ApiResponse(responseCode = "204")
+    public ResponseEntity<Void> unlockUser(@PathVariable(name = "id") final Long id) {
+        userService.unlock(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
