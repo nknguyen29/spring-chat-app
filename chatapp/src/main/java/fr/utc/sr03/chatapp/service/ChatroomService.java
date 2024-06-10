@@ -110,7 +110,11 @@ public class ChatroomService {
     }
 
     public void delete(final Long id) {
-        chatroomRepository.deleteById(id);
+        final Chatroom chatroom = chatroomRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        // remove many-to-many relations at owning side
+        chatroom.getChatroomUsers().forEach(chatroomUserRepository::delete);
+        chatroomRepository.delete(chatroom);
     }
 
 }
