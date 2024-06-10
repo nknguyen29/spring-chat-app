@@ -2,18 +2,23 @@ package fr.utc.sr03.chatapp.rest;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.utc.sr03.chatapp.model.ChatroomDTO;
+import fr.utc.sr03.chatapp.model.ChatroomPostDTO;
 import fr.utc.sr03.chatapp.model.ChatroomPublicDTO;
 import fr.utc.sr03.chatapp.service.ChatroomService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 
 
 @RestController
@@ -46,12 +51,12 @@ public class ChatroomResource {
         return ResponseEntity.ok(chatroomService.getPublic(id));
     }
 
-    // @PostMapping
-    // @ApiResponse(responseCode = "201")
-    // public ResponseEntity<Long> createChatroom(@RequestBody @Valid final ChatroomDTO chatroomDTO) {
-    //     final Long createdId = chatroomService.create(chatroomDTO);
-    //     return new ResponseEntity<>(createdId, HttpStatus.CREATED);
-    // }
+    @PostMapping
+    @ApiResponse(responseCode = "201")
+    public ResponseEntity<Long> createChatroom(@RequestBody @Valid final ChatroomPostDTO chatroomDTO) {
+        final Long createdId = chatroomService.create(chatroomDTO);
+        return new ResponseEntity<>(createdId, HttpStatus.CREATED);
+    }
 
     // @PutMapping("/{id}")
     // public ResponseEntity<Long> updateChatroom(@PathVariable(name = "id") final Long id,
