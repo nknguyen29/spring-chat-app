@@ -1,8 +1,6 @@
 package fr.utc.sr03.chatapp.model;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -12,7 +10,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 
-public class ChatroomPublicDTO {
+public class ChatroomPublicWithoutUserDTO {
 
     private Long id;
 
@@ -46,14 +44,6 @@ public class ChatroomPublicDTO {
 
     @JsonProperty("updatedBy")
     private UserPublicWithoutChatroomDTO updatedBy;
-
-    @NotNull
-    @JsonProperty("users")
-    private List<UserPublicWithoutChatroomDTO> users;
-
-    public ChatroomPublicDTO() {
-        this.users = new ArrayList<>();
-    }
 
     public Long getId() {
         return id;
@@ -127,25 +117,9 @@ public class ChatroomPublicDTO {
         this.updatedBy = updatedBy;
     }
 
-    public List<UserPublicWithoutChatroomDTO> getUsers() {
-        return users;
-    }
-
-    public void setUsers(final List<UserPublicWithoutChatroomDTO> users) {
-        this.users = users;
-    }
-
-    public void addUser(final UserPublicWithoutChatroomDTO user) {
-        this.users.add(user);
-    }
-
-    public void removeUser(final UserPublicWithoutChatroomDTO user) {
-        this.users.remove(user);
-    }
-
     @Override
     public String toString() {
-        return "ChatroomDTO{" +
+        return "ChatroomPublicWithoutUserDTO{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
@@ -155,7 +129,6 @@ public class ChatroomPublicDTO {
                 ", createdBy=" + createdBy +
                 ", updatedAt=" + updatedAt +
                 ", updatedBy=" + updatedBy +
-                ", users=" + users +
                 '}';
     }
 
