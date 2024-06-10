@@ -1,25 +1,21 @@
 package fr.utc.sr03.chatapp.service;
 
+import java.util.List;
+
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
 import fr.utc.sr03.chatapp.domain.Chatroom;
 import fr.utc.sr03.chatapp.domain.ChatroomUser;
 import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.mapper.ChatroomMapper;
 import fr.utc.sr03.chatapp.model.ChatroomDTO;
-import fr.utc.sr03.chatapp.model.ChatroomPostDTO;
 import fr.utc.sr03.chatapp.model.ChatroomPublicDTO;
 import fr.utc.sr03.chatapp.model.ChatroomUserPostDTO;
-import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
 import fr.utc.sr03.chatapp.repos.ChatroomRepository;
 import fr.utc.sr03.chatapp.repos.UserRepository;
 import fr.utc.sr03.chatapp.util.NotFoundException;
 import jakarta.transaction.Transactional;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 
 @Service
@@ -93,6 +89,25 @@ public class ChatroomService {
     //     mapToEntity(chatroomDTO, chatroom);
     //     chatroomRepository.save(chatroom);
     // }
+
+    public void addUser(final Long id, final Long userId) {
+        final Chatroom chatroom = chatroomRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        final User user = userRepository.findById(userId)
+                .orElseThrow(NotFoundException::new);
+        final ChatroomUser chatroomUser = new ChatroomUser(chatroom, user);
+        chatroom.getChatroomUsers().add(chatroomUser);
+        chatroomRepository.save(chatroom);
+    }
+
+    public void removeUser(final Long id, final Long userId) {
+        final Chatroom chatroom = chatroomRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        final User user = userRepository.findById(userId)
+                .orElseThrow(NotFoundException::new);
+        chatroom.getChatroomUsers().removeIf(chatroomUser -> chatroomUser.getUser().equals(user));
+        chatroomRepository.save(chatroom);
+    }
 
     public void delete(final Long id) {
         chatroomRepository.deleteById(id);
