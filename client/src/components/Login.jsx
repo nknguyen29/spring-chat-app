@@ -6,6 +6,29 @@ import { AuthContext } from './AuthContext';
 
 import { jwtDecode } from 'jwt-decode';
 
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+  } from "./ui/card"
+
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+import { Button } from "@/components/ui/button"
+
+import {
+Select,
+SelectContent,
+SelectItem,
+SelectTrigger,
+SelectValue,
+} from "@/components/ui/select"
+  
+
 const Login = ({ setUser }) => {
     const navigate = useNavigate();
 
@@ -72,26 +95,34 @@ const Login = ({ setUser }) => {
     }
 
     return (
-        <div className="login-container">
-            <form>
-                <div className="mb-3">
-                    <label htmlFor="email" className="form-label">Email</label>
-                    <input type="email" name="email" className="form-control" id="email" value={email}
-                           onChange={e => {
-                               setMail(e.target.value)
-                           }} required={true}/>
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="password" className="form-label">Password</label>
-                    <input type="password" name="password" className="form-control" id="password" value={password}
-                           onChange={e => {
-                               setPassword(e.target.value)
-                           }} required={true}/>
-                </div>
-                <button type="submit" className="btn btn-primary w-100" onClick={handleLogin}>Connexion</button>
-                <br></br>
-            </form>
-        </div>
+        <Card>
+            <CardHeader>
+                <CardTitle>Login</CardTitle>
+                <CardDescription>Please enter your credentials</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <form>
+                    <div className="mb-3">
+                        <Label htmlFor="email" className="form-label">Email</Label>
+                        <Input type="email" name="email" className="form-control" id="email" value={email}
+                               onChange={e => {
+                                   setMail(e.target.value)
+                               }} required={true}/>
+                    </div>
+                    <div className="mb-3">
+                        <Label htmlFor="password" className="form-label">Password</Label>
+                        <Input type="password" name="password" className="form-control" id="password" value={password}
+                               onChange={e => {
+                                   setPassword(e.target.value)
+                               }} required={true}/>
+                    </div>
+                    <Button type="submit" className="btn btn-primary w-100" onClick={handleLogin}>Connexion</Button>
+                </form>
+            </CardContent>
+            <CardFooter>
+                <p>Don't have an account ? Tant pis</p>
+            </CardFooter>
+        </Card>
     );
 }
 

@@ -12,6 +12,12 @@ export default function Discussion({ user, messages }) {
   // Get Instance of StompClient
   const stompClient = useStompClient();
 
+  // Fetch all users
+  const {users, error} = useGetAllUsers();
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   const sendMessage = () => {
     if(stompClient) {
@@ -31,16 +37,23 @@ export default function Discussion({ user, messages }) {
     }
   };
 
+  // Check if messages is an object before accessing its properties
+  if (typeof messages !== 'object') {
+    console.error('Expected an object for the messages prop, but did not receive one.');
+    return null;
+  }
+
   // Get the messages for the current room
   const roomMessages = (messages[roomId] || []).map(message => JSON.parse(message));
 
   console.log('Room messages:', roomMessages);
 
-  // Fetch all users
-  const {users, error} = useGetAllUsers();
-  if (error) {
-    return <div>Error: {error}</div>;
+  // Check if users is an array before using array methods
+  if (!Array.isArray(users)) {
+    console.error('Expected an array from the useGetAllUsers hook, but did not receive one.');
+    return null;
   }
+
   console.log('Users:', users);
 
   return (

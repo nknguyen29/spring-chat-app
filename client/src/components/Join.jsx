@@ -1,23 +1,23 @@
 import React, { useState } from "react";
-import { CssBaseline } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Button,
   Container,
   Grid,
   TextField,
   Typography
 } from "@mui/material";
 
+import { Button } from "./ui/button.jsx";
+
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function App() {
   return (
-    <><CssBaseline /><Container>
+    <><Container>
           <Showcase title={"Joining Room"}><JoiningRoom /></Showcase>
       </Container></>
   );
@@ -38,7 +38,7 @@ export function JoiningRoom() {
     <Grid container direction="row" spacing={3}>
       <Grid item><TextField variant="standard" value={roomId}
                       onChange={(event => setRoomId(event.target.value))}></TextField></Grid>
-      <Grid item><Button variant={"contained"} onClick={joinRoom}>Join Room </Button></Grid>                     
+      <Grid item><Button variant="outline" onClick={joinRoom}>Join Room </Button></Grid>                     
     </Grid>
   );
 }

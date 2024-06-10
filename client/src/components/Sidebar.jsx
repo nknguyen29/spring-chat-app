@@ -24,7 +24,6 @@ export default function App({ user }) {
           <MenuItem component={<Link to="/my-chatrooms" />}> My Chatrooms' Details </MenuItem>
           <MenuItem component={<Link to="/users" />}> Show All Users </MenuItem>
           <MenuItem component={<Link to="/chatrooms" />}> Show All Chatrooms </MenuItem>
-          <MenuItem component={<Link to="/chats" />}> Chat template from Prof </MenuItem>
           <MenuItem component={<Link to="/debugging" />}> Debugging </MenuItem>
           <MenuItem component={<Link to="/logout" />}> Logout </MenuItem>
         </Menu>

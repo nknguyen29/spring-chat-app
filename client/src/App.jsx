@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import { CssBaseline } from "@mui/material";
 import { Route, Routes, Navigate, Outlet } from 'react-router-dom';
 
 import {
@@ -8,10 +7,11 @@ import {
 
 import { jwtDecode } from 'jwt-decode';
 
+
+
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 
-import ChatList from "./components/ChatList";
 import Debugging from "./components/Debugging";
 import UserList from "./components/UserList";
 import Discussion from "./components/Discussion";
@@ -64,7 +64,6 @@ export default function App() {
       >
         <StompListener user={user} setMessages={setMessages} />
         <div className="app">
-          <CssBaseline />
           <Header user={user} />
           <div className="layout">
 
@@ -73,14 +72,11 @@ export default function App() {
 
             <div className="main-content">
               {/* Here are all the routes used in the app. */}
-              {/* To change the order & routes used in the sidebar, go to components/Sidebar.js. */}
+              {/* To change the order & routes used in the sidebar, go to components/Sidebar.jsx. */}
               <Routes>
                 <Route path="/" element={<Login setUser={setUser} />} />
                 <Route path="/login" element={<Login setUser={setUser} />} />
 
-                <Route element={<PrivateWrapper />}>
-                  <Route path="/chats" element={<ChatList />} />
-                </Route>
                 <Route element={<PrivateWrapper />}>
                   <Route path="/debugging" element={<Debugging />} />
                 </Route>

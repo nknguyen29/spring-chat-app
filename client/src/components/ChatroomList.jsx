@@ -8,7 +8,12 @@ function ChatroomList() {
     useEffect(() => {
         axios.get('/api/chatrooms/public')
             .then(response => {
-                setChatrooms(response.data);
+                if (Array.isArray(response.data)) {
+                    setChatrooms(response.data);
+                } else {
+                    setChatrooms([]);
+                    console.error('Hello, expected an array from the API endpoint, but did not receive one.');
+                }
             })
             .catch(error => {
                 setError(error.message);
@@ -20,7 +25,7 @@ function ChatroomList() {
             <h1>Chatroom List</h1>
             {error && <p style={{ color: 'red' }}>{error}</p>}
             <ul>
-                {chatrooms.map(chatroom => (
+                {chatrooms && chatrooms.map(chatroom => (
                     <li key={chatroom.id}>
                         <h2>{chatroom.title}</h2>
                         <ul>
