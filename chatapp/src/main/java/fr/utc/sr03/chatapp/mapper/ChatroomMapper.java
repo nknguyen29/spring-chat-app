@@ -1,13 +1,10 @@
 package fr.utc.sr03.chatapp.mapper;
 
-import java.util.Collections;
-import java.util.HashSet;
-
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.utc.sr03.chatapp.domain.Chatroom;
+import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.model.ChatroomDTO;
 import fr.utc.sr03.chatapp.model.ChatroomPostDTO;
 import fr.utc.sr03.chatapp.model.ChatroomPublicDTO;
@@ -15,9 +12,8 @@ import fr.utc.sr03.chatapp.model.ChatroomPublicWithoutUserDTO;
 import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
 import fr.utc.sr03.chatapp.model.UserPublicWithoutChatroomDTO;
 import fr.utc.sr03.chatapp.model.UserWithoutChatroomDTO;
-import fr.utc.sr03.chatapp.util.NotFoundException;
 import fr.utc.sr03.chatapp.repos.UserRepository;
-import fr.utc.sr03.chatapp.domain.User;
+import fr.utc.sr03.chatapp.util.NotFoundException;
 
 
 @Component
@@ -92,7 +88,8 @@ public class ChatroomMapper {
         return chatroomDTO;
     }
 
-    public ChatroomPublicWithoutUserDTO mapToDTO(final Chatroom chatroom, final ChatroomPublicWithoutUserDTO chatroomDTO) {
+    public ChatroomPublicWithoutUserDTO mapToDTO(final Chatroom chatroom,
+            final ChatroomPublicWithoutUserDTO chatroomDTO) {
         final UserMapper userMapper = getChatroomMapper();
 
         chatroomDTO.setId(chatroom.getId());
