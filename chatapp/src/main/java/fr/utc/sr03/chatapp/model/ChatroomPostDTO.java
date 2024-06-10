@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotNull;
@@ -14,6 +15,7 @@ import jakarta.validation.constraints.Size;
 
 public class ChatroomPostDTO {
 
+    @JsonIgnore
     private Long id;
 
     @NotNull
@@ -31,19 +33,8 @@ public class ChatroomPostDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Timestamp validityDuration;
 
-    @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
-    private Timestamp createdAt;
-
     @JsonProperty("createdById")
     private Long createdById;
-
-    @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
-    private Timestamp updatedAt;
-
-    @JsonProperty("updatedById")
-    private Long updatedById;
 
     @NotNull
     @Size(min = 1)
@@ -94,36 +85,12 @@ public class ChatroomPostDTO {
         this.validityDuration = validityDuration;
     }
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(final Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public Long getCreatedById() {
         return createdById;
     }
 
     public void setCreatedById(final Long createdById) {
         this.createdById = createdById;
-    }
-
-    public Timestamp getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(final Timestamp updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Long getUpdatedById() {
-        return updatedById;
-    }
-
-    public void setUpdatedById(final Long updatedById) {
-        this.updatedById = updatedById;
     }
 
     public List<Long> getUserIds() {
@@ -150,10 +117,7 @@ public class ChatroomPostDTO {
                 ", description='" + description + '\'' +
                 ", startDate=" + startDate +
                 ", validityDuration=" + validityDuration +
-                ", createdAt=" + createdAt +
                 ", createdById=" + createdById +
-                ", updatedAt=" + updatedAt +
-                ", updatedById=" + updatedById +
                 ", userIds=" + userIds +
                 '}';
     }
