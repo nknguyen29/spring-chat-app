@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.utc.sr03.chatapp.model.ChatroomDTO;
 import fr.utc.sr03.chatapp.model.ChatroomPostDTO;
 import fr.utc.sr03.chatapp.model.ChatroomPublicDTO;
+import fr.utc.sr03.chatapp.model.ChatroomUserPostDTO;
 import fr.utc.sr03.chatapp.service.ChatroomService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
@@ -53,8 +54,8 @@ public class ChatroomResource {
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    public ResponseEntity<Long> createChatroom(@RequestBody @Valid final ChatroomPostDTO chatroomDTO) {
-        final Long createdId = chatroomService.create(chatroomDTO);
+    public ResponseEntity<Long> createChatroom(@RequestBody @Valid final ChatroomUserPostDTO chatroomUserDTO) {
+        final Long createdId = chatroomService.create(chatroomUserDTO);
         return new ResponseEntity<>(createdId, HttpStatus.CREATED);
     }
 
