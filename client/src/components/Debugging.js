@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { CssBaseline } from "@mui/material";
 
 import {
   StompSessionProvider,
@@ -31,7 +30,6 @@ export default function App() {
         console.log(str);
       }}
     >
-      <CssBaseline />
       <Container>
         <Showcase title={"Subscribing"}><Subscribing /></Showcase>
         <Showcase title={"List Messages From Room"}><ListMessagesFromRoom /></Showcase>

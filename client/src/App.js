@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import { CssBaseline } from "@mui/material";
 import { Route, Routes, Navigate, Outlet } from 'react-router-dom';
 
 import {
@@ -7,6 +6,8 @@ import {
 } from "react-stomp-hooks";
 
 import { jwtDecode } from 'jwt-decode';
+
+
 
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
@@ -64,7 +65,6 @@ export default function App() {
       >
         <StompListener user={user} setMessages={setMessages} />
         <div className="app">
-          <CssBaseline />
           <Header user={user} />
           <div className="layout">
 
