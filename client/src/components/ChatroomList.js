@@ -6,7 +6,7 @@ function ChatroomList() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get('/api/chatrooms')
+        axios.get('/api/chatrooms/public')
             .then(response => {
                 setChatrooms(response.data);
             })
