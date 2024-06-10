@@ -70,10 +70,12 @@ public class User {
     @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "user")
     private Set<ChatroomUser> chatroomUsers;
 
-    @OneToMany(targetEntity = Chatroom.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "createdBy")
+    // The orphanRemoval attribute is set to false to avoid deleting the chatroom
+    // when the user is deleted
+    @OneToMany(targetEntity = Chatroom.class, orphanRemoval = false, mappedBy = "createdBy")
     private Set<Chatroom> createdChatrooms;
 
-    @OneToMany(targetEntity = Chatroom.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "updatedBy")
+    @OneToMany(targetEntity = Chatroom.class, orphanRemoval = false, mappedBy = "updatedBy")
     private Set<Chatroom> updatedChatrooms;
 
     public User() {
