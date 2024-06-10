@@ -23,7 +23,7 @@ public class ChatroomMapper {
 
     private static volatile UserMapper userMapper;
 
-    public static UserMapper getChatroomMapper() {
+    public static UserMapper getUserMapper() {
         final UserMapper result = userMapper;
         if (result != null) {
             return result;
@@ -37,7 +37,7 @@ public class ChatroomMapper {
     }
 
     public ChatroomDTO mapToDTO(final Chatroom chatroom, final ChatroomDTO chatroomDTO) {
-        final UserMapper userMapper = getChatroomMapper();
+        final UserMapper userMapper = getUserMapper();
 
         chatroomDTO.setId(chatroom.getId());
         chatroomDTO.setTitle(chatroom.getTitle());
@@ -55,7 +55,7 @@ public class ChatroomMapper {
     }
 
     public ChatroomPublicDTO mapToDTO(final Chatroom chatroom, final ChatroomPublicDTO chatroomDTO) {
-        final UserMapper userMapper = getChatroomMapper();
+        final UserMapper userMapper = getUserMapper();
 
         chatroomDTO.setId(chatroom.getId());
         chatroomDTO.setTitle(chatroom.getTitle());
@@ -73,7 +73,7 @@ public class ChatroomMapper {
     }
 
     public ChatroomWithoutUserDTO mapToDTO(final Chatroom chatroom, final ChatroomWithoutUserDTO chatroomDTO) {
-        final UserMapper userMapper = getChatroomMapper();
+        final UserMapper userMapper = getUserMapper();
 
         chatroomDTO.setId(chatroom.getId());
         chatroomDTO.setTitle(chatroom.getTitle());
@@ -89,7 +89,7 @@ public class ChatroomMapper {
 
     public ChatroomPublicWithoutUserDTO mapToDTO(final Chatroom chatroom,
             final ChatroomPublicWithoutUserDTO chatroomDTO) {
-        final UserMapper userMapper = getChatroomMapper();
+        final UserMapper userMapper = getUserMapper();
 
         chatroomDTO.setId(chatroom.getId());
         chatroomDTO.setTitle(chatroom.getTitle());

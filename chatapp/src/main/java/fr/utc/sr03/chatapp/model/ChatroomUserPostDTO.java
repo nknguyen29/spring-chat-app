@@ -24,11 +24,11 @@ public class ChatroomUserPostDTO {
         this.userIds = new ArrayList<>();
     }
 
-    public ChatroomPostDTO getChatroom() {
+    public ChatroomPostDTO getChatroomDTO() {
         return chatroomDTO;
     }
 
-    public void setChatroom(final ChatroomPostDTO chatroomDTO) {
+    public void setChatroomDTO(final ChatroomPostDTO chatroomDTO) {
         this.chatroomDTO = chatroomDTO;
     }
 
