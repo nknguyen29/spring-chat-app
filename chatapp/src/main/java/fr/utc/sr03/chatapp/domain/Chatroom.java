@@ -6,9 +6,14 @@ import java.sql.Timestamp; // or java.util.Date
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +25,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "chatrooms")
+@EntityListeners(AuditingEntityListener.class)
 public class Chatroom {
 
     @Id
@@ -40,12 +46,14 @@ public class Chatroom {
     private Timestamp validityDuration;
 
     @Column(nullable = false)
+    @CreatedDate
     private Timestamp createdAt;
 
     @ManyToOne(targetEntity = User.class, optional = false)
     private User createdBy;
 
-    @Column(nullable = false)
+    @Column(name = "\"updatedAt\"")
+    @LastModifiedDate
     private Timestamp updatedAt;
 
     @ManyToOne(targetEntity = User.class)
@@ -63,7 +71,6 @@ public class Chatroom {
     private Set<ChatroomUser> chatroomUsers;
 
     public Chatroom() {
-        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
     public Chatroom(String title, String description, Timestamp startDate, Timestamp validityDuration) {
