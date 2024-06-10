@@ -79,9 +79,7 @@ public class ChatroomService {
         chatroomUserDTO.getUserIds().forEach(userId -> {
             final User user = userRepository.findById(userId)
                     .orElseThrow(NotFoundException::new);
-            final ChatroomUser chatroomUser = new ChatroomUser();
-            chatroomUser.setChatroom(chatroom);
-            chatroomUser.setUser(user);
+            final ChatroomUser chatroomUser = new ChatroomUser(chatroom, user);
             chatroom.getChatroomUsers().add(chatroomUser);
         });
         chatroomRepository.save(chatroom);
