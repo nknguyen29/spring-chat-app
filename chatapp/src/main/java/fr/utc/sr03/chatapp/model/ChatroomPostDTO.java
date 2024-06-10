@@ -46,6 +46,7 @@ public class ChatroomPostDTO {
     private Long updatedById;
 
     @NotNull
+    @Size(min = 1)
     @JsonProperty("userIds")
     private List<Long> userIds;
 
