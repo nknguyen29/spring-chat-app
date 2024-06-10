@@ -5,10 +5,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +21,7 @@ import jakarta.persistence.Table;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "users")
+@EntityListeners(AuditingEntityListener.class)
 public class User {
 
     @Id
@@ -82,7 +85,6 @@ public class User {
     private Set<Chatroom> updatedChatrooms;
 
     public User() {
-        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
     public User(
