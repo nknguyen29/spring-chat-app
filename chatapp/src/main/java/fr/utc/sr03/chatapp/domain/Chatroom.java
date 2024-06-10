@@ -3,8 +3,8 @@ package fr.utc.sr03.chatapp.domain;
 // La classe java.sql.Timestamp étend la classe java.util.Date et permet de
 // stocker des informations de date et d'heure.
 import java.sql.Timestamp; // or java.util.Date
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -65,14 +65,14 @@ public class Chatroom {
     //     name = "chatroom_users",
     //     joinColumns = @JoinColumn(name = "chatroom_id"),
     //     inverseJoinColumns = @JoinColumn(name = "user_id"))
-    // private Set<User> users;
+    // private List<User> users;
 
     // orphanRemoval = true to delete the chatroom when the user is deleted
     @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "chatroom")
-    private Set<ChatroomUser> chatroomUsers;
+    private List<ChatroomUser> chatroomUsers;
 
     public Chatroom() {
-        this.chatroomUsers = new HashSet<>();
+        this.chatroomUsers = new ArrayList<>();
     }
 
     public Chatroom(String title, String description, Timestamp startDate, Timestamp validityDuration) {
@@ -80,7 +80,7 @@ public class Chatroom {
         this.description = description;
         this.startDate = startDate;
         this.validityDuration = validityDuration;
-        this.chatroomUsers = new HashSet<>();
+        this.chatroomUsers = new ArrayList<>();
     }
 
     public Long getId() {
@@ -155,11 +155,11 @@ public class Chatroom {
         this.updatedBy = updatedBy;
     }
 
-    public Set<ChatroomUser> getChatroomUsers() {
+    public List<ChatroomUser> getChatroomUsers() {
         return chatroomUsers;
     }
 
-    public void setChatroomUsers(final Set<ChatroomUser> chatroomUsers) {
+    public void setChatroomUsers(final List<ChatroomUser> chatroomUsers) {
         this.chatroomUsers = chatroomUsers;
     }
 
@@ -171,8 +171,8 @@ public class Chatroom {
         chatroomUsers.remove(chatroomUser);
     }
 
-    public Set<User> getUsers() {
-        return chatroomUsers.stream().map(ChatroomUser::getUser).collect(Collectors.toSet());
+    public List<User> getUsers() {
+        return chatroomUsers.stream().map(ChatroomUser::getUser).collect(Collectors.toList());
     }
 
     // Enable CascadeType.MERGE to automatically persist the users when

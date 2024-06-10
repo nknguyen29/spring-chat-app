@@ -1,7 +1,9 @@
 package fr.utc.sr03.chatapp.domain;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -75,7 +77,7 @@ public class User {
     // about the relationship
     // Enable orphan removal to delete the chatroom when the user is deleted
     @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<ChatroomUser> chatroomUsers;
+    private List<ChatroomUser> chatroomUsers;
 
     // The orphanRemoval attribute is set to false to avoid deleting the chatroom
     // when the user is deleted
@@ -87,7 +89,7 @@ public class User {
 
     public User() {
         this.tokens = new HashSet<>();
-        this.chatroomUsers = new HashSet<>();
+        this.chatroomUsers = new ArrayList<>();
         this.createdChatrooms = new HashSet<>();
         this.updatedChatrooms = new HashSet<>();
     }
@@ -108,7 +110,7 @@ public class User {
         this.isLocked = isLocked;
         this.lockedAt = lockedAt;
         this.tokens = new HashSet<>();
-        this.chatroomUsers = new HashSet<>();
+        this.chatroomUsers = new ArrayList<>();
         this.createdChatrooms = new HashSet<>();
         this.updatedChatrooms = new HashSet<>();
     }
@@ -217,11 +219,11 @@ public class User {
         tokens.remove(token);
     }
 
-    public Set<ChatroomUser> getChatroomUsers() {
+    public List<ChatroomUser> getChatroomUsers() {
         return chatroomUsers;
     }
 
-    public void setChatroomUsers(final Set<ChatroomUser> chatroomUsers) {
+    public void setChatroomUsers(final List<ChatroomUser> chatroomUsers) {
         this.chatroomUsers = chatroomUsers;
     }
 
