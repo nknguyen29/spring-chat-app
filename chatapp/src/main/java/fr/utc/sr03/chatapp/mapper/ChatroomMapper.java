@@ -104,34 +104,16 @@ public class ChatroomMapper {
         return chatroomDTO;
     }
 
-    public ChatroomPostDTO mapToDTO(final Chatroom chatroom, final ChatroomPostDTO chatroomDTO) {
-        chatroomDTO.setId(chatroom.getId());
-        chatroomDTO.setTitle(chatroom.getTitle());
-        chatroomDTO.setDescription(chatroom.getDescription());
-        chatroomDTO.setStartDate(chatroom.getStartDate());
-        chatroomDTO.setValidityDuration(chatroom.getValidityDuration());
-        chatroomDTO.setCreatedAt(chatroom.getCreatedAt());
-        chatroomDTO.setCreatedById(chatroom.getCreatedBy().getId());
-        chatroomDTO.setUpdatedAt(chatroom.getUpdatedAt());
-        chatroomDTO.setUpdatedById(chatroom.getUpdatedBy().getId());
-        chatroomDTO.setUserIds(chatroom.getUsers().stream()
-                .map(User::getId)
-                .toList());
-        return chatroomDTO;
-    }
-
     public Chatroom mapToEntity(final ChatroomPostDTO chatroomDTO, final Chatroom chatroom) {
         chatroom.setId(chatroomDTO.getId());
         chatroom.setTitle(chatroomDTO.getTitle());
         chatroom.setDescription(chatroomDTO.getDescription());
         chatroom.setStartDate(chatroomDTO.getStartDate());
         chatroom.setValidityDuration(chatroomDTO.getValidityDuration());
-        chatroom.setCreatedAt(chatroomDTO.getCreatedAt());
         chatroom.setCreatedBy(userRepository.findById(chatroomDTO.getCreatedById())
                 .orElseThrow(() -> new NotFoundException("User "+chatroomDTO.getCreatedById()+" not found")));
-        chatroom.setUpdatedAt(chatroomDTO.getUpdatedAt());
-        chatroom.setUpdatedBy(userRepository.findById(chatroomDTO.getUpdatedById())
-                .orElseThrow(() -> new NotFoundException("User "+chatroomDTO.getUpdatedById()+" not found")));
+        chatroom.setUpdatedBy(userRepository.findById(chatroomDTO.getCreatedById())
+                .orElseThrow(() -> new NotFoundException("User "+chatroomDTO.getCreatedById()+" not found")));
         return chatroom;
     }
 
