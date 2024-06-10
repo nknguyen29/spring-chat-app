@@ -30,8 +30,17 @@ public class ChatroomWithoutUserDTO {
     private Timestamp validityDuration;
 
     @NotNull
+    @JsonProperty("createdAt")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp createdAt;
+
+    @NotNull
     @JsonProperty("createdBy")
     private UserWithoutChatroomDTO createdBy;
+
+    @JsonProperty("updatedAt")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp updatedAt;
 
     @JsonProperty("updatedBy")
     private UserWithoutChatroomDTO updatedBy;
@@ -76,12 +85,28 @@ public class ChatroomWithoutUserDTO {
         this.validityDuration = validityDuration;
     }
 
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(final Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public UserWithoutChatroomDTO getCreatedBy() {
         return createdBy;
     }
 
     public void setCreatedBy(final UserWithoutChatroomDTO createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(final Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public UserWithoutChatroomDTO getUpdatedBy() {
@@ -100,7 +125,9 @@ public class ChatroomWithoutUserDTO {
                 ", description='" + description + '\'' +
                 ", startDate=" + startDate +
                 ", validityDuration=" + validityDuration +
+                ", createdAt=" + createdAt +
                 ", createdBy=" + createdBy +
+                ", updatedAt=" + updatedAt +
                 ", updatedBy=" + updatedBy +
                 '}';
     }
