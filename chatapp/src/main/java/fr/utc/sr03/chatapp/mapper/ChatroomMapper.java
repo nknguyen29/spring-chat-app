@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import fr.utc.sr03.chatapp.domain.Chatroom;
-import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.model.ChatroomDTO;
 import fr.utc.sr03.chatapp.model.ChatroomPostDTO;
 import fr.utc.sr03.chatapp.model.ChatroomPublicDTO;
