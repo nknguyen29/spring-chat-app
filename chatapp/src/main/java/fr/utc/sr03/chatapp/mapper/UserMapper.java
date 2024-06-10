@@ -84,6 +84,10 @@ public final class UserMapper {
                 token -> userDTO.addToken(tokenMapper.mapToDTO(token, new TokenWithoutUserDTO())));
         user.getChatrooms().forEach(
                 chatroom -> userDTO.addChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
+        user.getCreatedChatrooms().forEach(
+                chatroom -> userDTO.addCreatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
+        user.getUpdatedChatrooms().forEach(
+                chatroom -> userDTO.addUpdatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
         return userDTO;
     }
 
@@ -102,6 +106,10 @@ public final class UserMapper {
         userDTO.setLockedAt(user.getLockedAt());
         user.getChatrooms().forEach(
                 chatroom -> userDTO.addChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
+        user.getCreatedChatrooms().forEach(
+                chatroom -> userDTO.addCreatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
+        user.getUpdatedChatrooms().forEach(
+                chatroom -> userDTO.addUpdatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
         return userDTO;
     }
 
@@ -133,6 +141,10 @@ public final class UserMapper {
         userDTO.setLockedAt(user.getLockedAt());
         user.getChatrooms().forEach(
                 chatroom -> userDTO.addChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
+        user.getCreatedChatrooms().forEach(
+                chatroom -> userDTO.addCreatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO()));
+        user.getUpdatedChatrooms().forEach(
+                chatroom -> userDTO.addUpdatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO()));
         return userDTO;
     }
 
