@@ -101,4 +101,26 @@ public class Token {
         this.user = user;
     }
 
+    @Override
+    public String toString() {
+        return "Token{" +
+                "id=" + id +
+                ", token='" + token + '\'' +
+                ", type='" + type + '\'' +
+                ", createdAt=" + createdAt +
+                ", expiresAt=" + expiresAt +
+                ", user=" + user +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Token token1 = (Token) o;
+
+        return id.equals(token1.id);
+    }
+
 }
