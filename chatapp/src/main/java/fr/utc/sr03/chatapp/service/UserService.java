@@ -19,6 +19,7 @@ import fr.utc.sr03.chatapp.model.UserPostDTO;
 import fr.utc.sr03.chatapp.model.UserPublicDTO;
 import fr.utc.sr03.chatapp.model.UserSearch;
 import fr.utc.sr03.chatapp.repos.ChatroomUserRepository;
+import fr.utc.sr03.chatapp.repos.TokenRepository;
 import fr.utc.sr03.chatapp.repos.UserRepository;
 import fr.utc.sr03.chatapp.util.NotFoundException;
 import jakarta.transaction.Transactional;
@@ -29,16 +30,19 @@ import jakarta.transaction.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final TokenRepository tokenRepository;
     private final ChatroomUserRepository chatroomUserRepository;
 
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
     public UserService(final UserRepository userRepository,
+            final TokenRepository tokenRepository,
             final ChatroomUserRepository chatroomUserRepository,
             final UserMapper userMapper,
             final PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.tokenRepository = tokenRepository;
         this.chatroomUserRepository = chatroomUserRepository;
 
         this.userMapper = userMapper;
@@ -151,6 +155,7 @@ public class UserService {
         final User user = userRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         // remove many-to-many relations at owning side
+        user.getTokens().forEach(tokenRepository::delete);
         user.getChatroomUsers().forEach(chatroomUserRepository::delete);
         userRepository.delete(user);
     }

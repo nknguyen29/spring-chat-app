@@ -51,8 +51,18 @@ public class UserGetDTO {
     @JsonProperty("chatrooms")
     private List<ChatroomWithoutUserDTO> chatrooms;
 
+    @NotNull
+    @JsonProperty("createdChatrooms")
+    private List<ChatroomWithoutUserDTO> createdChatrooms;
+
+    @NotNull
+    @JsonProperty("updatedChatrooms")
+    private List<ChatroomWithoutUserDTO> updatedChatrooms;
+
     public UserGetDTO() {
         this.chatrooms = new ArrayList<>();
+        this.createdChatrooms = new ArrayList<>();
+        this.updatedChatrooms = new ArrayList<>();
     }
 
     public Long getId() {
@@ -143,6 +153,38 @@ public class UserGetDTO {
         this.chatrooms.remove(chatroom);
     }
 
+    public List<ChatroomWithoutUserDTO> getCreatedChatrooms() {
+        return createdChatrooms;
+    }
+
+    public void setCreatedChatrooms(final List<ChatroomWithoutUserDTO> createdChatrooms) {
+        this.createdChatrooms = createdChatrooms;
+    }
+
+    public void addCreatedChatroom(final ChatroomWithoutUserDTO chatroom) {
+        this.createdChatrooms.add(chatroom);
+    }
+
+    public void removeCreatedChatroom(final ChatroomWithoutUserDTO chatroom) {
+        this.createdChatrooms.remove(chatroom);
+    }
+
+    public List<ChatroomWithoutUserDTO> getUpdatedChatrooms() {
+        return updatedChatrooms;
+    }
+
+    public void setUpdatedChatrooms(final List<ChatroomWithoutUserDTO> updatedChatrooms) {
+        this.updatedChatrooms = updatedChatrooms;
+    }
+
+    public void addUpdatedChatroom(final ChatroomWithoutUserDTO chatroom) {
+        this.updatedChatrooms.add(chatroom);
+    }
+
+    public void removeUpdatedChatroom(final ChatroomWithoutUserDTO chatroom) {
+        this.updatedChatrooms.remove(chatroom);
+    }
+
     public String getFullName() {
         return this.firstName + " " + this.lastName;
     }
@@ -164,6 +206,8 @@ public class UserGetDTO {
                 ", isLocked=" + isLocked +
                 ", lockedAt=" + lockedAt +
                 ", chatrooms=" + chatrooms +
+                ", createdChatrooms=" + createdChatrooms +
+                ", updatedChatrooms=" + updatedChatrooms +
                 '}';
     }
 

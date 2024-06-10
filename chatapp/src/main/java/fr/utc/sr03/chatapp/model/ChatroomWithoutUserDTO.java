@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -26,6 +28,13 @@ public class ChatroomWithoutUserDTO {
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Timestamp validityDuration;
+
+    @NotNull
+    @JsonProperty("createdBy")
+    private UserWithoutChatroomDTO createdBy;
+
+    @JsonProperty("updatedBy")
+    private UserWithoutChatroomDTO updatedBy;
 
     public Long getId() {
         return id;
@@ -67,6 +76,22 @@ public class ChatroomWithoutUserDTO {
         this.validityDuration = validityDuration;
     }
 
+    public UserWithoutChatroomDTO getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(final UserWithoutChatroomDTO createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public UserWithoutChatroomDTO getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(final UserWithoutChatroomDTO updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
     @Override
     public String toString() {
         return "ChatroomWithoutUserDTO{" +
@@ -75,16 +100,8 @@ public class ChatroomWithoutUserDTO {
                 ", description='" + description + '\'' +
                 ", startDate=" + startDate +
                 ", validityDuration=" + validityDuration +
-                '}';
-    }
-
-    public String toJson() {
-        return "{" +
-                "\"id\":" + id +
-                ",\"title\":\"" + title + '\"' +
-                ",\"description\":\"" + description + '\"' +
-                ",\"startDate\":\"" + startDate + '\"' +
-                ",\"validityDuration\":\"" + validityDuration + '\"' +
+                ", createdBy=" + createdBy +
+                ", updatedBy=" + updatedBy +
                 '}';
     }
 

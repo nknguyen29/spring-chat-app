@@ -70,6 +70,14 @@ public class User {
     @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "user")
     private Set<ChatroomUser> chatroomUsers;
 
+    // The orphanRemoval attribute is set to false to avoid deleting the chatroom
+    // when the user is deleted
+    @OneToMany(targetEntity = Chatroom.class, orphanRemoval = false, mappedBy = "createdBy")
+    private Set<Chatroom> createdChatrooms;
+
+    @OneToMany(targetEntity = Chatroom.class, orphanRemoval = false, mappedBy = "updatedBy")
+    private Set<Chatroom> updatedChatrooms;
+
     public User() {
         this.createdAt = new Timestamp(System.currentTimeMillis());
     }
@@ -225,6 +233,38 @@ public class User {
 
     public void removeChatroom(final Chatroom chatroom) {
         chatroomUsers.removeIf(chatroomUser -> chatroomUser.getChatroom().equals(chatroom));
+    }
+
+    public Set<Chatroom> getCreatedChatrooms() {
+        return createdChatrooms;
+    }
+
+    public void setCreatedChatrooms(final Set<Chatroom> createdChatrooms) {
+        this.createdChatrooms = createdChatrooms;
+    }
+
+    public void addCreatedChatroom(final Chatroom chatroom) {
+        createdChatrooms.add(chatroom);
+    }
+
+    public void removeCreatedChatroom(final Chatroom chatroom) {
+        createdChatrooms.remove(chatroom);
+    }
+
+    public Set<Chatroom> getUpdatedChatrooms() {
+        return updatedChatrooms;
+    }
+
+    public void setUpdatedChatrooms(final Set<Chatroom> updatedChatrooms) {
+        this.updatedChatrooms = updatedChatrooms;
+    }
+
+    public void addUpdatedChatroom(final Chatroom chatroom) {
+        updatedChatrooms.add(chatroom);
+    }
+
+    public void removeUpdatedChatroom(final Chatroom chatroom) {
+        updatedChatrooms.remove(chatroom);
     }
 
     @Override

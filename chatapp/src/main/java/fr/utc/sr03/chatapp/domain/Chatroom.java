@@ -13,6 +13,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -38,6 +39,18 @@ public class Chatroom {
     @Column(nullable = false)
     private Timestamp validityDuration;
 
+    @Column(nullable = false)
+    private Timestamp createdAt;
+
+    @ManyToOne(targetEntity = User.class, optional = false)
+    private User createdBy;
+
+    @Column(nullable = false)
+    private Timestamp updatedAt;
+
+    @ManyToOne(targetEntity = User.class)
+    private User updatedBy;
+
     // @ManyToMany(targetEntity = User.class)
     // @JoinTable(
     //     name = "chatroom_users",
@@ -50,6 +63,7 @@ public class Chatroom {
     private Set<ChatroomUser> chatroomUsers;
 
     public Chatroom() {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
     public Chatroom(String title, String description, Timestamp startDate, Timestamp validityDuration) {
@@ -99,6 +113,38 @@ public class Chatroom {
         this.validityDuration = validityDuration;
     }
 
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(final Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(final User createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(final Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public User getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(final User updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
     public Set<ChatroomUser> getChatroomUsers() {
         return chatroomUsers;
     }
@@ -137,6 +183,10 @@ public class Chatroom {
                 ", description='" + description + '\'' +
                 ", startDate=" + startDate +
                 ", validityDuration=" + validityDuration +
+                ", createdAt=" + createdAt +
+                ", createdBy=" + createdBy +
+                ", updatedAt=" + updatedAt +
+                ", updatedBy=" + updatedBy +
                 '}';
     }
 

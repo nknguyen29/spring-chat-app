@@ -16,7 +16,7 @@ public class ChatroomMapper {
     private static volatile UserMapper userMapper;
 
     public static UserMapper getChatroomMapper() {
-        UserMapper result = userMapper;
+        final UserMapper result = userMapper;
         if (result != null) {
             return result;
         }
@@ -29,7 +29,7 @@ public class ChatroomMapper {
     }
 
     public ChatroomDTO mapToDTO(final Chatroom chatroom, final ChatroomDTO chatroomDTO) {
-        UserMapper userMapper = getChatroomMapper();
+        final UserMapper userMapper = getChatroomMapper();
 
         chatroomDTO.setId(chatroom.getId());
         chatroomDTO.setTitle(chatroom.getTitle());
@@ -38,11 +38,12 @@ public class ChatroomMapper {
         chatroomDTO.setValidityDuration(chatroom.getValidityDuration());
         chatroom.getUsers().forEach(
                 user -> chatroomDTO.addUser(userMapper.mapToDTO(user, new UserWithoutChatroomDTO())));
+        chatroomDTO.setCreatedBy(userMapper.mapToDTO(chatroom.getCreatedBy(), new UserWithoutChatroomDTO()));
         return chatroomDTO;
     }
 
     public ChatroomPublicDTO mapToDTO(final Chatroom chatroom, final ChatroomPublicDTO chatroomDTO) {
-        UserMapper userMapper = getChatroomMapper();
+        final UserMapper userMapper = getChatroomMapper();
 
         chatroomDTO.setId(chatroom.getId());
         chatroomDTO.setTitle(chatroom.getTitle());
@@ -51,15 +52,19 @@ public class ChatroomMapper {
         chatroomDTO.setValidityDuration(chatroom.getValidityDuration());
         chatroom.getUsers().forEach(
                 user -> chatroomDTO.addUser(userMapper.mapToDTO(user, new UserPublicWithoutChatroomDTO())));
+        chatroomDTO.setCreatedBy(userMapper.mapToDTO(chatroom.getCreatedBy(), new UserWithoutChatroomDTO()));
         return chatroomDTO;
     }
 
     public ChatroomWithoutUserDTO mapToDTO(final Chatroom chatroom, final ChatroomWithoutUserDTO chatroomDTO) {
+        final UserMapper userMapper = getChatroomMapper();
+
         chatroomDTO.setId(chatroom.getId());
         chatroomDTO.setTitle(chatroom.getTitle());
         chatroomDTO.setDescription(chatroom.getDescription());
         chatroomDTO.setStartDate(chatroom.getStartDate());
         chatroomDTO.setValidityDuration(chatroom.getValidityDuration());
+        chatroomDTO.setCreatedBy(userMapper.mapToDTO(chatroom.getCreatedBy(), new UserWithoutChatroomDTO()));
         return chatroomDTO;
     }
 

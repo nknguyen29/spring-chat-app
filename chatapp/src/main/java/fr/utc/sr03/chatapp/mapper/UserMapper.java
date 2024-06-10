@@ -36,7 +36,7 @@ public final class UserMapper {
         //
         // You can read more info DCL issues in Java here:
         // https://refactoring.guru/java-dcl-issue
-        ChatroomMapper result = chatroomMapper;
+        final ChatroomMapper result = chatroomMapper;
         if (result != null) {
             return result;
         }
@@ -84,6 +84,10 @@ public final class UserMapper {
                 token -> userDTO.addToken(tokenMapper.mapToDTO(token, new TokenWithoutUserDTO())));
         user.getChatrooms().forEach(
                 chatroom -> userDTO.addChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
+        user.getCreatedChatrooms().forEach(
+                chatroom -> userDTO.addCreatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
+        user.getUpdatedChatrooms().forEach(
+                chatroom -> userDTO.addUpdatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
         return userDTO;
     }
 
@@ -102,6 +106,10 @@ public final class UserMapper {
         userDTO.setLockedAt(user.getLockedAt());
         user.getChatrooms().forEach(
                 chatroom -> userDTO.addChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
+        user.getCreatedChatrooms().forEach(
+                chatroom -> userDTO.addCreatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
+        user.getUpdatedChatrooms().forEach(
+                chatroom -> userDTO.addUpdatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
         return userDTO;
     }
 
@@ -120,7 +128,7 @@ public final class UserMapper {
     }
 
     public UserGetDTO mapToDTO(final User user, final UserGetDTO userDTO) {
-        ChatroomMapper chatroomMapper = new ChatroomMapper();
+        final ChatroomMapper chatroomMapper = new ChatroomMapper();
 
         userDTO.setId(user.getId());
         userDTO.setFirstName(user.getFirstName());
@@ -133,6 +141,10 @@ public final class UserMapper {
         userDTO.setLockedAt(user.getLockedAt());
         user.getChatrooms().forEach(
                 chatroom -> userDTO.addChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
+        user.getCreatedChatrooms().forEach(
+                chatroom -> userDTO.addCreatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
+        user.getUpdatedChatrooms().forEach(
+                chatroom -> userDTO.addUpdatedChatroom(chatroomMapper.mapToDTO(chatroom, new ChatroomWithoutUserDTO())));
         return userDTO;
     }
 
