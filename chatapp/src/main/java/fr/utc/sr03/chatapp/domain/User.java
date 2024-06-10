@@ -1,6 +1,7 @@
 package fr.utc.sr03.chatapp.domain;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -85,6 +86,10 @@ public class User {
     private Set<Chatroom> updatedChatrooms;
 
     public User() {
+        this.tokens = new HashSet<>();
+        this.chatroomUsers = new HashSet<>();
+        this.createdChatrooms = new HashSet<>();
+        this.updatedChatrooms = new HashSet<>();
     }
 
     public User(
@@ -102,6 +107,10 @@ public class User {
         this.failedConnectionAttempts = failedConnectionAttempts;
         this.isLocked = isLocked;
         this.lockedAt = lockedAt;
+        this.tokens = new HashSet<>();
+        this.chatroomUsers = new HashSet<>();
+        this.createdChatrooms = new HashSet<>();
+        this.updatedChatrooms = new HashSet<>();
     }
 
     public Long getId() {

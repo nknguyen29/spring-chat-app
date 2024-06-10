@@ -3,6 +3,7 @@ package fr.utc.sr03.chatapp.domain;
 // La classe java.sql.Timestamp étend la classe java.util.Date et permet de
 // stocker des informations de date et d'heure.
 import java.sql.Timestamp; // or java.util.Date
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -71,6 +72,7 @@ public class Chatroom {
     private Set<ChatroomUser> chatroomUsers;
 
     public Chatroom() {
+        this.chatroomUsers = new HashSet<>();
     }
 
     public Chatroom(String title, String description, Timestamp startDate, Timestamp validityDuration) {
@@ -78,6 +80,7 @@ public class Chatroom {
         this.description = description;
         this.startDate = startDate;
         this.validityDuration = validityDuration;
+        this.chatroomUsers = new HashSet<>();
     }
 
     public Long getId() {
