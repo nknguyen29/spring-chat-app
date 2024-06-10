@@ -6,13 +6,17 @@ function useGetChatrooms(userId) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        axios.get(`/api/users/${userId}/public`)
-            .then(response => {
-                setChatrooms(response.data.chatrooms);
-            })
-            .catch(error => {
-                setError(error.message);
-            });
+        if (userId) {
+            axios.get(`/api/users/${userId}/public`)
+                .then(response => {
+                    setChatrooms(response.data.chatrooms);
+                })
+                .catch(error => {
+                    setError(error.message);
+                });
+        } else {
+            setChatrooms([]); // Reset chatrooms if userId is null
+        }
     }, [userId]);
 
     return { chatrooms, error };

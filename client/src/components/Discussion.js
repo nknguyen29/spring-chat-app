@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useStompClient, useSubscription } from "react-stomp-hooks";
+import { useStompClient } from "react-stomp-hooks";
 import { TextField, Button, List, ListItem, Typography, Grid, Card, CardContent } from '@mui/material';
 
 import useGetAllUsers from '../hooks/useGetAllUsers';
@@ -8,13 +8,10 @@ import useGetAllUsers from '../hooks/useGetAllUsers';
 export default function Discussion({ user, messages }) {
   const { roomId } = useParams();
   const [input, setInput] = useState("");
-  const [lastMessage, setLastMessage] = useState("Blank");
 
   // Get Instance of StompClient
   const stompClient = useStompClient();
 
-  // echo reply 
-  useSubscription("/topic/" + roomId, (message) => setLastMessage(message.body));
 
   const sendMessage = () => {
     if(stompClient) {
