@@ -67,13 +67,14 @@ public class ChatroomResource {
     // }
 
     @PutMapping("/{id}/users/{userId}")
-    public ResponseEntity<Void> addUserToChatroom(@PathVariable(name = "id") final Long id,
+    public ResponseEntity<Long> addUserToChatroom(@PathVariable(name = "id") final Long id,
             @PathVariable(name = "userId") final Long userId) {
         chatroomService.addUser(id, userId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(id);
     }
 
     @DeleteMapping("/{id}/users/{userId}")
+    @ApiResponse(responseCode = "204")
     public ResponseEntity<Void> removeUserFromChatroom(@PathVariable(name = "id") final Long id,
             @PathVariable(name = "userId") final Long userId) {
         chatroomService.removeUser(id, userId);

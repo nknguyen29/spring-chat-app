@@ -13,6 +13,7 @@ import fr.utc.sr03.chatapp.model.ChatroomDTO;
 import fr.utc.sr03.chatapp.model.ChatroomPublicDTO;
 import fr.utc.sr03.chatapp.model.ChatroomUserPostDTO;
 import fr.utc.sr03.chatapp.repos.ChatroomRepository;
+import fr.utc.sr03.chatapp.repos.ChatroomUserRepository;
 import fr.utc.sr03.chatapp.repos.UserRepository;
 import fr.utc.sr03.chatapp.util.NotFoundException;
 import jakarta.transaction.Transactional;
@@ -24,14 +25,17 @@ public class ChatroomService {
 
     private final ChatroomRepository chatroomRepository;
     private final UserRepository userRepository;
+    private final ChatroomUserRepository chatroomUserRepository;
 
     private final ChatroomMapper chatroomMapper;
 
     public ChatroomService(final ChatroomRepository chatroomRepository,
             final UserRepository userRepository,
+            final ChatroomUserRepository chatroomUserRepository,
             final ChatroomMapper chatroomMapper) {
         this.chatroomRepository = chatroomRepository;
         this.userRepository = userRepository;
+        this.chatroomUserRepository = chatroomUserRepository;
 
         this.chatroomMapper = chatroomMapper;
     }
@@ -91,13 +95,16 @@ public class ChatroomService {
     // }
 
     public void addUser(final Long id, final Long userId) {
+        // dont forget il the chatroomUser already exists we should not create a new one
         final Chatroom chatroom = chatroomRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
         final User user = userRepository.findById(userId)
                 .orElseThrow(NotFoundException::new);
-        final ChatroomUser chatroomUser = new ChatroomUser(chatroom, user);
-        chatroom.getChatroomUsers().add(chatroomUser);
-        chatroomRepository.save(chatroom);
+        if (chatroomUserRepository.findByUserAndChatroom(user, chatroom).isEmpty()) {
+            final ChatroomUser chatroomUser = new ChatroomUser(chatroom, user);
+            chatroom.getChatroomUsers().add(chatroomUser);
+            chatroomRepository.save(chatroom);
+        }
     }
 
     public void removeUser(final Long id, final Long userId) {
@@ -105,8 +112,9 @@ public class ChatroomService {
                 .orElseThrow(NotFoundException::new);
         final User user = userRepository.findById(userId)
                 .orElseThrow(NotFoundException::new);
-        chatroom.getChatroomUsers().removeIf(chatroomUser -> chatroomUser.getUser().equals(user));
-        chatroomRepository.save(chatroom);
+        final ChatroomUser chatroomUser = chatroomUserRepository.findByUserAndChatroom(user, chatroom)
+                .orElseThrow(NotFoundException::new);
+        chatroomUserRepository.delete(chatroomUser);
     }
 
     public void delete(final Long id) {
