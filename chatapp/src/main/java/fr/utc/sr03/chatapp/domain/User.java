@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,6 +42,7 @@ public class User {
     private Boolean isAdmin;
 
     @Column(nullable = false)
+    @CreatedDate
     private Timestamp createdAt;
 
     @Column(name = "\"lastConnection\"")
