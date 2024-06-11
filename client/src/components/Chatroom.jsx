@@ -20,11 +20,11 @@ import {
   CardTitle,
 } from "./ui/card";
 
-import { CornerDownLeft } from "lucide-react";
+import { CornerDownLeft, Send } from "lucide-react";
 
 import useGetAllUsers from "../hooks/useGetAllUsers";
 
-export default function Discussion({ user, messages }) {
+export default function Chatroom({ user, messages }) {
   const { roomId } = useParams();
   const [input, setInput] = useState("");
 
@@ -117,14 +117,8 @@ export default function Discussion({ user, messages }) {
           );
         })}
 
-        <Badge variant="outline" className="absolute right-3 top-3">
-          Connected
-        </Badge>
         <div className="flex-1" />
-        <Card className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring">
-          <Label htmlFor="message" className="sr-only">
-            Message
-          </Label>
+        <Card className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring flex items-center p-3">
           <Textarea
             id="message"
             placeholder="Type your message here..."
@@ -132,15 +126,14 @@ export default function Discussion({ user, messages }) {
             onChange={(e) => setInput(e.target.value)}
             className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0"
           />
-          <div className="flex items-center p-3 pt-0">
+          <div className="flex items-center p-0 pt-0">
             <Button
               type="submit"
               onClick={sendMessage}
               size="sm"
-              className="ml-auto gap-1.5"
+              className="ml-3 gap-1.5"
             >
-              Send Message
-              <CornerDownLeft className="size-3.5" />
+              <Send className="size-3.5" />
             </Button>
           </div>
         </Card>

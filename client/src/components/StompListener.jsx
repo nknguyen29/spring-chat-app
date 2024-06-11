@@ -1,8 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useStompClient } from "react-stomp-hooks";
 import useGetChatrooms from '../hooks/useGetChatrooms';
+import { set } from "date-fns";
 
-export default function StompListener({ user, setMessages }) {
+export default function StompListener({ user, setMessages, setUserChatrooms }) {
   const stompClient = useStompClient();
   const subscriptions = useRef([]); // use useRef to persist subscriptions
   const { chatrooms, error } = useGetChatrooms(user ? user.id : null); // Pass user.id if user is not null, otherwise pass null
@@ -14,6 +15,7 @@ export default function StompListener({ user, setMessages }) {
       subscriptions.current = [];
 
       console.log("Subscribing to chatrooms: ", chatrooms);
+      setUserChatrooms(chatrooms);
       subscriptions.current = chatrooms.map(room => {
         return stompClient.subscribe("/topic/" + room.id, (message) => {
           console.log("Received message from room " + room.id + " : " + message.body);

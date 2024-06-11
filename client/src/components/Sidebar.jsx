@@ -75,14 +75,6 @@ export default function App({user}) {
                 <LineChart className="h-4 w-4" />
                 Debugging
               </Link>
-              <Link
-                to="discussion/1"
-                className={linkClass("discussion")}
-                onClick={() => setSelectedLink("discussion")}
-              >
-                <MessageCircleMore className="h-4 w-4" />
-                Chat
-              </Link>
             </nav>
           </div>
           <div className="mt-auto p-4">

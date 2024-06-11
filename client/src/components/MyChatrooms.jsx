@@ -21,6 +21,9 @@ import {
     TableRow,
   } from "@/components/ui/table"
 
+import { Button } from './ui/button';
+import { Link } from 'react-router-dom';
+
 function MyChatrooms({ user }) {
     const { chatrooms, error } = useGetChatrooms(user.id);
 
@@ -33,7 +36,7 @@ function MyChatrooms({ user }) {
         <>
         <Card>
             <CardHeader className="px-7">
-                <CardTitle>My Chatrooms' Details</CardTitle>
+                <CardTitle>My Chatrooms</CardTitle>
                 <CardDescription>More Informations about My Chatrooms</CardDescription>
                 </CardHeader>
             <CardContent>
@@ -45,6 +48,7 @@ function MyChatrooms({ user }) {
                         <TableHead>Name</TableHead>
                         <TableHead>Description</TableHead>
                         <TableHead>Created At</TableHead>
+                        <TableHead>Chat Now</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -54,6 +58,11 @@ function MyChatrooms({ user }) {
                             <TableCell>{chatroom.title}</TableCell>
                             <TableCell>{chatroom.description}</TableCell>
                             <TableCell>{chatroom.createdAt}</TableCell>
+                            <TableCell>
+                                <Link to={`/chatroom/${chatroom.id}`}>
+                                    <Button variant="outline">Chat</Button>
+                                </Link>
+                            </TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

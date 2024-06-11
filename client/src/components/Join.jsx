@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from "axios";
 
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -17,37 +18,54 @@ import {
 } from "./ui/dialog"
 
 
-export default function App() {
-  const [open, setOpen] = useState(true);
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Joining Room</DialogTitle>
-          <DialogDescription>Join a new room</DialogDescription>
-        </DialogHeader>
-        <JoiningRoom />
-      </DialogContent>
-    </Dialog>
-  );
+export default function App({ user }) {
+  const { roomId } = useParams();
+  
+  const handleJoin = (event) => {
+    // event.preventDefault();
+    console.log("Joining room " + roomId);
+
+    // Requete HTTP login au backend spring
+    axios.put("http://localhost:8080/api/chatrooms/" + roomId + "/users/" + user.id)
+        .then(res => {
+            console.log("Response from backend : ", res)
+        })
+        .catch(error => {
+            console.error("Error from backend : ", error)
+        });
+  }
+
+  // const [open, setOpen] = useState(true);
+
+  // return (
+  //   <Dialog open={open} onOpenChange={setOpen}>
+  //     <DialogContent>
+  //       <DialogHeader>
+  //         <DialogTitle>Joining Room</DialogTitle>
+  //         <DialogDescription>Join a new room</DialogDescription>
+  //       </DialogHeader>
+  //       <JoiningRoom />
+  //     </DialogContent>
+  //   </Dialog>
+  // );
+  handleJoin();
+  return null;
 }
 
-export function JoiningRoom() {
-  // take roomId from the URL of React Router
-  const [roomId, setRoomId] = useState("");
+// export function JoiningRoom() {
+//   const [roomId, setRoomId] = useState("");
 
-//   const stompClient = useStompClient();
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
 
-  const joinRoom = () => {
-    navigate('/discussion/' + roomId);
-  };
+//   const joinRoom = () => {
+//     navigate('/chatroom/' + roomId);
+//   };
 
-  return (
-    <div className="flex w-full max-w-sm items-center space-x-2">
-      <Label>RoomID</Label>
-      <Input type="default" value={roomId} onChange={(event => setRoomId(event.target.value))} />
-      <Button variant="outline" onClick={joinRoom}>Join Room </Button> 
-    </div>
-  );
-}
+//   return (
+//     <div className="flex w-full max-w-sm items-center space-x-2">
+//       <Label>RoomID</Label>
+//       <Input type="default" value={roomId} onChange={(event => setRoomId(event.target.value))} />
+//       <Button variant="outline" onClick={joinRoom}>Join Room </Button> 
+//     </div>
+//   );
+// }

@@ -15,7 +15,7 @@ import { ThemeProvider } from "./components/ThemeProvider";
 
 import Debugging from "./components/Debugging";
 import UserList from "./components/UserList";
-import Discussion from "./components/Discussion";
+import Chatroom from "./components/Chatroom";
 import MyChatrooms from "./components/MyChatrooms";
 import Join from "./components/Join";
 import Login from "./components/Login";
@@ -23,6 +23,8 @@ import Logout from "./components/Logout";
 import { AuthContext, AuthProvider } from "./components/AuthContext";
 import ChatroomList from "./components/ChatroomList";
 import StompListener from "./components/StompListener";
+
+import useGetChatrooms from './hooks/useGetChatrooms';
 
 const PrivateWrapper = () => {
   const { isAuthenticated } = useContext(AuthContext);
@@ -51,6 +53,8 @@ export default function App() {
   // If the room doesn't exist in the messages object yet, 
   // it's created with an empty array before the message is added.
 
+  const [userChatrooms, setUserChatrooms] = useState([]);
+
   return (
     // Wrap the entire app in the AuthProvider, so that the AuthContext is available to all child components.
     <AuthProvider> 
@@ -63,7 +67,7 @@ export default function App() {
           console.log(str);
         }}
       >
-        <StompListener user={user} setMessages={setMessages} />
+        <StompListener user={user} setMessages={setMessages} setUserChatrooms={setUserChatrooms} />
 
           <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
           <div className={`grid min-h-screen w-full ${user ? 'md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]' : ''}`}>
@@ -85,17 +89,17 @@ export default function App() {
                         <Route path="/users" element={<UserList />} />
                       </Route>
                       <Route element={<PrivateWrapper />}>
-                        <Route path="/chatrooms" element={<ChatroomList />} />
+                        <Route path="/chatrooms" element={<ChatroomList userChatrooms = {userChatrooms} />} />
                       </Route>
                       <Route element={<PrivateWrapper />}>
                         <Route path="/my-chatrooms" element={<MyChatrooms user = {user} />} />
                       </Route>
                       <Route element={<PrivateWrapper />}>
-                        <Route path="/discussion/:roomId" element={<Discussion user = {user}
+                        <Route path="/chatroom/:roomId" element={<Chatroom user = {user}
                                                                               messages={messages} />} />
                       </Route>
                       <Route element={<PrivateWrapper />}>
-                        <Route path="/join" element={<Join />} />
+                        <Route path="/chatroom/join/:roomId" element={<Join user = {user} />} />
                       </Route>
                       <Route element={<PrivateWrapper />}>
                         <Route path="/logout" element={<Logout setUser={setUser} />} />

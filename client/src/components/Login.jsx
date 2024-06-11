@@ -36,7 +36,7 @@ const Login = ({ setUser }) => {
     useEffect(() => {
         if (isAuthenticated) {
             // go to the main page
-            navigate('/users');
+            navigate('/my-chatrooms');
         }
     }, [isAuthenticated, navigate]);
 
