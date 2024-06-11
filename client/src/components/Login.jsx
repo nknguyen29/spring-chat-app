@@ -15,10 +15,10 @@ import {
     CardTitle,
   } from "./ui/card"
 
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { Input } from "./ui/input"
+import { Label } from "./ui/label"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "./ui/button"
 
 import {
 Select,
@@ -36,7 +36,7 @@ const Login = ({ setUser }) => {
     useEffect(() => {
         if (isAuthenticated) {
             // go to the main page
-            navigate('/chatrooms');
+            navigate('/users');
         }
     }, [isAuthenticated, navigate]);
 
@@ -95,35 +95,49 @@ const Login = ({ setUser }) => {
     }
 
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Login</CardTitle>
-                <CardDescription>Please enter your credentials</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <form>
-                    <div className="mb-3">
-                        <Label htmlFor="email" className="form-label">Email</Label>
-                        <Input type="email" name="email" className="form-control" id="email" value={email}
-                               onChange={e => {
-                                   setMail(e.target.value)
-                               }} required={true}/>
-                    </div>
-                    <div className="mb-3">
-                        <Label htmlFor="password" className="form-label">Password</Label>
-                        <Input type="password" name="password" className="form-control" id="password" value={password}
-                               onChange={e => {
-                                   setPassword(e.target.value)
-                               }} required={true}/>
-                    </div>
-                    <Button type="submit" className="btn btn-primary w-100" onClick={handleLogin}>Connexion</Button>
-                </form>
-            </CardContent>
-            <CardFooter>
-                <p>Don't have an account ? Tant pis</p>
-            </CardFooter>
+        <Card className="mx-auto max-w-sm">
+          <CardHeader>
+            <CardTitle className="text-2xl">Login</CardTitle>
+            <CardDescription>
+              Enter your credentials  to login to your account
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="email@example.com"
+                  required
+                  value={email}
+                  onChange={e => {setMail(e.target.value)}}
+                />
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="password">Password</Label>
+                </div>
+                <Input 
+                    id="password" 
+                    type="password" 
+                    required
+                    value={password}
+                    onChange={e => {setPassword(e.target.value)}}
+                />
+              </div>
+              <Button type="submit" className="w-full" onClick={handleLogin}>
+                Login
+              </Button>
+              <Button variant="outline" className="w-full">
+                Sign Up
+              </Button>
+            </div>
+          </CardContent>
         </Card>
-    );
+      )
+
 }
 
 export default Login;

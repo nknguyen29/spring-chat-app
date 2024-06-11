@@ -11,6 +11,7 @@ import { jwtDecode } from 'jwt-decode';
 
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
+import { ThemeProvider } from "./components/ThemeProvider";
 
 import Debugging from "./components/Debugging";
 import UserList from "./components/UserList";
@@ -63,46 +64,48 @@ export default function App() {
         }}
       >
         <StompListener user={user} setMessages={setMessages} />
-        <div className="app">
-          <Header user={user} />
-          <div className="layout">
 
-          {/* Only render the sidebar when the user is authenticated. */}
-          {user && <Sidebar user = {user} />}
+          <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+          <div className={`grid min-h-screen w-full ${user ? 'md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]' : ''}`}>
+                {/* Only render the sidebar when the user is authenticated. */}
+                {user && <Sidebar user = {user} />}
 
-            <div className="main-content">
-              {/* Here are all the routes used in the app. */}
-              {/* To change the order & routes used in the sidebar, go to components/Sidebar.jsx. */}
-              <Routes>
-                <Route path="/" element={<Login setUser={setUser} />} />
-                <Route path="/login" element={<Login setUser={setUser} />} />
+                <div className="flex flex-col">
+                  {user && <Header user = {user} />}
 
-                <Route element={<PrivateWrapper />}>
-                  <Route path="/debugging" element={<Debugging />} />
-                </Route>
-                <Route element={<PrivateWrapper />}>
-                  <Route path="/users" element={<UserList />} />
-                </Route>
-                <Route element={<PrivateWrapper />}>
-                  <Route path="/chatrooms" element={<ChatroomList />} />
-                </Route>
-                <Route element={<PrivateWrapper />}>
-                  <Route path="/my-chatrooms" element={<MyChatrooms user = {user} />} />
-                </Route>
-                <Route element={<PrivateWrapper />}>
-                  <Route path="/discussion/:roomId" element={<Discussion user = {user}
-                                                                         messages={messages} />} />
-                </Route>
-                <Route element={<PrivateWrapper />}>
-                  <Route path="/join" element={<Join />} />
-                </Route>
-                <Route element={<PrivateWrapper />}>
-                  <Route path="/logout" element={<Logout setUser={setUser} />} />
-                </Route>
-              </Routes>
+                  <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+                    <Routes>
+                      <Route path="/" element={<Login setUser={setUser} />} />
+                      <Route path="/login" element={<Login setUser={setUser} />} />
+
+                      <Route element={<PrivateWrapper />}>
+                        <Route path="/debugging" element={<Debugging />} />
+                      </Route>
+                      <Route element={<PrivateWrapper />}>
+                        <Route path="/users" element={<UserList />} />
+                      </Route>
+                      <Route element={<PrivateWrapper />}>
+                        <Route path="/chatrooms" element={<ChatroomList />} />
+                      </Route>
+                      <Route element={<PrivateWrapper />}>
+                        <Route path="/my-chatrooms" element={<MyChatrooms user = {user} />} />
+                      </Route>
+                      <Route element={<PrivateWrapper />}>
+                        <Route path="/discussion/:roomId" element={<Discussion user = {user}
+                                                                              messages={messages} />} />
+                      </Route>
+                      <Route element={<PrivateWrapper />}>
+                        <Route path="/join" element={<Join />} />
+                      </Route>
+                      <Route element={<PrivateWrapper />}>
+                        <Route path="/logout" element={<Logout setUser={setUser} />} />
+                      </Route>
+                    </Routes>
+                  </main>
+                </div>
             </div>
-          </div>
-        </div>
+
+          </ThemeProvider>
         
       </StompSessionProvider>
     </AuthProvider>

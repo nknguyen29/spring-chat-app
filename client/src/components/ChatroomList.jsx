@@ -1,6 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+  } from "./ui/card"
+
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+  } from "@/components/ui/table"
+
 function ChatroomList() {
     const [chatrooms, setChatrooms] = useState([]);
     const [error, setError] = useState(null);
@@ -21,22 +40,37 @@ function ChatroomList() {
     }, []);
 
     return (
-        <div>
-            <h1>Chatroom List</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <ul>
-                {chatrooms && chatrooms.map(chatroom => (
-                    <li key={chatroom.id}>
-                        <h2>{chatroom.title}</h2>
-                        <ul>
-                            {chatroom.users.map(user => (
-                                <li key={user.id}> User {user.id} : {user.firstName} {user.lastName}</li>
-                            ))}
-                        </ul>
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <>
+        <Card>
+            <CardHeader className="px-7">
+                <CardTitle>Available Chatrooms</CardTitle>
+                <CardDescription>All Chatrooms from the database</CardDescription>
+                </CardHeader>
+            <CardContent>
+            <Table>
+                <TableCaption>Available Chatrooms</TableCaption>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead className="w-[100px]">Room ID</TableHead>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Description</TableHead>
+                        <TableHead>Created At</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {chatrooms.map((chatroom) => (
+                        <TableRow key={chatroom.id}>
+                            <TableCell className="font-medium">{chatroom.id}</TableCell>
+                            <TableCell>{chatroom.title}</TableCell>
+                            <TableCell>{chatroom.description}</TableCell>
+                            <TableCell>{chatroom.createdAt}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+            </CardContent>
+        </Card>
+        </>
     );
 }
 

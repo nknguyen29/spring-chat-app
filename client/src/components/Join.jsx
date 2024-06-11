@@ -1,25 +1,34 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
+
+
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Container,
-  Grid,
-  TextField,
-  Typography
-} from "@mui/material";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  // DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  // DialogTrigger,
+} from "./ui/dialog"
 
-import { Button } from "./ui/button.jsx";
-
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export default function App() {
+  const [open, setOpen] = useState(true);
   return (
-    <><Container>
-          <Showcase title={"Joining Room"}><JoiningRoom /></Showcase>
-      </Container></>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Joining Room</DialogTitle>
+          <DialogDescription>Join a new room</DialogDescription>
+        </DialogHeader>
+        <JoiningRoom />
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -35,27 +44,10 @@ export function JoiningRoom() {
   };
 
   return (
-    <Grid container direction="row" spacing={3}>
-      <Grid item><TextField variant="standard" value={roomId}
-                      onChange={(event => setRoomId(event.target.value))}></TextField></Grid>
-      <Grid item><Button variant="outline" onClick={joinRoom}>Join Room </Button></Grid>                     
-    </Grid>
+    <div className="flex w-full max-w-sm items-center space-x-2">
+      <Label>RoomID</Label>
+      <Input type="default" value={roomId} onChange={(event => setRoomId(event.target.value))} />
+      <Button variant="outline" onClick={joinRoom}>Join Room </Button> 
+    </div>
   );
-}
-
-export function Showcase(props) {
-return (
-    <Accordion style={{ margin: "3em" }} TransitionProps={{ unmountOnExit: true }} defaultExpanded>
-        <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id="panel1a-header"
-        >
-            <Typography>{props.title}</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-            {props.children}
-        </AccordionDetails>
-    </Accordion>
-);
 }

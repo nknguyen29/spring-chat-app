@@ -2,6 +2,25 @@ import React from 'react';
 
 import useGetAllUsers from '../hooks/useGetAllUsers';
 
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+  } from "./ui/card"
+
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableFooter,
+    TableHead,
+    TableHeader,
+    TableRow,
+  } from "./ui/table"
+
 function UserList() {
     const {users, error} = useGetAllUsers();
 
@@ -11,15 +30,37 @@ function UserList() {
     }
 
     return (
-        <div>
-            <h1>User List</h1>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            <ul>
-                {users && users.map(user => (
-                    <li key={user.id}>{user.firstName} {user.lastName}</li>
-                ))}
-            </ul>
-        </div>
+        <>
+        <Card>
+            <CardHeader className="px-7">
+                <CardTitle>User List</CardTitle>
+                <CardDescription>All Users from the database</CardDescription>
+                </CardHeader>
+            <CardContent>
+            <Table>
+                <TableCaption>User List</TableCaption>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead className="w-[100px]">User ID</TableHead>
+                        <TableHead>First Name</TableHead>
+                        <TableHead>Last Name</TableHead>
+                        <TableHead>Email</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {users.map((user) => (
+                        <TableRow key={user.id}>
+                            <TableCell className="font-medium">{user.id}</TableCell>
+                            <TableCell>{user.firstName}</TableCell>
+                            <TableCell>{user.lastName}</TableCell>
+                            <TableCell>{user.email}</TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+            </CardContent>
+        </Card>
+        </>
     );
 }
 

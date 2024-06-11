@@ -8,7 +8,7 @@ import {
     BrowserRouter,
 } from "react-router-dom";
 
-window.global = window;
+// window.global = window;
 
 const root = createRoot(document.getElementById('root'));
 root.render(
