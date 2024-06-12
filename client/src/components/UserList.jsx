@@ -8,7 +8,7 @@ import {
     CardDescription,
     CardHeader,
     CardTitle,
-  } from "./ui/card"
+  } from "@/components/ui/card"
 
 import {
     Table,
@@ -19,7 +19,7 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-  } from "./ui/table"
+  } from "@/components/ui/table"
 
 function UserList() {
     const {users, error} = useGetAllUsers();

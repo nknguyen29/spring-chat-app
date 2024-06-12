@@ -3,13 +3,13 @@ import { useParams } from "react-router-dom";
 import { useStompClient } from "react-stomp-hooks";
 import { List, ListItem, Typography } from "@mui/material";
 
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
-import { Badge } from "./ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
 
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 import {
   Card,
@@ -18,7 +18,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "@/components/ui/card";
 
 import { CornerDownLeft, Send } from "lucide-react";
 
@@ -67,8 +67,6 @@ export default function Chatroom({ user, messages }) {
     JSON.parse(message)
   );
 
-  console.log("Room messages:", roomMessages);
-
   // Check if users is an array before using array methods
   if (!Array.isArray(users)) {
     console.error(
@@ -78,7 +76,7 @@ export default function Chatroom({ user, messages }) {
   }
 
   return (
-    <div>
+    <div className="h-full">
       <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 lg:col-span-2">
         <header className="flex h-14 items-center gap-4 border-b px-6">
           <h1 className="text-lg font-semibold">Room {roomId}</h1>

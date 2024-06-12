@@ -7,7 +7,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "@/components/ui/card";
 
 import {
   Table,
@@ -20,12 +20,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
 import { CirclePlus } from "lucide-react";
 
-function ChatroomList({ userChatrooms }) {
+function ChatroomList({ userChatrooms, setUserChatrooms }) {
   const [chatrooms, setChatrooms] = useState([]);
   const [error, setError] = useState(null);
 
@@ -81,7 +81,7 @@ function ChatroomList({ userChatrooms }) {
                           (userChatroom) => userChatroom.id === chatroom.id
                         )
                           ? `/chatroom/${chatroom.id}`
-                          : `/chatroom/join/${chatroom.id}`
+                          : `/join/chatroom/${chatroom.id}`
                       }
                     >
                       <Button variant="outline">
@@ -103,7 +103,7 @@ function ChatroomList({ userChatrooms }) {
                   Want to Create a New Chatroom ?
                 </TableCell>
                 <TableCell>
-                  <Link to="/chatroom/create">
+                  <Link to="/create/chatroom">
                     <Button variant="outline">
                       <CirclePlus />
                     </Button>
