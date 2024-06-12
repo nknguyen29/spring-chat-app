@@ -24,31 +24,31 @@ import { CirclePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-function MyChatrooms({ user, userChatrooms }) {
+function MyInvitations({ user, userChatrooms }) {
   if (!Array.isArray(userChatrooms)) {
-    console.error("[MyChatrooms] ERROR : userChatrooms is null");
+    console.error("[MyInvitations] ERROR : userChatrooms is null");
     return null;
   }
 
   // Filter the chatrooms to only include those created by the user
-  const myChatrooms = userChatrooms.filter(
-    (chatroom) => chatroom.createdBy.id === user.id
+  const myInvitations = userChatrooms.filter(
+    (chatroom) => chatroom.createdBy.id != user.id
   );
-  console.log("[MyChatrooms] userChatrooms: ", userChatrooms);
-  console.log("[MyChatrooms] myChatrooms: ", myChatrooms);
+  console.log("[MyInvitations] userChatrooms: ", userChatrooms);
+  console.log("[MyInvitations] myInvitations: ", myInvitations);
 
   return (
     <div>
       <Card>
         <CardHeader className="px-7">
-          <CardTitle>My Chatrooms</CardTitle>
+          <CardTitle>My Invitations</CardTitle>
           <CardDescription>
-            More Informations about My Chatrooms
+            More Informations about My Invitations
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
-            <TableCaption>My Chatrooms</TableCaption>
+            <TableCaption>My Invitations</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead>Room ID</TableHead>
@@ -61,7 +61,7 @@ function MyChatrooms({ user, userChatrooms }) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {myChatrooms.map((chatroom) => (
+              {myInvitations.map((chatroom) => (
                 <TableRow key={chatroom.id}>
                   <TableCell className="font-medium">{chatroom.id}</TableCell>
                   <TableCell>{chatroom.title}</TableCell>
@@ -102,4 +102,4 @@ function MyChatrooms({ user, userChatrooms }) {
   );
 }
 
-export default MyChatrooms;
+export default MyInvitations;

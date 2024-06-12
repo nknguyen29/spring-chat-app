@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Link } from 'react-router-dom';
-
-// import useGetChatrooms from '../hooks/useGetChatrooms';
+import { Link } from "react-router-dom";
 
 import {
   Home,
@@ -9,10 +7,11 @@ import {
   Users,
   MessageCircleCode,
   MapPinned,
-  MessageCircleMore,
-} from "lucide-react"
+  MessageCirclePlus,
+  HeartHandshake,
+} from "lucide-react";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 import {
   Card,
@@ -20,17 +19,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 
-
-export default function App({user}) {
+export default function App({ user }) {
   const [selectedLink, setSelectedLink] = useState("/");
 
-  const linkClass = (path) => 
+  const linkClass = (path) =>
     `flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:text-primary ${
       selectedLink === path ? "bg-muted text-primary" : "text-muted-foreground"
     }`;
-    
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -52,6 +50,22 @@ export default function App({user}) {
                 My Chatrooms
               </Link>
               <Link
+                to="my-invitations"
+                className={linkClass("my-invitations")}
+                onClick={() => setSelectedLink("my-invitations")}
+              >
+                <HeartHandshake className="h-4 w-4" />
+                My Invitations
+              </Link>
+              <Link
+                to="create/chatroom"
+                className={linkClass("create/chatroom")}
+                onClick={() => setSelectedLink("create/chatroom")}
+              >
+                <MessageCirclePlus className="h-4 w-4" />
+                Plan a Discussion
+              </Link>
+              <Link
                 to="chatrooms"
                 className={linkClass("chatrooms")}
                 onClick={() => setSelectedLink("chatrooms")}
@@ -65,7 +79,7 @@ export default function App({user}) {
                 onClick={() => setSelectedLink("users")}
               >
                 <Users className="h-4 w-4" />
-                All Users{" "}
+                All Users
               </Link>
               <Link
                 to="debugging"
@@ -82,14 +96,15 @@ export default function App({user}) {
               <CardHeader className="p-2 pt-0 md:p-4">
                 <CardTitle>Dashboard</CardTitle>
                 <CardDescription>
-                  Checkout our new Dashboard, with advanced account management features !
+                  Checkout our new Dashboard, with advanced account management
+                  features !
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-2 pt-0 md:p-4 md:pt-0">
                 <Link to="http://localhost:8080">
-                <Button size="sm" className="w-full">
-                  Go To Dashboard
-                </Button>
+                  <Button size="sm" className="w-full">
+                    Go To Dashboard
+                  </Button>
                 </Link>
               </CardContent>
             </Card>
@@ -97,5 +112,5 @@ export default function App({user}) {
         </div>
       </div>
     </div>
-  )
+  );
 }

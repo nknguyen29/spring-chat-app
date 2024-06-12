@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import { ThemeProvider } from "./components/ThemeProvider";
 
+import Home from "./components/Home";
 import Debugging from "./components/Debugging";
 import UserList from "./components/UserList";
 import Chatroom from "./components/Chatroom";
@@ -21,15 +22,16 @@ import Logout from "./components/Logout";
 import { AuthContext, AuthProvider } from "./components/AuthContext";
 import ChatroomList from "./components/ChatroomList";
 import StompListener from "./components/StompListener";
-
-import useGetChatrooms from "./hooks/useGetChatrooms";
-
-const PrivateWrapper = () => {
-  const { isAuthenticated } = useContext(AuthContext);
-  return isAuthenticated ? <Outlet /> : <Navigate to="/" />;
-};
+import useGetUserChatrooms from "./hooks/useGetUserChatrooms";
+import MyInvitations from "./components/MyInvitations";
 
 export default function App() {
+  const PrivateWrapper = () => {
+    const { isAuthenticated } = useContext(AuthContext);
+    // console.log("[PrivateWrapper] isAuthenticated = " + isAuthenticated);
+    return isAuthenticated ? <Outlet /> : <Navigate to="/" />;
+  };
+
   const [user, setUser] = useState(null);
   // will be used to store the user's decoded token
   // which contains the user's id, email (sub), firstName, LastName, etc.
@@ -50,7 +52,16 @@ export default function App() {
   // If the room doesn't exist in the messages object yet,
   // it's created with an empty array before the message is added.
 
+  useEffect(() => {
+    console.log("[App] messages: ", messages);
+  }, [messages]);
+
   const [userChatrooms, setUserChatrooms] = useState([]);
+
+  const { getChatroomsError } = useGetUserChatrooms(user, setUserChatrooms);
+  if (getChatroomsError) {
+    console.error("[App] Error while fetching chatrooms: ", getChatroomsError);
+  }
 
   return (
     // Wrap the entire app in the AuthProvider, so that the AuthContext is available to all child components.
@@ -61,7 +72,7 @@ export default function App() {
         url={"http://localhost:8080/ws"}
         //All options supported by @stomp/stompjs can be used here
         debug={(str) => {
-          console.log(str);
+          console.log("[STOMP] Debugging :", str);
         }}
       >
         <StompListener
@@ -85,7 +96,7 @@ export default function App() {
 
               <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
                 <Routes>
-                  <Route path="/" element={<Login setUser={setUser} />} />
+                  <Route path="/" element={<Home setUser={setUser} />} />
                   <Route path="/login" element={<Login setUser={setUser} />} />
 
                   <Route element={<PrivateWrapper />}>
@@ -103,7 +114,23 @@ export default function App() {
                   <Route element={<PrivateWrapper />}>
                     <Route
                       path="/my-chatrooms"
-                      element={<MyChatrooms user={user} />}
+                      element={
+                        <MyChatrooms
+                          user={user}
+                          userChatrooms={userChatrooms}
+                        />
+                      }
+                    />
+                  </Route>
+                  <Route element={<PrivateWrapper />}>
+                    <Route
+                      path="/my-invitations"
+                      element={
+                        <MyInvitations
+                          user={user}
+                          userChatrooms={userChatrooms}
+                        />
+                      }
                     />
                   </Route>
                   <Route element={<PrivateWrapper />}>
@@ -122,7 +149,10 @@ export default function App() {
                     <Route
                       path="/join/chatroom/:roomId"
                       element={
-                        <JoinChatroom user={user} setUserChatrooms={setUserChatrooms} />
+                        <JoinChatroom
+                          user={user}
+                          setUserChatrooms={setUserChatrooms}
+                        />
                       }
                     />
                   </Route>
@@ -130,7 +160,10 @@ export default function App() {
                     <Route
                       path="/quit/chatroom/:roomId"
                       element={
-                        <QuitChatroom user={user} setUserChatrooms={setUserChatrooms} />
+                        <QuitChatroom
+                          user={user}
+                          setUserChatrooms={setUserChatrooms}
+                        />
                       }
                     />
                   </Route>

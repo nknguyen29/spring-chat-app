@@ -46,11 +46,11 @@ export default function InputForm({ user }) {
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      title: "My New Chatroom",
-      description: "My New Chatroom Description",
+      // title: "My New Chatroom",
+      // description: "My Chatroom Description",
       startDate: new Date().toISOString(),
-      validityDuration: null,
-      createdById: 0,
+      // validityDuration: null,
+      // createdById: user.id,
     },
   });
 
@@ -60,19 +60,22 @@ export default function InputForm({ user }) {
       console.log("Problem with validitiy duration... setting it to 30 days");
       data.validityDuration = formatISO(addDays(new Date(), 30));
     }
+
     data.createdById = user.id;
-
-    console.log({chatroom: data, userIds : [0]});
-
-    console.log("Creating a new Chatroom...");
+    
     axios
-      .post("http://localhost:8080/api/chatrooms/", {chatroom: data, userIds : [0]})
+      .post("http://localhost:8080/api/chatrooms", {
+        chatroom: data,
+        userIds: [user.id],
+      })
       .then((res) => {
         console.log("Response from backend : ", res);
       })
       .catch((error) => {
         console.error("Error from backend : ", error.response);
       });
+
+    form.reset();
   }
 
   return (

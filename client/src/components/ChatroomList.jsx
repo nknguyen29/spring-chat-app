@@ -48,7 +48,7 @@ function ChatroomList({ userChatrooms, setUserChatrooms }) {
   }, []);
 
   return (
-    <>
+    <div>
       <Card>
         <CardHeader className="px-7">
           <CardTitle>Available Chatrooms</CardTitle>
@@ -59,10 +59,11 @@ function ChatroomList({ userChatrooms, setUserChatrooms }) {
             <TableCaption>Available Chatrooms</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[100px]">Room ID</TableHead>
+                <TableHead>Room ID</TableHead>
                 <TableHead>Name</TableHead>
                 <TableHead>Description</TableHead>
-                <TableHead>Created At</TableHead>
+                <TableHead>Start Date</TableHead>
+                <TableHead>Validity</TableHead>
                 <TableHead>Action</TableHead>
               </TableRow>
             </TableHeader>
@@ -72,7 +73,8 @@ function ChatroomList({ userChatrooms, setUserChatrooms }) {
                   <TableCell className="font-medium">{chatroom.id}</TableCell>
                   <TableCell>{chatroom.title}</TableCell>
                   <TableCell>{chatroom.description}</TableCell>
-                  <TableCell>{chatroom.createdAt}</TableCell>
+                  <TableCell>{chatroom.startDate}</TableCell>
+                  <TableCell>{chatroom.validityDuration}</TableCell>
                   <TableCell>
                     <Link
                       to={
@@ -99,8 +101,8 @@ function ChatroomList({ userChatrooms, setUserChatrooms }) {
             </TableBody>
             <TableFooter>
               <TableRow>
-                <TableCell colSpan={4}>
-                  Want to Create a New Chatroom ?
+                <TableCell colSpan={5}>
+                  Want to Create a New Chatroom / Invitation ?
                 </TableCell>
                 <TableCell>
                   <Link to="/create/chatroom">
@@ -114,7 +116,7 @@ function ChatroomList({ userChatrooms, setUserChatrooms }) {
           </Table>
         </CardContent>
       </Card>
-    </>
+    </div>
   );
 }
 

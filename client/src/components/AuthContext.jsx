@@ -11,8 +11,9 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
       setIsAuthenticated(true);
+      console.log('[AuthContext] isAuthenticated:' + isAuthenticated);
     }
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>

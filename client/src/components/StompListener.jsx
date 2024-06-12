@@ -1,27 +1,38 @@
 import { useEffect, useRef } from "react";
 import { useStompClient } from "react-stomp-hooks";
-import useGetChatrooms from '../hooks/useGetChatrooms';
-import { set } from "date-fns";
 
-export default function StompListener({ user, setMessages, setUserChatrooms }) {
+import axios from "axios";
+
+export default function StompListener({
+  user,
+  setMessages,
+  userChatrooms,
+  setUserChatrooms,
+}) {
   const stompClient = useStompClient();
   const subscriptions = useRef([]); // use useRef to persist subscriptions
-  const { chatrooms, error } = useGetChatrooms(user ? user.id : null); // Pass user.id if user is not null, otherwise pass null
 
   useEffect(() => {
-    if (stompClient && user && chatrooms) {
+    if (stompClient && user && userChatrooms) {
+      console.log(
+        "[STOMP] user or userChatrooms changed, updating subscriptions"
+      );
       // Unsubscribe from old subscriptions
-      subscriptions.current.forEach(subscription => subscription.unsubscribe());
+      subscriptions.current.forEach((subscription) =>
+        subscription.unsubscribe()
+      );
       subscriptions.current = [];
 
-      console.log("Subscribing to chatrooms: ", chatrooms);
-      setUserChatrooms(chatrooms);
-      subscriptions.current = chatrooms.map(room => {
+      console.log("[STOMP] Subscribing to chatrooms: ", userChatrooms);
+
+      subscriptions.current = userChatrooms.map((room) => {
         return stompClient.subscribe("/topic/" + room.id, (message) => {
-          console.log("Received message from room " + room.id + " : " + message.body);
-          setMessages(prevMessages => ({
+          console.log(
+            " [STOMP] Received message from room " + room.id + " : " + message.body
+          );
+          setMessages((prevMessages) => ({
             ...prevMessages,
-            [room.id]: [...(prevMessages[room.id] || []), message.body]
+            [room.id]: [...(prevMessages[room.id] || []), message.body],
           }));
         });
       });
@@ -29,13 +40,11 @@ export default function StompListener({ user, setMessages, setUserChatrooms }) {
 
     // Cleanup
     return () => {
-      subscriptions.current.forEach(subscription => subscription.unsubscribe());
+      subscriptions.current.forEach((subscription) =>
+        subscription.unsubscribe()
+      );
     };
-  }, [setMessages, stompClient, user, chatrooms]); // add chatrooms so that the effect runs when chatrooms change
-
-  if (error) {
-    console.error('There was an error!', error);
-  }
+  }, [stompClient, user, userChatrooms]);
 
   return null; // component doesnt render anything
 }
