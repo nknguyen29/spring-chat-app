@@ -9,7 +9,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 import {
   Card,
@@ -20,9 +24,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-import { CornerDownLeft, Send } from "lucide-react";
+import { Send } from "lucide-react";
 
-import useGetAllUsers from "../hooks/useGetAllUsers";
+import { useGetAllUsers } from "@/hooks/useChatroom";
 
 export default function Chatroom({ user, messages }) {
   const { roomId } = useParams();
@@ -32,10 +36,12 @@ export default function Chatroom({ user, messages }) {
   const stompClient = useStompClient();
 
   // Fetch all users
-  const { users, error } = useGetAllUsers();
-
-  if (error) {
-    return <div>Error: {error}</div>;
+  const { data: users, isLoading, isError } = useGetAllUsers();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (isError) {
+    return <div>Error loading chatrooms</div>;
   }
 
   const sendMessage = () => {

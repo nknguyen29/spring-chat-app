@@ -24,17 +24,28 @@ import { CirclePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-function MyInvitations({ user, userChatrooms }) {
-  if (!Array.isArray(userChatrooms)) {
-    console.error("[MyInvitations] ERROR : userChatrooms is null");
-    return null;
+import {useGetUserChatrooms} from "@/hooks/useChatroom";
+
+function MyInvitations({ user }) {
+  const {
+    data: userChatrooms,
+    isLoading,
+    isError,
+  } = useGetUserChatrooms(user);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (isError) {
+    return <div>Error loading chatrooms</div>;
   }
 
+  console.log("[MyInvitations] userChatrooms: ", userChatrooms);
+
   // Filter the chatrooms to only include those created by the user
-  const myInvitations = userChatrooms.filter(
+  const myInvitations = userChatrooms.chatrooms.filter(
     (chatroom) => chatroom.createdBy.id != user.id
   );
-  console.log("[MyInvitations] userChatrooms: ", userChatrooms);
+  console.log("[MyInvitations] userChatrooms: ", userChatrooms.chatrooms);
   console.log("[MyInvitations] myInvitations: ", myInvitations);
 
   return (

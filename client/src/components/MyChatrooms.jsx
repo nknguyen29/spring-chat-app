@@ -24,18 +24,28 @@ import { CirclePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
-function MyChatrooms({ user, userChatrooms }) {
-  if (!Array.isArray(userChatrooms)) {
-    console.error("[MyChatrooms] ERROR : userChatrooms is null");
-    return null;
+import { useGetUserChatrooms } from "@/hooks/useChatroom";
+
+function MyChatrooms({ user }) {
+  const {
+    data: dataUserChatrooms,
+    isLoading,
+    isError,
+  } = useGetUserChatrooms(user);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
   }
 
-  // Filter the chatrooms to only include those created by the user
-  const myChatrooms = userChatrooms.filter(
-    (chatroom) => chatroom.createdBy.id === user.id
-  );
-  console.log("[MyChatrooms] userChatrooms: ", userChatrooms);
-  console.log("[MyChatrooms] myChatrooms: ", myChatrooms);
+  if (isError) {
+    return <div>Error loading chatrooms</div>;
+  }
+
+  const userChatrooms = dataUserChatrooms
+    ? dataUserChatrooms.createdChatrooms
+    : [];
+
+  // console.log("[MyChatrooms] userChatrooms: ", userChatrooms.createdChatrooms);
 
   return (
     <div>
@@ -61,7 +71,7 @@ function MyChatrooms({ user, userChatrooms }) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {myChatrooms.map((chatroom) => (
+              {userChatrooms.map((chatroom) => (
                 <TableRow key={chatroom.id}>
                   <TableCell className="font-medium">{chatroom.id}</TableCell>
                   <TableCell>{chatroom.title}</TableCell>

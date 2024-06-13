@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 
 import {
   Card,
@@ -25,27 +24,26 @@ import { Link } from "react-router-dom";
 
 import { CirclePlus } from "lucide-react";
 
-function ChatroomList({ userChatrooms, setUserChatrooms }) {
-  const [chatrooms, setChatrooms] = useState([]);
-  const [error, setError] = useState(null);
+import { useGetAllChatrooms, useGetUserChatrooms } from "@/hooks/useChatroom";
 
-  useEffect(() => {
-    axios
-      .get("/api/chatrooms/public")
-      .then((response) => {
-        if (Array.isArray(response.data)) {
-          setChatrooms(response.data);
-        } else {
-          setChatrooms([]);
-          console.error(
-            "Hello, expected an array from the API endpoint, but did not receive one."
-          );
-        }
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
-  }, []);
+function ChatroomList({user}) {
+  const {
+    data: dataChatrooms,
+    isLoading: chatroomsLoading,
+    isError: chatroomsError,
+  } = useGetAllChatrooms();
+
+  const {
+    data: dataUserChatrooms,
+    isLoading: userChatroomsLoading,
+    isError: userChatroomsError,
+  } = useGetUserChatrooms(user);
+
+  const chatrooms = dataChatrooms ? dataChatrooms : [];
+
+  const userChatrooms = dataUserChatrooms ? dataUserChatrooms.chatrooms : [];
+
+  console.log("userChatrooms", userChatrooms, "et chatrooms", chatrooms);
 
   return (
     <div>

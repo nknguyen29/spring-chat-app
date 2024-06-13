@@ -3,14 +3,21 @@ import { useStompClient } from "react-stomp-hooks";
 
 import axios from "axios";
 
-export default function StompListener({
-  user,
-  setMessages,
-  userChatrooms,
-  setUserChatrooms,
-}) {
+import { useGetUserChatrooms } from "@/hooks/useChatroom";
+
+export default function StompListener({ user, setMessages }) {
   const stompClient = useStompClient();
   const subscriptions = useRef([]); // use useRef to persist subscriptions
+
+  const {
+    data: dataUserChatrooms,
+    isLoading,
+    isError,
+  } = useGetUserChatrooms(user);
+
+  const userChatrooms = dataUserChatrooms ? dataUserChatrooms.chatrooms : [];
+
+  console.log("[StompListener] userChatrooms: ", userChatrooms);
 
   useEffect(() => {
     if (stompClient && user && userChatrooms) {
@@ -28,7 +35,10 @@ export default function StompListener({
       subscriptions.current = userChatrooms.map((room) => {
         return stompClient.subscribe("/topic/" + room.id, (message) => {
           console.log(
-            " [STOMP] Received message from room " + room.id + " : " + message.body
+            " [STOMP] Received message from room " +
+              room.id +
+              " : " +
+              message.body
           );
           setMessages((prevMessages) => ({
             ...prevMessages,
