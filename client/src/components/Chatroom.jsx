@@ -9,11 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 
 import {
   Card,
@@ -25,8 +22,22 @@ import {
 } from "@/components/ui/card";
 
 import { Send } from "lucide-react";
+import { FaUserCircle } from 'react-icons/fa';
 
-import { useGetAllUsers } from "@/hooks/useChatroom";
+import { useGetAllUsers, useGetSpecificChatroom } from "@/hooks/useChatroom";
+
+// Importing Sheet components from shadcn/ui
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetClose,
+} from "@/components/ui/sheet";
+
+// Importing Avatar components from shadcn/ui
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function Chatroom({ user, messages }) {
   const { roomId } = useParams();
@@ -36,13 +47,20 @@ export default function Chatroom({ user, messages }) {
   const stompClient = useStompClient();
 
   // Fetch all users
-  const { data: users, isLoading, isError } = useGetAllUsers();
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-  if (isError) {
-    return <div>Error loading chatrooms</div>;
-  }
+  const {
+    data: users,
+    isLoading: usersIsLoading,
+    isError: usersIsError,
+  } = useGetAllUsers();
+  const {
+    data: dataAboutThisChatroom,
+    isLoading: usersInChatroomisLoading,
+    isError: usersInChatroomisError,
+  } = useGetSpecificChatroom(roomId);
+
+  // Get the users in the chatroom
+  const usersInChatroom = dataAboutThisChatroom?.users || [];
+  console.log(usersInChatroom);
 
   const sendMessage = () => {
     if (stompClient) {
@@ -74,52 +92,100 @@ export default function Chatroom({ user, messages }) {
   );
 
   // Check if users is an array before using array methods
-  if (!Array.isArray(users)) {
-    console.error(
-      "Expected an array from the useGetAllUsers hook, but did not receive one."
-    );
+  if (!Array.isArray(users) || !Array.isArray(usersInChatroom)) {
+    console.error("Expected an array, but did not receive one.");
     return null;
   }
 
   return (
-    <div className="h-full">
-      <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 lg:col-span-2">
-        <header className="flex h-14 items-center gap-4 border-b px-6">
+    <div className="flex h-full">
+      {/* Main chat area */}
+      <div className="flex-1 flex flex-col h-full min-h-[50vh] rounded-xl bg-muted/50 p-4 lg:col-span-2">
+        <header className="flex h-14 items-center gap-4 border-b px-6 justify-between">
           <h1 className="text-lg font-semibold">Room {roomId}</h1>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button>Users in Chatroom</Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-80">
+              <SheetHeader>
+                <SheetTitle>Users in Chatroom</SheetTitle>
+                <SheetClose asChild>
+                  <Button variant="default">Close</Button>
+                </SheetClose>
+              </SheetHeader>
+              <CardContent className="p-0">
+                <ScrollArea className="h-[calc(100vh-130px)] rounded-md p-4">
+                  <div className="p-4">
+                    {usersInChatroom.map((user) => (
+                      <div key={user.id} className="flex items-center gap-4 mb-4">
+                        <Avatar>
+                          <AvatarFallback>
+                            <FaUserCircle className="text-4xl text-gray-500" />
+                          </AvatarFallback>
+                        </Avatar>
+                        <Typography className="text-lg">
+                          {`${user.firstName} ${user.lastName}`}
+                        </Typography>
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
+              </CardContent>
+            </SheetContent>
+          </Sheet>
         </header>
 
-        {roomMessages.map((message, index) => {
-          // Find the sender's name
-          const sender = users.find((user) => user.id === message.sender);
-          const senderName = sender
-            ? sender.firstName + " " + sender.lastName
-            : "Unknown Sender";
+        <div className="flex-1 overflow-auto p-4">
+          <div className="space-y-4">
+            {roomMessages.map((message, index) => {
+              // Find the sender's name
+              const sender = users.find((user) => user.id === message.sender);
+              const senderName = sender
+                ? `${sender.firstName} ${sender.lastName}`
+                : "Unknown Sender";
 
-          // Check if the message is from the current user
-          const isCurrentUser = message.sender === user.id;
+              // Check if the message is from the current user
+              const isCurrentUser = message.sender === user.id;
 
-          return (
-            <div className="flex-1 overflow-auto p-4">
-              <div className="space-y-4">
+              return (
                 <div
+                  key={index}
                   className={`flex ${
                     isCurrentUser
                       ? "items-end justify-end"
                       : "items-start justify-start"
                   }`}
                 >
-                  <div
-                    className={`max-w-[70%] p-2 rounded-lg ${
-                      isCurrentUser ? "bg-blue-500 text-white" : "bg-gray-100"
-                    }`}
-                  >
-                    <p className="text-sm"> {message.content} </p>
+                  {!isCurrentUser && (
+                    <Avatar className="mr-2">
+                      <AvatarFallback>
+                        <FaUserCircle className="text-4xl text-gray-500" />
+                      </AvatarFallback>
+                    </Avatar>
+                  )}
+                  <div className="flex flex-col max-w-[70%]">
+                    <div className="text-sm text-gray-600 mb-1">{senderName}</div>
+                    <div
+                      className={`p-2 rounded-lg ${
+                        isCurrentUser ? "bg-blue-500 text-white" : "bg-gray-100"
+                      }`}
+                    >
+                      <p className="text-sm">{message.content}</p>
+                    </div>
                   </div>
+                  {isCurrentUser && (
+                    <Avatar className="ml-2">
+                      <AvatarFallback>
+                        <FaUserCircle className="text-4xl text-gray-500" />
+                      </AvatarFallback>
+                    </Avatar>
+                  )}
                 </div>
-              </div>
-            </div>
-          );
-        })}
+              );
+            })}
+          </div>
+        </div>
 
         <div className="flex-1" />
         <Card className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring flex items-center p-3">

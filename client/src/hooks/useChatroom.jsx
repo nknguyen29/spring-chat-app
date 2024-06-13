@@ -26,3 +26,11 @@ export const useGetAllUsers = () => {
     queryFn: api.getAllUsers,
   });
 };
+
+export const useGetSpecificChatroom = (roomId) => {
+  return useQuery({
+    queryKey: ["specific-chatrooms"],
+    queryFn: () => api.getSpecificChatroom(roomId),
+    enabled: !!roomId,
+  });
+};

@@ -16,3 +16,10 @@ export const getAllUsers = async () => {
   const { data } = await axios.get(`/api/users/public`);
   return data;
 };
+
+export const getSpecificChatroom = async (roomId) => {
+  console.log("[API] roomId: ", roomId);
+  const { data } = await axios.get(`/api/chatrooms/${roomId}`);
+  console.log("[API] data: ", data);
+  return data;
+};
