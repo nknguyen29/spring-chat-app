@@ -28,7 +28,7 @@ import {useGetUserChatrooms} from "@/hooks/useChatroom";
 
 function MyInvitations({ user }) {
   const {
-    data: userChatrooms,
+    data: dataUserChatrooms,
     isLoading,
     isError,
   } = useGetUserChatrooms(user);
@@ -39,14 +39,15 @@ function MyInvitations({ user }) {
     return <div>Error loading chatrooms</div>;
   }
 
-  console.log("[MyInvitations] userChatrooms: ", userChatrooms);
+  if (!dataUserChatrooms) {
+    return <div>No Chatrooms Found</div>;
+  }
 
-  // Filter the chatrooms to only include those created by the user
-  const myInvitations = userChatrooms.chatrooms.filter(
+  // Filter the chatrooms to only include those NOT created by the user
+  const userChatrooms = dataUserChatrooms.chatrooms.filter(
     (chatroom) => chatroom.createdBy.id != user.id
   );
   console.log("[MyInvitations] userChatrooms: ", userChatrooms.chatrooms);
-  console.log("[MyInvitations] myInvitations: ", myInvitations);
 
   return (
     <div>
@@ -72,7 +73,7 @@ function MyInvitations({ user }) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {myInvitations.map((chatroom) => (
+              {userChatrooms.map((chatroom) => (
                 <TableRow key={chatroom.id}>
                   <TableCell className="font-medium">{chatroom.id}</TableCell>
                   <TableCell>{chatroom.title}</TableCell>

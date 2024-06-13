@@ -41,11 +41,15 @@ function MyChatrooms({ user }) {
     return <div>Error loading chatrooms</div>;
   }
 
-  const userChatrooms = dataUserChatrooms
-    ? dataUserChatrooms.createdChatrooms
-    : [];
+  if (!dataUserChatrooms) {
+    return <div>No Chatrooms Found</div>;
+  }
 
-  // console.log("[MyChatrooms] userChatrooms: ", userChatrooms.createdChatrooms);
+  // Filter the chatrooms to only include those created by the user
+  const userChatrooms = dataUserChatrooms.chatrooms.filter(
+    (chatroom) => chatroom.createdBy.id === user.id
+  );
+  console.log("[MyInvitations] userChatrooms: ", userChatrooms.chatrooms);
 
   return (
     <div>
