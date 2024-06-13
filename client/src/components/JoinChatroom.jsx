@@ -12,9 +12,6 @@ export default function JoinChatrooms({ user }) {
     mutationFn: () => {
       return axios.put(`/api/chatrooms/${roomId}/users/${user.id}`);
     },
-    onMutate: () => {
-      console.log("[JoinChatroom] onMutate");
-    },
     onError: (error) => {
       console.log("[JoinChatroom] onError: ", error);
     },
@@ -24,6 +21,7 @@ export default function JoinChatrooms({ user }) {
       queryClient.invalidateQueries([
         { queryKey: ["chatrooms"] },
         { queryKey: ["userChatrooms"] },
+        { queryKey: ["users"] },
       ]);
     },
     onSuccess: (data) => {

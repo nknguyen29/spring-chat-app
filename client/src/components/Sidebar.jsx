@@ -81,14 +81,6 @@ export default function App({ user }) {
                 <Users className="h-4 w-4" />
                 All Users
               </Link>
-              <Link
-                to="debugging"
-                className={linkClass("debugging")}
-                onClick={() => setSelectedLink("debugging")}
-              >
-                <LineChart className="h-4 w-4" />
-                Debugging
-              </Link>
             </nav>
           </div>
           <div className="mt-auto p-4">

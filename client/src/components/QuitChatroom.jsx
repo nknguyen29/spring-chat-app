@@ -24,6 +24,7 @@ export default function QuitChatrooms({ user }) {
       queryClient.invalidateQueries([
         { queryKey: ["chatrooms"] },
         { queryKey: ["userChatrooms"] },
+        { queryKey: ["users"] },
       ]);
     },
     onSuccess: (data) => {

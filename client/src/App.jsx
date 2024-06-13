@@ -10,7 +10,6 @@ import Sidebar from "./components/Sidebar";
 import { ThemeProvider } from "./components/ThemeProvider";
 
 import Home from "./components/Home";
-import Debugging from "./components/Debugging";
 import UserList from "./components/UserList";
 import Chatroom from "./components/Chatroom";
 import MyChatrooms from "./components/MyChatrooms";
@@ -89,7 +88,6 @@ export default function App() {
                   <Route path="/login" element={<Login setUser={setUser} />} />
 
                   <Route element={<PrivateWrapper />}>
-                    <Route path="/debugging" element={<Debugging />} />
                     <Route path="/users" element={<UserList />} />
                     <Route
                       path="/chatrooms"

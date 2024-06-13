@@ -1,17 +1,7 @@
 import axios from "axios";
 
-export const joinChatroom = async ({ userId, roomId }) => {
-  console.log("[APIjoinChatroom] userId: ", userId, "roomId: ", roomId);
-  await axios.put(`/api/chatrooms/${roomId}/users/${userId}`);
-};
-
-export const leaveChatroom = async ({ userId, roomId }) => {
-  console.log("[APIleaveChatroom] userId: ", userId, "roomId: ", roomId);
-  await axios.delete(`/api/chatrooms/${roomId}/users/${userId}`);
-};
-
 export const getAllChatrooms = async () => {
-  const { data } = await axios.get(`/api/chatrooms`);
+  const { data } = await axios.get(`/api/chatrooms/public`);
   return data;
 };
 
