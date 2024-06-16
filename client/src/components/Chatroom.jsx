@@ -20,13 +20,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-
-import { Send } from "lucide-react";
-import { FaUserCircle } from 'react-icons/fa';
-
-import { useGetAllUsers, useGetSpecificChatroom } from "@/hooks/useChatroom";
-
-// Importing Sheet components from shadcn/ui
 import {
   Sheet,
   SheetTrigger,
@@ -35,9 +28,10 @@ import {
   SheetTitle,
   SheetClose,
 } from "@/components/ui/sheet";
-
-// Importing Avatar components from shadcn/ui
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Send } from "lucide-react";
+import { FaUserCircle } from "react-icons/fa";
+import { useGetAllUsers, useGetSpecificChatroom } from "@/hooks/useChatroom";
 
 export default function Chatroom({ user, messages }) {
   const { roomId } = useParams();
@@ -57,6 +51,41 @@ export default function Chatroom({ user, messages }) {
     isLoading: usersInChatroomisLoading,
     isError: usersInChatroomisError,
   } = useGetSpecificChatroom(roomId);
+
+  // Check if now > startDate of the chatroom and now < validityDuration of the chatroom
+  // If not, then show a message that the chatroom is not active
+
+  const chatRoomStartDate = dataAboutThisChatroom?.startDate;
+  const chatRoomValidityDuration = dataAboutThisChatroom?.validityDuration;
+
+  const chatRoomStartDateObj = new Date(chatRoomStartDate).getTime();
+  const chatRoomValidityDurationObj = new Date(
+    chatRoomValidityDuration
+  ).getTime();
+  const newDateObj = new Date().getTime(); // current date
+  const isChatroomActive =
+    chatRoomStartDateObj < newDateObj &&
+    newDateObj < chatRoomValidityDurationObj;
+
+  if (!isChatroomActive) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <Card className="p-8">
+          <CardHeader>
+            <CardTitle>This Chatroom is currently not available</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CardDescription>
+              Chatroom Start Date:{" "}
+              {new Date(chatRoomStartDate).toLocaleString()} <br />
+              Chatroom Valid Until:{" "}
+              {new Date(chatRoomValidityDuration).toLocaleString()} <br />
+            </CardDescription>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   // Get the users in the chatroom
   const usersInChatroom = dataAboutThisChatroom?.users || [];
@@ -118,7 +147,10 @@ export default function Chatroom({ user, messages }) {
                 <ScrollArea className="h-[calc(100vh-130px)] rounded-md p-4">
                   <div className="p-4">
                     {usersInChatroom.map((user) => (
-                      <div key={user.id} className="flex items-center gap-4 mb-4">
+                      <div
+                        key={user.id}
+                        className="flex items-center gap-4 mb-4"
+                      >
                         <Avatar>
                           <AvatarFallback>
                             <FaUserCircle className="text-4xl text-gray-500" />
@@ -165,13 +197,15 @@ export default function Chatroom({ user, messages }) {
                     </Avatar>
                   )}
                   <div className="flex flex-col max-w-[70%]">
-                    <div className="text-sm text-gray-600 mb-1">{senderName}</div>
+                    <div className="text-sm text-gray-600 mb-1">
+                      {senderName}
+                    </div>
                     <div
                       className={`p-2 rounded-lg ${
                         isCurrentUser ? "bg-blue-500 text-white" : "bg-gray-100"
                       }`}
                     >
-                      <p className="text-sm">{message.content}</p>
+                      <p className="text-sm text-center">{message.content}</p>
                     </div>
                   </div>
                   {isCurrentUser && (
@@ -187,7 +221,8 @@ export default function Chatroom({ user, messages }) {
           </div>
         </div>
 
-        <div className="flex-1" />
+        {/* <div className="flex-1" /> */}
+        {/* without this <div className="flex-1" /> => not scrollable because container grows.... how to fix ... ? */}
         <Card className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring flex items-center p-3">
           <Textarea
             id="message"
