@@ -19,7 +19,7 @@ public class TestResource {
     }
 
     @GetMapping("/logged")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<String> testLogged() {
         return ResponseEntity.ok("You are logged in!");
     }
