@@ -55,10 +55,6 @@ export default function App() {
   // If the room doesn't exist in the messages object yet,
   // it's created with an empty array before the message is added.
 
-  useEffect(() => {
-    console.log("[App] messages: ", messages);
-  }, [messages]);
-
   return (
     <AuthProvider>
       {/* Initialize Stomp connection */}
