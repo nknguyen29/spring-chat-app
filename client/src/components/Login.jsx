@@ -131,7 +131,7 @@ const Login = ({ setUser }) => {
             Login
           </Button>
           <Button variant="outline" className="w-full">
-            Sign Up
+            Forgot Password
           </Button>
         </div>
       </CardContent>

@@ -26,7 +26,17 @@ import { CirclePlus } from "lucide-react";
 
 import { useGetAllChatrooms, useGetUserChatrooms } from "@/hooks/useChatroom";
 
-function ChatroomList({user}) {
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
+function ChatroomList({ user }) {
   const {
     data: dataChatrooms,
     isLoading: chatroomsLoading,
@@ -39,11 +49,24 @@ function ChatroomList({user}) {
     isError: userChatroomsError,
   } = useGetUserChatrooms(user);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
   const chatrooms = dataChatrooms ? dataChatrooms : [];
 
   const userChatrooms = dataUserChatrooms ? dataUserChatrooms.chatrooms : [];
 
   console.log("userChatrooms", userChatrooms, "et chatrooms", chatrooms);
+
+  // Calculate pagination
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentChatrooms = chatrooms.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  const totalPages = Math.ceil(chatrooms.length / itemsPerPage);
 
   return (
     <div>
@@ -66,7 +89,7 @@ function ChatroomList({user}) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {chatrooms.map((chatroom) => (
+              {currentChatrooms.map((chatroom) => (
                 <TableRow key={chatroom.id}>
                   <TableCell className="font-medium">{chatroom.id}</TableCell>
                   <TableCell>{chatroom.title}</TableCell>
@@ -112,6 +135,43 @@ function ChatroomList({user}) {
               </TableRow>
             </TableFooter>
           </Table>
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (currentPage > 1) setCurrentPage(currentPage - 1);
+                  }}
+                />
+              </PaginationItem>
+              {Array.from({ length: totalPages }, (_, i) => (
+                <PaginationItem key={i}>
+                  <PaginationLink
+                    href="#"
+                    isActive={currentPage === i + 1}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setCurrentPage(i + 1);
+                    }}
+                  >
+                    {i + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (currentPage < totalPages)
+                      setCurrentPage(currentPage + 1);
+                  }}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </CardContent>
       </Card>
     </div>
