@@ -10,6 +10,7 @@ import { useGetAllUsers } from "@/hooks/useChatroom";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from "sonner";
 
 const SimpleForm = ({ user }) => {
   const [title, setTitle] = useState("");
@@ -101,6 +102,15 @@ const SimpleForm = ({ user }) => {
     );
 
     mutation.mutate(newChatroomPayload);
+
+    // Sonner to say that room has been created
+    toast("Chatroom has been created !", {
+      description: "Let's start discussing !",
+      action: {
+        label: "Dismiss",
+        onClick: () => console.log("Dismissed toast"),
+      },
+    });
   };
 
   return (

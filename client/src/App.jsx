@@ -23,6 +23,8 @@ import ChatroomList from "./components/ChatroomList";
 import StompListener from "./components/StompListener";
 import MyInvitations from "./components/MyInvitations";
 
+import { Toaster } from "@/components/ui/sonner"
+
 export default function App() {
   const PrivateWrapper = () => {
     const { isAuthenticated, isLoading } = useContext(AuthContext);
@@ -69,6 +71,8 @@ export default function App() {
         }}
       >
         <StompListener user={user} setMessages={setMessages} />
+
+        <Toaster />
 
         <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
           <div
