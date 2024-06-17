@@ -568,7 +568,9 @@ En plus des fonctionnalités demandées, nous avons ajouté les éléments suiva
 
 ### Eco Index
 
-![EcoIndex de Chat](ecoindex-chat.png)
+<img src="docs/images/ecoindex_chat.png" alt="Eco Index de l'application de chat" width="600" />
+
+*Figure 3. Eco Index de l'application de chat*
 
 L'application a obtenu un score A, mais il reste quelques problèmes à résoudre :
 
