@@ -39,12 +39,13 @@ public class ForgotPasswordController {
             passwordService.sendResetPasswordEmail(email, resetPasswordLink);
             model.addAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("authentication.forgot-password.success"));
         } catch (UsernameNotFoundException ex) {
-            model.addAttribute(WebUtils.MSG_ERROR, ex.getMessage());
+            model.addAttribute(WebUtils.MSG_ERROR,
+                    WebUtils.getMessage("authentication.forgot-password.user-not-found"));
         } catch (UnsupportedEncodingException | MessagingException e) {
             model.addAttribute(WebUtils.MSG_ERROR, WebUtils.getMessage("authentication.forgot-password.error"));
         }
 
-        return "redirect:/login";
+        return "security/forgot_password_form";
     }
 
     @GetMapping("/reset-password")
@@ -69,7 +70,8 @@ public class ForgotPasswordController {
         final User user = passwordService.getByResetPasswordToken(token);
 
         if (!password.equals(confirmPassword)) {
-            model.addAttribute(WebUtils.MSG_ERROR, WebUtils.getMessage("authentication.reset-password.password-mismatch"));
+            model.addAttribute(WebUtils.MSG_ERROR,
+                    WebUtils.getMessage("authentication.reset-password.password-mismatch"));
             return "security/reset_password_form";
         }
         if (user == null) {
