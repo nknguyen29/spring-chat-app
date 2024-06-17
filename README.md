@@ -109,7 +109,26 @@ Le projet React est divisé en plusieurs dossiers :
     cd sr03-spring-chat-app
     ```
 
-1. Accédez au répertoire de la partie client :
+1. Accédez au répertoire de la partie serveur :
+
+    ```bash
+    cd chatapp
+    ```
+
+1. Modifiez / Adaptez le .env (voir .env.example et l'adapter pour y mettre des identifiants valides pour le serveur de base de données) :
+
+    ```bash
+    cp .env.example .env
+    sudo nano .env
+    ```
+
+1. Lancer le backend Spring :
+
+    ```bash
+    ./mvnw spring-boot:run
+    ```
+
+1. Le backend est lancé, maintenant au frontend. Accédez au répertoire de la partie client :
 
     ```bash
     cd client
