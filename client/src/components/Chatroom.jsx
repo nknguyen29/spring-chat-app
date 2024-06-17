@@ -133,7 +133,6 @@ export default function Chatroom({ user, messages }) {
 
   // Get the users in the chatroom
   const usersInChatroom = dataAboutThisChatroom?.users || [];
-  console.log(usersInChatroom);
 
   const sendMessage = () => {
     if (stompClient) {

@@ -23,31 +23,31 @@ export default function StompListener({ user, setMessages }) {
     isError: isErrorUsers,
   } = useGetAllUsers();
 
-  const allUsers = dataUsers ? dataUsers : [];
-
-  console.log("[StompListener] userChatrooms: ", userChatrooms);
+//  console.log("[StompListener] userChatrooms: ", userChatrooms);
 
   useEffect(() => {
+    let allUsers = dataUsers ? dataUsers : [];
+
     if (stompClient && user && userChatrooms) {
-      console.log(
-        "[STOMP] user or userChatrooms changed, updating subscriptions"
-      );
+//      console.log(
+//        "[STOMP] user or userChatrooms changed, updating subscriptions"
+//      );
       // Unsubscribe from old subscriptions
       subscriptions.current.forEach((subscription) =>
         subscription.unsubscribe()
       );
       subscriptions.current = [];
 
-      console.log("[STOMP] Subscribing to chatrooms: ", userChatrooms);
+//      console.log("[STOMP] Subscribing to chatrooms: ", userChatrooms);
 
       subscriptions.current = userChatrooms.map((room) => {
         return stompClient.subscribe("/topic/" + room.id, (message) => {
-          console.log(
-            " [STOMP] Received message from room " +
-              room.id +
-              " : " +
-              message.body
-          );
+//          console.log(
+//            " [STOMP] Received message from room " +
+//              room.id +
+//              " : " +
+//              message.body
+//          );
     // Sonner : message received
     let messageBody = JSON.parse(message.body);
 
@@ -79,7 +79,7 @@ export default function StompListener({ user, setMessages }) {
         subscription.unsubscribe()
       );
     };
-  }, [stompClient, user, userChatrooms]);
+  }, [dataUsers, setMessages, stompClient, user, userChatrooms]);
 
   return null; // component doesnt render anything
 }
