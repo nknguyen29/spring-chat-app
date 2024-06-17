@@ -93,7 +93,7 @@ public class UserController {
     @PostMapping("/delete-all")
     public String deleteAll(final RedirectAttributes redirectAttributes) {
         userService.deleteAll();
-        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.deleteAll.success"));
+        redirectAttributes.addFlashAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("user.delete-all.success"));
         return "redirect:/users";
     }
 
