@@ -113,7 +113,7 @@ public class PasswordService {
         userRepository.save(user);
     }
 
-    public void sendResetPasswordEmail(final String recipientEmail, final String link)
+    public void sendResetPasswordEmail(final String recipientEmail, final String resetPasswordLink)
             throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
@@ -122,7 +122,7 @@ public class PasswordService {
         helper.setTo(recipientEmail);
 
         final Context context = new Context();
-        context.setVariable("link", link);
+        context.setVariable("resetPasswordLink", resetPasswordLink);
         final String processedString = templateEngine.process("mail/reset_password_email", context);
         helper.setText(processedString, true);
 
