@@ -13,97 +13,80 @@ import org.springframework.web.bind.annotation.RestController;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import fr.utc.sr03.chatapp.domain.User;
+import fr.utc.sr03.chatapp.service.PasswordService;
+import fr.utc.sr03.chatapp.util.WebUtils;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
- 
+import org.springframework.ui.Model;
+
 @RestController
 public class ForgotPasswordController {
 
     @Autowired
-    private CustomerServices customerService;
+    private PasswordService passwordService;
 
-    public class Utility {
-        public static String getSiteURL(HttpServletRequest request) {
-            String siteURL = request.getRequestURL().toString();
-            return siteURL.replace(request.getServletPath(), "");
-        }
-    }
-
-    @GetMapping("/forgot_password")
+    @GetMapping("/forgot-password")
     public String showForgotPasswordForm() {
-        return "forgot_password_form";
+        return "security/forgot_password_form";
     }
 
-    @PostMapping("/forgot_password")
-    public String processForgotPassword(HttpServletRequest request, Model model) {
-        String email = request.getParameter("email");
-        String token = RandomString.make(30);
-        
+    @PostMapping("/forgot-password")
+    public String processForgotPassword(final HttpServletRequest request, final Model model) {
+        final String email = request.getParameter("email");
+        final String token = passwordService.generateResetPasswordToken(email);
+
         try {
-            customerService.updateResetPasswordToken(token, email);
-            String resetPasswordLink = Utility.getSiteURL(request) + "/reset_password?token=" + token;
-            sendEmail(email, resetPasswordLink);
-            model.addAttribute("message", "We have sent a reset password link to your email. Please check.");
-            
-        } catch (CustomerNotFoundException ex) {
-            model.addAttribute("error", ex.getMessage());
+            passwordService.updateResetPasswordToken(token, email);
+            final String resetPasswordLink = WebUtils.getSiteURL(request) + "/reset-password?token=" + token;
+            passwordService.sendResetPasswordEmail(email, resetPasswordLink);
+            model.addAttribute(WebUtils.MSG_SUCCESS, "authentication.forgot.password.success");
+        } catch (UsernameNotFoundException ex) {
+            model.addAttribute(WebUtils.MSG_ERROR, ex.getMessage());
         } catch (UnsupportedEncodingException | MessagingException e) {
-            model.addAttribute("error", "Error while sending email");
+            model.addAttribute(WebUtils.MSG_ERROR, "authentication.forgot.password.error");
         }
-            
-        return "forgot_password_form";
+
+        return "redirect:/login";
     }
-    
-    @GetMapping("/reset_password")
+
+    @GetMapping("/reset-password")
     public String showResetPasswordForm(@Param(value = "token") String token, Model model) {
-        Customer customer = customerService.getByResetPasswordToken(token);
+        final User user = passwordService.getByResetPasswordToken(token);
         model.addAttribute("token", token);
-         
-        if (customer == null) {
+
+        if (user == null) {
             model.addAttribute("message", "Invalid Token");
             return "message";
         }
-         
-        return "reset_password_form";
+
+        return "security/reset_password_form";
     }
 
+    @PostMapping("/reset-password")
+    public String processResetPassword(final HttpServletRequest request, final Model model) {
+        final String token = request.getParameter("token");
+        final String password = request.getParameter("password");
 
-    @GetMapping("/mail")
-    public String sendEmail() throws MessagingException {
-        System.out.println("Sending email...");
-
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
-
-        mimeMessageHelper.setFrom("adhavane.moudougannane@etu.utc.fr");
-        mimeMessageHelper.setTo("adhavane.moudougannane@etu.utc.fr");
-        mimeMessageHelper.setSubject("Test email");
-
-        Context context = new Context();
-        context.setVariable("content", "This is a test email");
-        String processedString = templateEngine.process("mail/test", context);
-        mimeMessageHelper.setText(processedString, true);
-
-        // String subject = "Here's the link to reset your password";
-        // String content = "<p>Hello,</p>"
-        //         + "<p>You have requested to reset your password.</p>"
-        //         + "<p>Click the link below to change your password:</p>"
-        //         + "<p><a href=\"" + "link" + "\">Change my password</a></p>"
-        //         + "<br>"
-        //         + "<p>Ignore this email if you do remember your password, "
-        //         + "or you have not made the request.</p>";
+        final User user = passwordService.getByResetPasswordToken(token);
+        model.addAttribute("title", "Reset your password");
         
-        // helper.setSubject(subject);
-        // helper.setText(content, true);
+        if (customer == null) {
+            model.addAttribute("message", "Invalid Token");
+            return "message";
+        } else {           
+            customerService.updatePassword(customer, password);
+            
+            model.addAttribute("message", "You have successfully changed your password.");
+        }
         
-        mailSender.send(mimeMessage);
+        return "message";
+    }
 
-        return "Email has been sent";
-    }  
-     
 }
