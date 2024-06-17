@@ -11,7 +11,7 @@ public class TestDTO {
     public TestDTO() {
     }
 
-    public TestDTO(String message) {
+    public TestDTO(final String message) {
         this.message = message;
     }
 
@@ -19,7 +19,7 @@ public class TestDTO {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         this.message = message;
     }
 
