@@ -144,6 +144,9 @@ export default function Chatroom({ user, messages }) {
           sender: user.id,
           content: input,
         }),
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
       });
     } else {
       // Handle error
