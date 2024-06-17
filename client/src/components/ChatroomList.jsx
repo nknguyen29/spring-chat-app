@@ -50,7 +50,7 @@ function ChatroomList({ user }) {
   } = useGetUserChatrooms(user);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 7;
 
   const chatrooms = dataChatrooms ? dataChatrooms : [];
 

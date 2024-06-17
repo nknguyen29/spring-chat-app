@@ -44,7 +44,7 @@ function MyInvitations({ user }) {
   } = useGetUserChatrooms(user);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 7;
 
   if (isLoading) {
     return <div>Loading...</div>;
