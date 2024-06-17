@@ -2,10 +2,12 @@ package fr.utc.sr03.chatapp.service;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
+import java.sql.Timestamp;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Base64;
-
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -23,10 +25,6 @@ import fr.utc.sr03.chatapp.repos.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.transaction.Transactional;
-
-import java.sql.Timestamp;
-
-import java.time.Instant;
 
 
 @Service
@@ -114,35 +112,26 @@ public class PasswordService {
         resetAllResetPasswordTokens(user);
         userRepository.save(user);
     }
-       
-    
+
     public void sendResetPasswordEmail(final String recipientEmail, final String link)
-        throws MessagingException, UnsupportedEncodingException {
-        MimeMessage message = mailSender.createMimeMessage();              
+            throws MessagingException, UnsupportedEncodingException {
+        MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message);
 
         helper.setFrom(fromMail, sender);
         helper.setTo(recipientEmail);
 
-        // Context context = new Context();
-        // context.setVariable("content", "This is a test email");
-        // String processedString = templateEngine.process("mail/test", context);
-        // mimeMessageHelper.setText(processedString, true);
+        final Context context = new Context();
+        context.setVariable("link", link);
+        final String processedString = templateEngine.process("mail/reset_password_email", context);
+        helper.setText(processedString, true);
 
-        final String subject = "Here's the link to reset your password";
-        
-        final String content = "<p>Hello,</p>"
-                + "<p>You have requested to reset your password.</p>"
-                + "<p>Click the link below to change your password:</p>"
-                + "<p><a href=\"" + link + "\">Change my password</a></p>"
-                + "<br>"
-                + "<p>Ignore this email if you do remember your password, "
-                + "or you have not made the request.</p>";
-        
+        final String subject = "[Diskette] Réinitialisation de mot de passe";
+
         helper.setSubject(subject);
-        
-        helper.setText(content, true);
-        
+
+        helper.setText(processedString, true);
+
         mailSender.send(message);
     }
 

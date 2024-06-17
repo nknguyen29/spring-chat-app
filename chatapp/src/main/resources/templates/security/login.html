@@ -4,7 +4,7 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorate="~{security/master}"
 >
-    <div layout:fragment="content" class="w-full md:max-w-2xl max-w-xl">
+    <th:block layout:fragment="content">
         <div th:object="${authentication}" th:remove="tag">
             <div
                 th:if="${param.login_error} or ${#fields.hasGlobalErrors()}"
@@ -86,5 +86,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </th:block>
 </html>
