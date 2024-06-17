@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,37 +23,55 @@ import org.springframework.stereotype.Service;
  
 @RestController
 public class ForgotPasswordController {
-    @Autowired
-    private JavaMailSender mailSender;
 
     @Autowired
-    private TemplateEngine templateEngine;
+    private CustomerServices customerService;
 
-    @Value("${spring.mail.properties.mail.smtp.from}")
-    private String sender;
+    public class Utility {
+        public static String getSiteURL(HttpServletRequest request) {
+            String siteURL = request.getRequestURL().toString();
+            return siteURL.replace(request.getServletPath(), "");
+        }
+    }
 
-    // @PostMapping("/forgot_password")
-    // public String processForgotPassword(HttpServletRequest request, Model model) {
-    //     String email = request.getParameter("email");
-    //     String token = RandomString.make(30);
+    @GetMapping("/forgot_password")
+    public String showForgotPasswordForm() {
+        return "forgot_password_form";
+    }
+
+    @PostMapping("/forgot_password")
+    public String processForgotPassword(HttpServletRequest request, Model model) {
+        String email = request.getParameter("email");
+        String token = RandomString.make(30);
         
-    //     try {
-    //         customerService.updateResetPasswordToken(token, email);
-    //         String resetPasswordLink = Utility.getSiteURL(request) + "/reset_password?token=" + token;
-    //         sendEmail(email, resetPasswordLink);
-    //         model.addAttribute("message", "We have sent a reset password link to your email. Please check.");
+        try {
+            customerService.updateResetPasswordToken(token, email);
+            String resetPasswordLink = Utility.getSiteURL(request) + "/reset_password?token=" + token;
+            sendEmail(email, resetPasswordLink);
+            model.addAttribute("message", "We have sent a reset password link to your email. Please check.");
             
-    //     } catch (CustomerNotFoundException ex) {
-    //         model.addAttribute("error", ex.getMessage());
-    //     } catch (UnsupportedEncodingException | MessagingException e) {
-    //         model.addAttribute("error", "Error while sending email");
-    //     }
+        } catch (CustomerNotFoundException ex) {
+            model.addAttribute("error", ex.getMessage());
+        } catch (UnsupportedEncodingException | MessagingException e) {
+            model.addAttribute("error", "Error while sending email");
+        }
             
-    //     return "forgot_password_form";
-    // }
+        return "forgot_password_form";
+    }
+    
+    @GetMapping("/reset_password")
+    public String showResetPasswordForm(@Param(value = "token") String token, Model model) {
+        Customer customer = customerService.getByResetPasswordToken(token);
+        model.addAttribute("token", token);
+         
+        if (customer == null) {
+            model.addAttribute("message", "Invalid Token");
+            return "message";
+        }
+         
+        return "reset_password_form";
+    }
 
-    @Value("${spring.mail.username}")
-    private String fromMail;
 
     @GetMapping("/mail")
     public String sendEmail() throws MessagingException {
