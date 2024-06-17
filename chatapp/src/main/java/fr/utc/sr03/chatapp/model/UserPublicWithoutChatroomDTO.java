@@ -1,8 +1,14 @@
 package fr.utc.sr03.chatapp.model;
 
+import java.sql.Timestamp;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
 
 public class UserPublicWithoutChatroomDTO {
 
@@ -24,6 +30,23 @@ public class UserPublicWithoutChatroomDTO {
     @NotNull
     @JsonProperty("isAdmin")
     private Boolean isAdmin;
+
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp createdAt;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp lastConnection;
+
+    @JsonProperty("failedConnectionAttempts")
+    private Integer failedConnectionAttempts;
+
+    @NotNull
+    @JsonProperty("isLocked")
+    private Boolean isLocked;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp lockedAt;
 
     public Long getId() {
         return id;
@@ -65,14 +88,59 @@ public class UserPublicWithoutChatroomDTO {
         this.isAdmin = isAdmin;
     }
 
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(final Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Timestamp getLastConnection() {
+        return lastConnection;
+    }
+
+    public void setLastConnection(final Timestamp lastConnection) {
+        this.lastConnection = lastConnection;
+    }
+
+    public Integer getFailedConnectionAttempts() {
+        return failedConnectionAttempts;
+    }
+
+    public void setFailedConnectionAttempts(final Integer failedConnectionAttempts) {
+        this.failedConnectionAttempts = failedConnectionAttempts;
+    }
+
+    public Boolean getIsLocked() {
+        return isLocked;
+    }
+
+    public void setIsLocked(final Boolean isLocked) {
+        this.isLocked = isLocked;
+    }
+
+    public Timestamp getLockedAt() {
+        return lockedAt;
+    }
+
+    public void setLockedAt(final Timestamp lockedAt) {
+        this.lockedAt = lockedAt;
+    }
+
     @Override
     public String toString() {
-        return "UserPublicWithoutChatroomDTO{" +
+        return "UserWithoutChatroomDTO{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", isAdmin=" + isAdmin +
+                ", createdAt=" + createdAt +
+                ", lastConnection=" + lastConnection +
+                ", failedConnectionAttempts=" + failedConnectionAttempts +
+                ", isLocked=" + isLocked +
+                ", lockedAt=" + lockedAt +
                 '}';
     }
 

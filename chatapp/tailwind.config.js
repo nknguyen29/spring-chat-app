@@ -20,11 +20,12 @@ module.exports = {
     },
   },
   plugins: [
-    // require('@tailwindcss/typography'),
-    // require('@tailwindcss/forms'),
-    // require('@tailwindcss/aspect-ratio'),
-    // require('@tailwindcss/container-queries'),
-    // ...
+    // Uncomment the following lines to enable additional Tailwind CSS plugins
+    // require('@tailwindcss/typography'), // Provides beautiful typographic defaults
+    // require('@tailwindcss/forms'), // Provides better default styles for forms
+    // require('@tailwindcss/aspect-ratio'), // Provides utilities for aspect ratios
+    // require('@tailwindcss/container-queries'), // Provides support for CSS container queries
+    // Add other plugins as needed
     require('flowbite/plugin'),
-  ],
+  ]
 };

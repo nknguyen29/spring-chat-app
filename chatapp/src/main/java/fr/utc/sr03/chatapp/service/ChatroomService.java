@@ -1,18 +1,22 @@
 package fr.utc.sr03.chatapp.service;
 
+import java.util.List;
+
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
 import fr.utc.sr03.chatapp.domain.Chatroom;
+import fr.utc.sr03.chatapp.domain.ChatroomUser;
 import fr.utc.sr03.chatapp.domain.User;
+import fr.utc.sr03.chatapp.mapper.ChatroomMapper;
 import fr.utc.sr03.chatapp.model.ChatroomDTO;
-import fr.utc.sr03.chatapp.model.ChatroomWithoutUserDTO;
+import fr.utc.sr03.chatapp.model.ChatroomPublicDTO;
+import fr.utc.sr03.chatapp.model.ChatroomUserPostDTO;
 import fr.utc.sr03.chatapp.repos.ChatroomRepository;
+import fr.utc.sr03.chatapp.repos.ChatroomUserRepository;
 import fr.utc.sr03.chatapp.repos.UserRepository;
 import fr.utc.sr03.chatapp.util.NotFoundException;
 import jakarta.transaction.Transactional;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 
 @Service
@@ -21,31 +25,67 @@ public class ChatroomService {
 
     private final ChatroomRepository chatroomRepository;
     private final UserRepository userRepository;
+    private final ChatroomUserRepository chatroomUserRepository;
+
+    private final ChatroomMapper chatroomMapper;
 
     public ChatroomService(final ChatroomRepository chatroomRepository,
-            final UserRepository userRepository) {
+            final UserRepository userRepository,
+            final ChatroomUserRepository chatroomUserRepository,
+            final ChatroomMapper chatroomMapper) {
         this.chatroomRepository = chatroomRepository;
         this.userRepository = userRepository;
+        this.chatroomUserRepository = chatroomUserRepository;
+
+        this.chatroomMapper = chatroomMapper;
     }
 
-    // public List<ChatroomDTO> findAll() {
-    //     final List<Chatroom> chatrooms = chatroomRepository.findAll(Sort.by("id"));
-    //     return chatrooms.stream()
-    //             .map(chatroom -> mapToDTO(chatroom, new ChatroomDTO()))
-    //             .toList();
-    // }
+    public List<ChatroomDTO> findAll() {
+        final List<Chatroom> chatrooms = chatroomRepository.findAll(Sort.by("id"));
+        return chatrooms.stream()
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomDTO()))
+                .toList();
+    }
 
-    // public ChatroomDTO get(final Long id) {
-    //     return chatroomRepository.findById(id)
-    //             .map(chatroom -> mapToDTO(chatroom, new ChatroomDTO()))
-    //             .orElseThrow(NotFoundException::new);
-    // }
+    public List<ChatroomPublicDTO> findAllPublic() {
+        final List<Chatroom> chatrooms = chatroomRepository.findAll(Sort.by("id"));
+        return chatrooms.stream()
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomPublicDTO()))
+                .toList();
+    }
 
-    // public Long create(final ChatroomDTO chatroomDTO) {
-    //     final Chatroom chatroom = new Chatroom();
-    //     mapToEntity(chatroomDTO, chatroom);
-    //     return chatroomRepository.save(chatroom).getId();
-    // }
+    public ChatroomDTO get(final Long id) {
+        return chatroomRepository.findById(id)
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomDTO()))
+                .orElseThrow(NotFoundException::new);
+    }
+
+    public ChatroomPublicDTO getPublic(final Long id) {
+        return chatroomRepository.findById(id)
+                .map(chatroom -> chatroomMapper.mapToDTO(chatroom, new ChatroomPublicDTO()))
+                .orElseThrow(NotFoundException::new);
+    }
+
+    public Long create(final ChatroomUserPostDTO chatroomUserDTO) {
+        chatroomUserDTO.getUserIds().forEach(userId -> {
+            userRepository.findById(userId)
+                    .orElseThrow(NotFoundException::new);
+        });
+
+        final Chatroom chatroom = new Chatroom();
+        chatroomMapper.mapToEntity(chatroomUserDTO.getChatroomDTO(), chatroom);
+        chatroomRepository.save(chatroom);
+
+        chatroomUserDTO.getUserIds().forEach(userId -> {
+            final User user = userRepository.findById(userId)
+                    .orElseThrow(NotFoundException::new);
+            final ChatroomUser chatroomUser = new ChatroomUser(chatroom, user);
+            chatroom.getChatroomUsers().add(chatroomUser);
+        });
+        chatroomRepository.save(chatroom);
+
+        return chatroom.getId();
+    }
 
     // public void update(final Long id, final ChatroomDTO chatroomDTO) {
     //     final Chatroom chatroom = chatroomRepository.findById(id)
@@ -54,34 +94,35 @@ public class ChatroomService {
     //     chatroomRepository.save(chatroom);
     // }
 
-    // public void delete(final Long id) {
-    //     chatroomRepository.deleteById(id);
-    // }
+    public void addUser(final Long id, final Long userId) {
+        // dont forget il the chatroomUser already exists we should not create a new one
+        final Chatroom chatroom = chatroomRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        final User user = userRepository.findById(userId)
+                .orElseThrow(NotFoundException::new);
+        if (chatroomUserRepository.findByUserAndChatroom(user, chatroom).isEmpty()) {
+            final ChatroomUser chatroomUser = new ChatroomUser(chatroom, user);
+            chatroom.getChatroomUsers().add(chatroomUser);
+            chatroomRepository.save(chatroom);
+        }
+    }
 
-    // private ChatroomDTO mapToDTO(final Chatroom chatroom, final ChatroomDTO chatroomDTO) {
-    //     chatroomDTO.setId(chatroom.getId());
-    //     chatroomDTO.setTitle(chatroom.getTitle());
-    //     chatroomDTO.setDescription(chatroom.getDescription());
-    //     chatroomDTO.setStartDate(chatroom.getStartDate());
-    //     chatroomDTO.setValidityDuration(chatroom.getValidityDuration());
-    //     chatroomDTO.setUsers(chatroom.getUsers().stream()
-    //             .map(user -> user.getId())
-    //             .toList());
-    //     return chatroomDTO;
-    // }
+    public void removeUser(final Long id, final Long userId) {
+        final Chatroom chatroom = chatroomRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        final User user = userRepository.findById(userId)
+                .orElseThrow(NotFoundException::new);
+        final ChatroomUser chatroomUser = chatroomUserRepository.findByUserAndChatroom(user, chatroom)
+                .orElseThrow(NotFoundException::new);
+        chatroomUserRepository.delete(chatroomUser);
+    }
 
-    // private Chatroom mapToEntity(final ChatroomDTO chatroomDTO, final Chatroom chatroom) {
-    //     chatroom.setTitle(chatroomDTO.getTitle());
-    //     chatroom.setDescription(chatroomDTO.getDescription());
-    //     chatroom.setStartDate(chatroomDTO.getStartDate());
-    //     chatroom.setValidityDuration(chatroomDTO.getValidityDuration());
-    //     final List<User> users = userRepository.findAllById(
-    //             chatroomDTO.getUsers() == null ? Collections.emptyList() : chatroomDTO.getUsers());
-    //     if (users.size() != (chatroomDTO.getUsers() == null ? 0 : chatroomDTO.getUsers().size())) {
-    //         throw new NotFoundException("one of users not found");
-    //     }
-    //     chatroom.setUsers(new HashSet<>(users));
-    //     return chatroom;
-    // }
+    public void delete(final Long id) {
+        final Chatroom chatroom = chatroomRepository.findById(id)
+                .orElseThrow(NotFoundException::new);
+        // remove many-to-many relations at owning side
+        chatroom.getChatroomUsers().forEach(chatroomUserRepository::delete);
+        chatroomRepository.delete(chatroom);
+    }
 
 }

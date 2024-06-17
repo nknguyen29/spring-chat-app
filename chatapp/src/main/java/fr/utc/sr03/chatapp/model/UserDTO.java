@@ -1,13 +1,17 @@
 package fr.utc.sr03.chatapp.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.sql.Timestamp;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 
 public class UserDTO {
 
@@ -27,7 +31,7 @@ public class UserDTO {
     private String email;
 
     @NotNull
-    @Size(max = 255)
+    @Size(min = 8, max = 255)
     private String password;
 
     @NotNull
@@ -48,12 +52,30 @@ public class UserDTO {
     @JsonProperty("isLocked")
     private Boolean isLocked;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp lockedAt;
+
+    @NotNull
+    @JsonProperty("tokens")
+    private List<TokenWithoutUserDTO> tokens;
+
     @NotNull
     @JsonProperty("chatrooms")
     private List<ChatroomWithoutUserDTO> chatrooms;
 
+    @NotNull
+    @JsonProperty("createdChatrooms")
+    private List<ChatroomWithoutUserDTO> createdChatrooms;
+
+    @NotNull
+    @JsonProperty("updatedChatrooms")
+    private List<ChatroomWithoutUserDTO> updatedChatrooms;
+
     public UserDTO() {
+        this.tokens = new ArrayList<>();
         this.chatrooms = new ArrayList<>();
+        this.createdChatrooms = new ArrayList<>();
+        this.updatedChatrooms = new ArrayList<>();
     }
 
     public Long getId() {
@@ -136,6 +158,30 @@ public class UserDTO {
         this.isLocked = isLocked;
     }
 
+    public Timestamp getLockedAt() {
+        return lockedAt;
+    }
+
+    public void setLockedAt(final Timestamp lockedAt) {
+        this.lockedAt = lockedAt;
+    }
+
+    public List<TokenWithoutUserDTO> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(final List<TokenWithoutUserDTO> tokens) {
+        this.tokens = tokens;
+    }
+
+    public void addToken(final TokenWithoutUserDTO token) {
+        this.tokens.add(token);
+    }
+
+    public void removeToken(final TokenWithoutUserDTO token) {
+        this.tokens.remove(token);
+    }
+
     public List<ChatroomWithoutUserDTO> getChatrooms() {
         return chatrooms;
     }
@@ -152,6 +198,46 @@ public class UserDTO {
         this.chatrooms.remove(chatroom);
     }
 
+    public List<ChatroomWithoutUserDTO> getCreatedChatrooms() {
+        return createdChatrooms;
+    }
+
+    public void setCreatedChatrooms(final List<ChatroomWithoutUserDTO> createdChatrooms) {
+        this.createdChatrooms = createdChatrooms;
+    }
+
+    public void addCreatedChatroom(final ChatroomWithoutUserDTO chatroom) {
+        this.createdChatrooms.add(chatroom);
+    }
+
+    public void removeCreatedChatroom(final ChatroomWithoutUserDTO chatroom) {
+        this.createdChatrooms.remove(chatroom);
+    }
+
+    public List<ChatroomWithoutUserDTO> getUpdatedChatrooms() {
+        return updatedChatrooms;
+    }
+
+    public void setUpdatedChatrooms(final List<ChatroomWithoutUserDTO> updatedChatrooms) {
+        this.updatedChatrooms = updatedChatrooms;
+    }
+
+    public void addUpdatedChatroom(final ChatroomWithoutUserDTO chatroom) {
+        this.updatedChatrooms.add(chatroom);
+    }
+
+    public void removeUpdatedChatroom(final ChatroomWithoutUserDTO chatroom) {
+        this.updatedChatrooms.remove(chatroom);
+    }
+
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
+    }
+
+    public Long getChatroomCount() {
+        return Long.valueOf(this.chatrooms.size());
+    }
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -159,13 +245,29 @@ public class UserDTO {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
                 ", isAdmin=" + isAdmin +
                 ", createdAt=" + createdAt +
                 ", lastConnection=" + lastConnection +
                 ", failedConnectionAttempts=" + failedConnectionAttempts +
                 ", isLocked=" + isLocked +
+                ", lockedAt=" + lockedAt +
+                ", tokens=" + tokens +
                 ", chatrooms=" + chatrooms +
+                ", createdChatrooms=" + createdChatrooms +
+                ", updatedChatrooms=" + updatedChatrooms +
                 '}';
+    }
+
+    public String toJson() {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper
+                    .writerWithDefaultPrettyPrinter()
+                    .writeValueAsString(this);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }

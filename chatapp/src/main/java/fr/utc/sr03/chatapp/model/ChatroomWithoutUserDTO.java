@@ -1,9 +1,14 @@
 package fr.utc.sr03.chatapp.model;
 
+import java.sql.Timestamp;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.sql.Timestamp;
-import org.springframework.format.annotation.DateTimeFormat;
+
 
 public class ChatroomWithoutUserDTO {
 
@@ -23,6 +28,22 @@ public class ChatroomWithoutUserDTO {
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
     private Timestamp validityDuration;
+
+    @NotNull
+    @JsonProperty("createdAt")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp createdAt;
+
+    @NotNull
+    @JsonProperty("createdBy")
+    private UserWithoutChatroomDTO createdBy;
+
+    @JsonProperty("updatedAt")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp updatedAt;
+
+    @JsonProperty("updatedBy")
+    private UserWithoutChatroomDTO updatedBy;
 
     public Long getId() {
         return id;
@@ -64,6 +85,38 @@ public class ChatroomWithoutUserDTO {
         this.validityDuration = validityDuration;
     }
 
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(final Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public UserWithoutChatroomDTO getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(final UserWithoutChatroomDTO createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(final Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public UserWithoutChatroomDTO getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(final UserWithoutChatroomDTO updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
     @Override
     public String toString() {
         return "ChatroomWithoutUserDTO{" +
@@ -72,6 +125,10 @@ public class ChatroomWithoutUserDTO {
                 ", description='" + description + '\'' +
                 ", startDate=" + startDate +
                 ", validityDuration=" + validityDuration +
+                ", createdAt=" + createdAt +
+                ", createdBy=" + createdBy +
+                ", updatedAt=" + updatedAt +
+                ", updatedBy=" + updatedBy +
                 '}';
     }
 

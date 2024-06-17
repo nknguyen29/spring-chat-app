@@ -1,12 +1,16 @@
 package fr.utc.sr03.chatapp.model;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 
 public class ChatroomDTO {
 
@@ -28,8 +32,28 @@ public class ChatroomDTO {
     private Timestamp validityDuration;
 
     @NotNull
+    @JsonProperty("createdAt")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp createdAt;
+
+    @NotNull
+    @JsonProperty("createdBy")
+    private UserWithoutChatroomDTO createdBy;
+
+    @JsonProperty("updatedAt")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp updatedAt;
+
+    @JsonProperty("updatedBy")
+    private UserWithoutChatroomDTO updatedBy;
+
+    @NotNull
     @JsonProperty("users")
     private List<UserWithoutChatroomDTO> users;
+
+    public ChatroomDTO() {
+        this.users = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -71,6 +95,38 @@ public class ChatroomDTO {
         this.validityDuration = validityDuration;
     }
 
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(final Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public UserWithoutChatroomDTO getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(final UserWithoutChatroomDTO createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(final Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public UserWithoutChatroomDTO getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(final UserWithoutChatroomDTO updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
     public List<UserWithoutChatroomDTO> getUsers() {
         return users;
     }
@@ -80,11 +136,11 @@ public class ChatroomDTO {
     }
 
     public void addUser(final UserWithoutChatroomDTO user) {
-        users.add(user);
+        this.users.add(user);
     }
 
     public void removeUser(final UserWithoutChatroomDTO user) {
-        users.remove(user);
+        this.users.remove(user);
     }
 
     @Override
@@ -95,6 +151,10 @@ public class ChatroomDTO {
                 ", description='" + description + '\'' +
                 ", startDate=" + startDate +
                 ", validityDuration=" + validityDuration +
+                ", createdAt=" + createdAt +
+                ", createdBy=" + createdBy +
+                ", updatedAt=" + updatedAt +
+                ", updatedBy=" + updatedBy +
                 ", users=" + users +
                 '}';
     }

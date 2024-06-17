@@ -1,26 +1,25 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{layout}">
-    <head>
-        <title>[[#{user.add.headline}]]</title>
-    </head>
-    <body>
-        <div layout:fragment="content">
-            <div class="flex flex-wrap mb-6">
-                <h1 class="grow text-3xl md:text-4xl font-medium mb-2">[[#{user.add.headline}]]</h1>
-                <div>
-                    <a th:href="@{/users}" class="inline-block text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-200 focus:ring-4 rounded px-5 py-2">[[#{user.add.back}]]</a>
-                </div>
+<!DOCTYPE html>
+<html
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/master}"
+>
+    <div layout:fragment="content">
+        <div class="flex flex-wrap justify-between items-end mb-6 gap-5">
+            <div class="grow">
+                <h1 class="text-base md:text-lg font-semibold mb-1">Ajouter un utilisateur</h1>
+                <h2 class="text-xs font-medium text-gray-400">Créer un nouvel utilisateur</h2>
             </div>
-            <div th:replace="~{fragments/forms::globalErrors('user')}" />
-            <form th:action="${requestUri}" method="post">
-                <div th:replace="~{fragments/forms::inputRow(object='user', field='firstName', required=true)}" />
-                <div th:replace="~{fragments/forms::inputRow(object='user', field='lastName', required=true)}" />
-                <div th:replace="~{fragments/forms::inputRow(object='user', field='email', required=true)}" />
-                <div th:replace="~{fragments/forms::inputRow(object='user', field='password', required=true)}" />
-                <div th:replace="~{fragments/forms::inputRow(object='user', field='isAdmin', type='checkbox')}" />
-                <input type="submit" th:value="#{user.add.headline}" class="inline-block text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300  focus:ring-4 rounded px-5 py-2 mt-6" />
-            </form>
+            <div>
+                <a
+                    th:href="@{/users}"
+                    class="text-white bg-blue-500 hover:bg-blue-600 focus:ring focus:ring-blue-300 font-semibold rounded-lg text-xs px-4 py-2 focus:outline-none transition-colors duration-75"
+                    >Retour</a
+                >
+            </div>
         </div>
-    </body>
+        <div class="flex-grow bg-white shadow-sm rounded-lg p-8 mb-6">
+            <div th:replace="~{user/fragments/_form :: form(user=${user})}"></div>
+        </div>
+    </div>
 </html>

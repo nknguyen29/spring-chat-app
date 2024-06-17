@@ -22,6 +22,9 @@ import 'flowbite'; // Import Flowbite
 // https://docs.fontawesome.com/web/setup/packages#all-the-things
 import '@fortawesome/fontawesome-free/js/all.js';
 
+import 'css/prism.css'; // Import PrismJS CSS
+import 'js/prism'; // Import PrismJS
+
 /**
  * Register an event at the document for the specified selector,
  * so events are still catched after DOM changes.

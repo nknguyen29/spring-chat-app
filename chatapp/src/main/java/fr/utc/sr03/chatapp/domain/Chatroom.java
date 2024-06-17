@@ -1,23 +1,32 @@
 package fr.utc.sr03.chatapp.domain;
 
+// La classe java.sql.Timestamp étend la classe java.util.Date et permet de
+// stocker des informations de date et d'heure.
+import java.sql.Timestamp; // or java.util.Date
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 
-// La classe java.sql.Timestamp étend la classe java.util.Date et permet de
-// stocker des informations de date et d'heure.
-import java.sql.Timestamp; // or java.util.Date
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "chatrooms")
+@EntityListeners(AuditingEntityListener.class)
 public class Chatroom {
 
     @Id
@@ -37,18 +46,33 @@ public class Chatroom {
     @Column(nullable = false)
     private Timestamp validityDuration;
 
+    @Column(nullable = false)
+    @CreatedDate
+    private Timestamp createdAt;
+
+    @ManyToOne(targetEntity = User.class, optional = false)
+    private User createdBy;
+
+    @Column(name = "\"updatedAt\"")
+    @LastModifiedDate
+    private Timestamp updatedAt;
+
+    @ManyToOne(targetEntity = User.class)
+    private User updatedBy;
+
     // @ManyToMany(targetEntity = User.class)
     // @JoinTable(
     //     name = "chatroom_users",
     //     joinColumns = @JoinColumn(name = "chatroom_id"),
     //     inverseJoinColumns = @JoinColumn(name = "user_id"))
-    // private Set<User> users;
+    // private List<User> users;
 
     // orphanRemoval = true to delete the chatroom when the user is deleted
     @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "chatroom")
-    private Set<ChatroomUser> chatroomUsers;
+    private List<ChatroomUser> chatroomUsers;
 
     public Chatroom() {
+        this.chatroomUsers = new ArrayList<>();
     }
 
     public Chatroom(String title, String description, Timestamp startDate, Timestamp validityDuration) {
@@ -56,6 +80,7 @@ public class Chatroom {
         this.description = description;
         this.startDate = startDate;
         this.validityDuration = validityDuration;
+        this.chatroomUsers = new ArrayList<>();
     }
 
     public Long getId() {
@@ -98,11 +123,43 @@ public class Chatroom {
         this.validityDuration = validityDuration;
     }
 
-    public Set<ChatroomUser> getChatroomUsers() {
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(final Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(final User createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(final Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public User getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(final User updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public List<ChatroomUser> getChatroomUsers() {
         return chatroomUsers;
     }
 
-    public void setChatroomUsers(final Set<ChatroomUser> chatroomUsers) {
+    public void setChatroomUsers(final List<ChatroomUser> chatroomUsers) {
         this.chatroomUsers = chatroomUsers;
     }
 
@@ -114,8 +171,8 @@ public class Chatroom {
         chatroomUsers.remove(chatroomUser);
     }
 
-    public Set<User> getUsers() {
-        return chatroomUsers.stream().map(ChatroomUser::getUser).collect(Collectors.toSet());
+    public List<User> getUsers() {
+        return chatroomUsers.stream().map(ChatroomUser::getUser).collect(Collectors.toList());
     }
 
     // Enable CascadeType.MERGE to automatically persist the users when
@@ -136,6 +193,10 @@ public class Chatroom {
                 ", description='" + description + '\'' +
                 ", startDate=" + startDate +
                 ", validityDuration=" + validityDuration +
+                ", createdAt=" + createdAt +
+                ", createdBy=" + createdBy +
+                ", updatedAt=" + updatedAt +
+                ", updatedBy=" + updatedBy +
                 '}';
     }
 

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base}"
+>
+    <div layout:fragment="body" class="m-0 p-0 h-screen flex flex-col">
+        <!-- Use auto margins for centering, allowing access to overflowing parts of flex items -->
+        <!-- Replace justify-content: center with margin: auto on flex items for better accessibility -->
+        <!-- https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container -->
+        <section class="bg-stone-50 flex justify-content-center">
+            <div class="flex justify-content-center px-8 py-10 min-h-screen w-full m-auto">
+                <div class="m-auto flex flex-col items-center justify-center min-w-full gap-y-5">
+                    <a th:href="@{/}" class="flex items-center flex-wrap gap-x-3.5 gap-y-1.5">
+                        <img
+                            th:src="@{/img/chat-svgrepo-com.svg}"
+                            alt="ChatApp Logo"
+                            class="m-auto md:w-9 sm:h-9 h-7 w-7"
+                        />
+                        <span
+                            class="m-auto self-center text-slate-800 text-xl font-['ABC_Ginto_Nord_Unlicensed_Trial'] font-semibold md:text-2xl whitespace-nowrap"
+                            >Diskette</span
+                        >
+                    </a>
+
+                    <div layout:fragment="content"></div>
+                </div>
+            </div>
+
+            <div th:insert="~{layouts/fragments/_toast :: toast}"></div>
+        </section>
+    </div>
+</html>

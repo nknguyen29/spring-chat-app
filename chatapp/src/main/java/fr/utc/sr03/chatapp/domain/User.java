@@ -1,8 +1,19 @@
 package fr.utc.sr03.chatapp.domain;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,12 +21,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import java.sql.Timestamp;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "users")
+@EntityListeners(AuditingEntityListener.class)
 public class User {
 
     @Id
@@ -39,6 +48,7 @@ public class User {
     private Boolean isAdmin;
 
     @Column(nullable = false)
+    @CreatedDate
     private Timestamp createdAt;
 
     @Column(name = "\"lastConnection\"")
@@ -49,6 +59,12 @@ public class User {
 
     @Column(nullable = false)
     private Boolean isLocked;
+
+    @Column(name = "\"lockedAt\"")
+    private Timestamp lockedAt;
+
+    @OneToMany(targetEntity = Token.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "user")
+    private Set<Token> tokens;
 
     // Use ManyToMany annotation on both sides of the relationship
     // It creates a join table to store the relationship
@@ -61,15 +77,27 @@ public class User {
     // about the relationship
     // Enable orphan removal to delete the chatroom when the user is deleted
     @OneToMany(targetEntity = ChatroomUser.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER, mappedBy = "user")
-    private Set<ChatroomUser> chatroomUsers;
+    private List<ChatroomUser> chatroomUsers;
+
+    // The orphanRemoval attribute is set to false to avoid deleting the chatroom
+    // when the user is deleted
+    @OneToMany(targetEntity = Chatroom.class, orphanRemoval = false, mappedBy = "createdBy")
+    private Set<Chatroom> createdChatrooms;
+
+    @OneToMany(targetEntity = Chatroom.class, orphanRemoval = false, mappedBy = "updatedBy")
+    private Set<Chatroom> updatedChatrooms;
 
     public User() {
+        this.tokens = new HashSet<>();
+        this.chatroomUsers = new ArrayList<>();
+        this.createdChatrooms = new HashSet<>();
+        this.updatedChatrooms = new HashSet<>();
     }
 
     public User(
         String firstName, String lastName, String email, String password,
         boolean isAdmin, Timestamp createdAt, Timestamp lastConnection,
-        Integer failedConnectionAttempts, Boolean isLocked
+        Integer failedConnectionAttempts, Boolean isLocked, Timestamp lockedAt
     ) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -80,6 +108,11 @@ public class User {
         this.lastConnection = lastConnection;
         this.failedConnectionAttempts = failedConnectionAttempts;
         this.isLocked = isLocked;
+        this.lockedAt = lockedAt;
+        this.tokens = new HashSet<>();
+        this.chatroomUsers = new ArrayList<>();
+        this.createdChatrooms = new HashSet<>();
+        this.updatedChatrooms = new HashSet<>();
     }
 
     public Long getId() {
@@ -162,11 +195,35 @@ public class User {
         this.isLocked = isLocked;
     }
 
-    public Set<ChatroomUser> getChatroomUsers() {
+    public Timestamp getLockedAt() {
+        return lockedAt;
+    }
+
+    public void setLockedAt(final Timestamp lockedAt) {
+        this.lockedAt = lockedAt;
+    }
+
+    public Set<Token> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(final Set<Token> tokens) {
+        this.tokens = tokens;
+    }
+
+    public void addToken(final Token token) {
+        tokens.add(token);
+    }
+
+    public void removeToken(final Token token) {
+        tokens.remove(token);
+    }
+
+    public List<ChatroomUser> getChatroomUsers() {
         return chatroomUsers;
     }
 
-    public void setChatroomUsers(final Set<ChatroomUser> chatroomUsers) {
+    public void setChatroomUsers(final List<ChatroomUser> chatroomUsers) {
         this.chatroomUsers = chatroomUsers;
     }
 
@@ -194,6 +251,38 @@ public class User {
         chatroomUsers.removeIf(chatroomUser -> chatroomUser.getChatroom().equals(chatroom));
     }
 
+    public Set<Chatroom> getCreatedChatrooms() {
+        return createdChatrooms;
+    }
+
+    public void setCreatedChatrooms(final Set<Chatroom> createdChatrooms) {
+        this.createdChatrooms = createdChatrooms;
+    }
+
+    public void addCreatedChatroom(final Chatroom chatroom) {
+        createdChatrooms.add(chatroom);
+    }
+
+    public void removeCreatedChatroom(final Chatroom chatroom) {
+        createdChatrooms.remove(chatroom);
+    }
+
+    public Set<Chatroom> getUpdatedChatrooms() {
+        return updatedChatrooms;
+    }
+
+    public void setUpdatedChatrooms(final Set<Chatroom> updatedChatrooms) {
+        this.updatedChatrooms = updatedChatrooms;
+    }
+
+    public void addUpdatedChatroom(final Chatroom chatroom) {
+        updatedChatrooms.add(chatroom);
+    }
+
+    public void removeUpdatedChatroom(final Chatroom chatroom) {
+        updatedChatrooms.remove(chatroom);
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -207,6 +296,7 @@ public class User {
                 ", lastConnection=" + lastConnection +
                 ", failedConnectionAttempts=" + failedConnectionAttempts +
                 ", isLocked=" + isLocked +
+                ", lockedAt=" + lockedAt +
                 '}';
     }
 

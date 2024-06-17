@@ -1,0 +1,163 @@
+<div th:fragment="table">
+    <div class="overflow-x-auto rounded-lg border border-gray-100">
+        <table class="w-full text-sm text-left">
+            <thead class="text-xs text-slate-500 uppercase bg-white border-b border-gray-200 border-dashed">
+                <tr>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Id</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Nom</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Prénom</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Adresse email</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Rôle</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Statut</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Date de création</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Dernière connexion</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Nb. salons</th>
+                    <th scope="col" class="font-semibold px-4 py-3" align="center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    th:each="user : ${users}"
+                    class="odd:bg-gray-50/50 hover:bg-gray-100/50 transition-colors duration-75 border-b border-gray-200/75 border-dashed last:border-0"
+                >
+                    <td class="whitespace-nowrap p-4 text-center">
+                        <div class="px-1.5 py-0.5 font-mono font-medium text-gray-800 bg-gray-100 border border-gray-200 rounded-full text-sm">
+                            [[${user.id}]]
+                        </div>
+                    </td>
+                    <td class="whitespace-nowrap p-4 text-center">
+                        <div class="font-semibold text-gray-800">
+                            [[${user.lastName}]]
+                        </div>
+                    </td>
+                    <td class="whitespace-nowrap p-4 text-center">
+                        <div class="font-semibold text-gray-800">
+                            [[${user.firstName}]]
+                        </div>
+                    </td>
+                    <td class="whitespace-nowrap p-4 text-center">
+                        <a th:href="@{'mailto:' + ${user.email}}">
+                            <span
+                                class="text-gray-700 hover:text-blue-500 transition-colors duration-75 font-medium"
+                                >[[${user.email}]]</span
+                            >
+                        </a>
+                    </td>
+                    <td class="whitespace-nowrap p-4 text-center">
+                        <div th:switch="${user.isAdmin}">
+                            <span
+                                th:case="true"
+                                class="bg-rose-50 text-rose-600 text-xs font-semibold px-3 py-2 rounded-md"
+                                >Admin</span
+                            >
+                            <span
+                                th:case="false"
+                                class="bg-green-100 text-green-400 text-xs font-semibold px-3 py-2 rounded-md"
+                                >Utilisateur</span
+                            >
+                        </div>
+                    </td>
+                    <td class="px-4 py-3 text-center">
+                        <div th:switch="${user.isLocked}">
+                            <span
+                                th:case="true"
+                                class="bg-rose-50 text-rose-600 text-xs font-semibold px-3 py-2 rounded-md"
+                                >Désactivé</span
+                            >
+                            <span
+                                th:case="false"
+                                class="bg-green-100 text-gray-700 text-xs font-semibold px-3 py-2 rounded-md"
+                                >Actif</span
+                            >
+                        </div>
+                    </td>
+                    <td class="whitespace-nowrap p-4 text-center">
+                        <div class="font-semibold text-gray-800">
+                            [[${#dates.format(user.createdAt, 'd MMM yyyy')}]]
+                        </div>
+                    </td>
+                    <td class="whitespace-nowrap p-4 text-center">
+                        <th:block th:switch="${user.lastConnection}">
+                            <div th:case="null">
+                                <span
+                                    class="bg-violet-50 text-violet-600 text-xs font-semibold px-3 py-2 rounded-md"
+                                    >Jamais connecté</span
+                                >
+                            </div>
+                            <div th:case="*">
+                                <div class="font-semibold text-gray-800">
+                                    [[${#dates.format(user.lastConnection, 'd MMM yyyy HH:mm')}]]
+                                </div>
+                            </div>
+                        </th:block>
+                    </td>
+                    <td class="whitespace-nowrap p-4 text-center">
+                        <div class="text-slate-800 text-base font-['ABC_Ginto_Nord_Unlicensed_Trial'] font-medium">
+                            [[${user.chatroomCount}]]
+                        </div>
+                    </td>
+                    <td class="whitespace-nowrap p-4 text-center">
+                        <div class="flex flex-col items-center justify-center gap-y-2 flex-wrap">
+                            <div class="flex items-center gap-x-2.5 flex-nowrap">
+                                <a
+                                    th:href="@{/users/{id}(id=${user.id})}"
+                                    class="font-medium px-2.5 py-1.5 rounded-lg flex items-center justify-center text-blue-500 focus:outline-none bg-gray-100/75 hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white transition-colors duration-75"
+                                >
+                                    <i class="w-3.5 h-3.5 fa-solid fa-eye"></i>
+                                </a>
+                                <a
+                                    th:href="@{/users/{id}/edit(id=${user.id})}"
+                                    class="font-medium px-2.5 py-1.5 rounded-lg flex items-center justify-center text-blue-500 focus:outline-none bg-gray-100/75 hover:bg-blue-500 hover:text-white focus:bg-blue-500 focus:text-white transition-colors duration-75"
+                                >
+                                    <i class="w-3.5 h-3.5 fa-solid fa-edit"></i>
+                                </a>
+                            </div>
+                            <div class="flex items-center gap-x-2.5 flex-nowrap">
+                                <th:block th:switch="${user.isLocked}">
+                                    <form
+                                        th:case="true"
+                                        th:action="@{/users/{id}/unlock(id=${user.id})}"
+                                        method="post"
+                                    >
+                                        <button
+                                            type="submit"
+                                            class="font-medium px-2.5 py-1.5 rounded-lg flex items-center justify-center text-violet-600 focus:outline-none bg-gray-100/75 hover:bg-violet-600 hover:text-white focus:bg-violet-600 focus:text-white transition-colors duration-75"
+                                            onclick="return confirm('Êtes-vous sûr de vouloir déverrouiller cet utilisateur ?')"
+                                        >
+                                            <i class="w-3.5 h-3.5 fa-solid fa-lock-open"></i>
+                                        </button>
+                                    </form>
+                                    <form
+                                        th:case="false"
+                                        th:action="@{/users/{id}/lock(id=${user.id})}"
+                                        method="post"
+                                    >
+                                        <button
+                                            type="submit"
+                                            class="font-medium px-2.5 py-1.5 rounded-lg flex items-center justify-center text-violet-600 focus:outline-none bg-gray-100/75 hover:bg-violet-600 hover:text-white focus:bg-violet-600 focus:text-white transition-colors duration-75"
+                                            onclick="return confirm('Êtes-vous sûr de vouloir verrouiller cet utilisateur ?')"
+                                        >
+                                            <i class="w-3.5 h-3.5 fa-solid fa-lock"></i>
+                                        </button>
+                                    </form>
+                                </th:block>
+                                <form
+                                    th:action="@{/users/{id}/delete(id=${user.id})}"
+                                    method="post"
+                                >
+                                    <button
+                                        type="submit"
+                                        class="font-medium px-2.5 py-1.5 rounded-lg flex items-center justify-center text-red-500 focus:outline-none bg-gray-100/75 hover:bg-red-500 hover:text-white focus:bg-red-500 focus:text-white transition-colors duration-75"
+                                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')"
+                                    >
+                                        <i class="w-3.5 h-3.5 fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

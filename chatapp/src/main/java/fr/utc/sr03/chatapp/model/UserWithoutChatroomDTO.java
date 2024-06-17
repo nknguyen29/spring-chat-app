@@ -1,12 +1,16 @@
 package fr.utc.sr03.chatapp.model;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+
 
 public class UserWithoutChatroomDTO {
 
@@ -26,7 +30,7 @@ public class UserWithoutChatroomDTO {
     private String email;
 
     @NotNull
-    @Size(max = 255)
+    @Size(min = 8, max = 255)
     private String password;
 
     @NotNull
@@ -46,6 +50,17 @@ public class UserWithoutChatroomDTO {
     @NotNull
     @JsonProperty("isLocked")
     private Boolean isLocked;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp lockedAt;
+
+    @NotNull
+    @JsonProperty("tokens")
+    private List<TokenWithoutUserDTO> tokens;
+
+    public UserWithoutChatroomDTO() {
+        this.tokens = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -127,6 +142,30 @@ public class UserWithoutChatroomDTO {
         this.isLocked = isLocked;
     }
 
+    public Timestamp getLockedAt() {
+        return lockedAt;
+    }
+
+    public void setLockedAt(final Timestamp lockedAt) {
+        this.lockedAt = lockedAt;
+    }
+
+    public List<TokenWithoutUserDTO> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(final List<TokenWithoutUserDTO> tokens) {
+        this.tokens = tokens;
+    }
+
+    public void addToken(final TokenWithoutUserDTO token) {
+        this.tokens.add(token);
+    }
+
+    public void removeToken(final TokenWithoutUserDTO token) {
+        this.tokens.remove(token);
+    }
+
     @Override
     public String toString() {
         return "UserWithoutChatroomDTO{" +
@@ -140,6 +179,8 @@ public class UserWithoutChatroomDTO {
                 ", lastConnection=" + lastConnection +
                 ", failedConnectionAttempts=" + failedConnectionAttempts +
                 ", isLocked=" + isLocked +
+                ", lockedAt=" + lockedAt +
+                ", tokens=" + tokens +
                 '}';
     }
 

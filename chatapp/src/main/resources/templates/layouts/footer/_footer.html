@@ -1,21 +1,33 @@
-<footer th:fragment="footer" class="pt-6 pb-4 flex flex-col items-center justify-center gap-1 text-[0.75rem] ">
-    <div class="flex flex-wrap gap-x-2 gap-y-1.5 items-center justify-center text-gray-500">
-        <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"
-            class="text-reset text-decoration-none" style="word-spacing: -0.1em;">
+<footer th:fragment="footer"
+    class="pt-6 pb-4 px-6 pxflex flex-col items-center justify-center gap-0.5 text-[0.75rem] flex">
+    <div class="flex flex-wrap gap-x-2 gap-y-0.5 items-center justify-center text-gray-500">
+        <a
+            href="https://creativecommons.org/licenses/by-nc-sa/4.0/"
+            target="_blank"
+            class="text-reset text-decoration-none"
+            style="word-spacing: -0.1em"
+        >
             <i class="fa-brands fa-creative-commons"></i>
             <i class="fa-brands fa-creative-commons-by"></i>
             <i class="fa-brands fa-creative-commons-nc"></i>
             <i class="fa-brands fa-creative-commons-sa"></i>
         </a>
-        <a class="text-gray-500 font-medium" th:href="@{/}">
-            <span class="">2024</span>
-            <span class="font-['ABC_Ginto_Nord_Unlicensed_Trial']">Disteak</span>
+        <a class="text-gray-500 font-medium leading-5" th:href="@{/}">
+            <span class="">[[#{app.year}]]</span>
+            <span class="font-['ABC_Ginto_Nord_Unlicensed_Trial']">[[#{app.name}]]</span>
         </a>
-        <div class="text-center text-slate-800">
-            <span>Conçu avec ❤ par&nbsp;</span><span class="font-medium">Bidule&nbsp;</span><span>et le 🤝 du&nbsp;</span><span class="font-medium">Machin</span>
+        <div class="text-center text-slate-800" th:with="contributors=#{app.contributors}">
+            <span>Conçu avec ❤ par&nbsp;</span
+            ><th:block
+                th:each="contributor, iterStat : ${#strings.arraySplit(contributors, ',')}"
+                ><span th:text="${contributor}" class="font-medium"></span
+                ><span th:if="${!iterStat.last}">, </span
+                ><span th:if="${iterStat.last}">&nbsp;</span></th:block
+            ><span>et le 🤝 de l'</span
+            ><span class="font-medium">[[#{app.sponsor}]]</span>
         </div>
-        <!-- end::Authors -->
     </div>
+
     <ul class="flex flex-wrap items-center justify-center gap-x-3 gap-y-0.5">
         <li><a href="https://longdogechallenge.com/" class="text-blue-500 hover:underline">Politique de confidentialité</a></li>
         <li><a href="https://longdogechallenge.com/" class="text-blue-500 hover:underline">Politique de confidentialité</a></li>

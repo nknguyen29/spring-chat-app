@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{layouts/master}"
+>
+    <div layout:fragment="content">
+        <div class="flex flex-wrap justify-between items-end mb-6 gap-5">
+            <div class="grow">
+                <h1 class="text-base md:text-lg font-semibold mb-1">[[${user.fullName}]] - Profil</h1>
+                <h2 class="text-xs font-medium text-gray-400">Informations sur l'utilisateur</h2>
+            </div>
+            <div>
+                <a
+                    th:href="@{/users}"
+                    class="text-white bg-blue-500 hover:bg-blue-600 focus:ring focus:ring-blue-300 font-semibold rounded-lg text-xs px-4 py-2 focus:outline-none transition-colors duration-75"
+                    >Retour</a
+                >
+            </div>
+        </div>
+        <div
+            th:insert="~{user/fragments/_nav :: nav(user=${user})}"
+            class="mb-6"
+        ></div>
+        <div
+            th:insert="~{user/fragments/_details :: details(user=${user})}"
+            class="mb-4"
+        ></div>
+    </div>
+</html>

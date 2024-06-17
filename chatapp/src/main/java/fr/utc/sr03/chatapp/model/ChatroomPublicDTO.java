@@ -1,12 +1,16 @@
 package fr.utc.sr03.chatapp.model;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 
 public class ChatroomPublicDTO {
 
@@ -28,8 +32,28 @@ public class ChatroomPublicDTO {
     private Timestamp validityDuration;
 
     @NotNull
+    @JsonProperty("createdAt")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp createdAt;
+
+    @NotNull
+    @JsonProperty("createdBy")
+    private UserPublicWithoutChatroomDTO createdBy;
+
+    @JsonProperty("updatedAt")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX")
+    private Timestamp updatedAt;
+
+    @JsonProperty("updatedBy")
+    private UserPublicWithoutChatroomDTO updatedBy;
+
+    @NotNull
     @JsonProperty("users")
     private List<UserPublicWithoutChatroomDTO> users;
+
+    public ChatroomPublicDTO() {
+        this.users = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -71,6 +95,38 @@ public class ChatroomPublicDTO {
         this.validityDuration = validityDuration;
     }
 
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(final Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public UserPublicWithoutChatroomDTO getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(final UserPublicWithoutChatroomDTO createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(final Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public UserPublicWithoutChatroomDTO getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(final UserPublicWithoutChatroomDTO updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
     public List<UserPublicWithoutChatroomDTO> getUsers() {
         return users;
     }
@@ -80,21 +136,25 @@ public class ChatroomPublicDTO {
     }
 
     public void addUser(final UserPublicWithoutChatroomDTO user) {
-        users.add(user);
+        this.users.add(user);
     }
 
     public void removeUser(final UserPublicWithoutChatroomDTO user) {
-        users.remove(user);
+        this.users.remove(user);
     }
 
     @Override
     public String toString() {
-        return "ChatroomPublicDTO{" +
+        return "ChatroomDTO{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", startDate=" + startDate +
                 ", validityDuration=" + validityDuration +
+                ", createdAt=" + createdAt +
+                ", createdBy=" + createdBy +
+                ", updatedAt=" + updatedAt +
+                ", updatedBy=" + updatedBy +
                 ", users=" + users +
                 '}';
     }
