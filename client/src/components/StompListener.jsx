@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
 import { useStompClient } from "react-stomp-hooks";
 
-import axios from "axios";
+import { toast } from "sonner";
 
-import { useGetUserChatrooms } from "@/hooks/useChatroom";
+import { useGetUserChatrooms, useGetAllUsers } from "@/hooks/useChatroom";
 
 export default function StompListener({ user, setMessages }) {
   const stompClient = useStompClient();
@@ -11,11 +11,19 @@ export default function StompListener({ user, setMessages }) {
 
   const {
     data: dataUserChatrooms,
-    isLoading,
-    isError,
+    isLoading: isLoadingUserChatrooms,
+    isError: isErrorUserChatrooms,
   } = useGetUserChatrooms(user);
 
   const userChatrooms = dataUserChatrooms ? dataUserChatrooms.chatrooms : [];
+
+  const {
+    data: dataUsers,
+    isLoading: isLoadingUsers,
+    isError: isErrorUsers,
+  } = useGetAllUsers();
+
+  const allUsers = dataUsers ? dataUsers : [];
 
   console.log("[StompListener] userChatrooms: ", userChatrooms);
 
@@ -40,6 +48,23 @@ export default function StompListener({ user, setMessages }) {
               " : " +
               message.body
           );
+    // Sonner : message received
+    let messageBody = JSON.parse(message.body);
+
+    // Find the sender in the allUsers array
+    let sender = allUsers.find(user => user.id === messageBody.sender);
+
+    // Check if the sender was found and is not the current user
+    if (sender && sender.id !== user.id) {
+      toast("New Message in Room " + `${room.id} !`, {
+        description: `${sender.firstName} ${sender.lastName}: ${messageBody.content}`,
+        action: {
+          label: "Dismiss",
+          onClick: () => console.log("Dismissed toast"),
+        },
+      });
+    }
+
           setMessages((prevMessages) => ({
             ...prevMessages,
             [room.id]: [...(prevMessages[room.id] || []), message.body],

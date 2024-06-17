@@ -44,7 +44,7 @@ function MyChatrooms({ user }) {
   } = useGetUserChatrooms(user);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 7;
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -75,7 +75,7 @@ function MyChatrooms({ user }) {
 
   return (
     <div>
-      <Card>
+      <Card className="w-full">
         <CardHeader className="px-7">
           <CardTitle>My Chatrooms</CardTitle>
           <CardDescription>
@@ -102,8 +102,8 @@ function MyChatrooms({ user }) {
                   <TableCell className="font-medium">{chatroom.id}</TableCell>
                   <TableCell>{chatroom.title}</TableCell>
                   <TableCell>{chatroom.description}</TableCell>
-                  <TableCell>{chatroom.startDate}</TableCell>
-                  <TableCell>{chatroom.validityDuration}</TableCell>
+                  <TableCell>{new Date(chatroom.startDate).toLocaleString()}</TableCell>
+                  <TableCell>{new Date(chatroom.validityDuration).toLocaleString()}</TableCell>
                   <TableCell>
                     <Link to={`/chatroom/${chatroom.id}`}>
                       <Button variant="outline">Chat</Button>

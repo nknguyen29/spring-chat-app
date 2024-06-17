@@ -50,7 +50,7 @@ function ChatroomList({ user }) {
   } = useGetUserChatrooms(user);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 7;
 
   const chatrooms = dataChatrooms ? dataChatrooms : [];
 
@@ -70,7 +70,7 @@ function ChatroomList({ user }) {
 
   return (
     <div>
-      <Card>
+      <Card className="w-full">
         <CardHeader className="px-7">
           <CardTitle>Available Chatrooms</CardTitle>
           <CardDescription>All Chatrooms from the database</CardDescription>

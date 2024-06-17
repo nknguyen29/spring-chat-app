@@ -35,7 +35,7 @@ function UserList() {
   const { data: users, isLoading, isError } = useGetAllUsers();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -59,8 +59,7 @@ function UserList() {
   const totalPages = Math.ceil(users.length / itemsPerPage);
 
   return (
-    <>
-      <Card>
+      <Card className="w-full">
         <CardHeader className="px-7">
           <CardTitle>User List</CardTitle>
           <CardDescription>All Users from the database</CardDescription>
@@ -126,7 +125,6 @@ function UserList() {
           </Pagination>
         </CardContent>
       </Card>
-    </>
   );
 }
 

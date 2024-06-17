@@ -29,13 +29,26 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogClose,
+} from "@/components/ui/dialog";
 import { Send } from "lucide-react";
 import { FaUserCircle } from "react-icons/fa";
 import { useGetAllUsers, useGetSpecificChatroom } from "@/hooks/useChatroom";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+
 export default function Chatroom({ user, messages }) {
   const { roomId } = useParams();
   const [input, setInput] = useState("");
+  const [selectedUser, setSelectedUser] = useState("");
 
   // Get Instance of StompClient
   const stompClient = useStompClient();
@@ -51,6 +64,33 @@ export default function Chatroom({ user, messages }) {
     isLoading: usersInChatroomisLoading,
     isError: usersInChatroomisError,
   } = useGetSpecificChatroom(roomId);
+
+  const queryClient = useQueryClient(); // used to invalidate the query
+
+  const mutation = useMutation({
+    // used to send the data to the server
+    mutationFn: (userId) => {
+      return axios.put(`/api/chatrooms/${roomId}/users/${userId}`);
+    },
+    onError: (error) => {
+      console.log("[Chatroom] onError: ", error);
+    },
+    onSettled: (data, error) => {
+      console.log("[Chatroom] onSettled: ", data, error);
+      // invalidate the query to refetch the data
+      queryClient.invalidateQueries([
+        { queryKey: ["chatrooms"] },
+        { queryKey: ["userChatrooms"] },
+        { queryKey: ["users"] },
+      ]);
+    },
+  });
+
+  const addUserToChatroom = () => {
+    if (selectedUser) {
+      mutation.mutate(selectedUser);
+    }
+  };
 
   // Check if now > startDate of the chatroom and now < validityDuration of the chatroom
   // If not, then show a message that the chatroom is not active
@@ -126,50 +166,93 @@ export default function Chatroom({ user, messages }) {
     return null;
   }
 
+  // Make an array for user NOT in the chatroom
+  const usersNotInChatroom = users.filter(
+    (user) => !usersInChatroom.find((u) => u.id === user.id)
+  );
+
   return (
     <div className="flex h-full">
       {/* Main chat area */}
       <div className="flex-1 flex flex-col h-full min-h-[50vh] rounded-xl bg-muted/50 p-4 lg:col-span-2">
         <header className="flex h-14 items-center gap-4 border-b px-6 justify-between">
           <h1 className="text-lg font-semibold">Room {roomId}</h1>
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button>Users in Chatroom</Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="w-80">
-              <SheetHeader>
-                <SheetTitle>Users in Chatroom</SheetTitle>
-                <SheetClose asChild>
-                  <Button variant="default">Close</Button>
-                </SheetClose>
-              </SheetHeader>
-              <CardContent className="p-0">
-                <ScrollArea className="h-[calc(100vh-130px)] rounded-md p-4">
-                  <div className="p-4">
-                    {usersInChatroom.map((user) => (
-                      <div
-                        key={user.id}
-                        className="flex items-center gap-4 mb-4"
-                      >
-                        <Avatar>
-                          <AvatarFallback>
-                            <FaUserCircle className="text-4xl text-gray-500" />
-                          </AvatarFallback>
-                        </Avatar>
-                        <Typography className="text-lg">
-                          {`${user.firstName} ${user.lastName}`}
-                        </Typography>
-                      </div>
+          <div className="flex items-center gap-2">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="default">Add User</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Add User to Chatroom</DialogTitle>
+                  <DialogDescription>
+                    Select a user to add to this chatroom.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="mb-4">
+                  <Label>Select User:</Label>
+                  <select
+                    value={selectedUser}
+                    onChange={(e) => setSelectedUser(e.target.value)}
+                    className="w-full p-2 border rounded-md bg-white text-black"
+                  >
+                    <option value="" disabled>
+                      Select a user
+                    </option>
+                    {usersNotInChatroom.map((user) => (
+                      <option key={user.id} value={user.id}>
+                        {user.firstName} {user.lastName}
+                      </option>
                     ))}
-                  </div>
-                </ScrollArea>
-              </CardContent>
-            </SheetContent>
-          </Sheet>
+                  </select>
+                </div>
+                <DialogClose asChild>
+                  <Button onClick={addUserToChatroom} className="mt-2">
+                    Add User
+                  </Button>
+                </DialogClose>
+              </DialogContent>
+            </Dialog>
+
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button>Users in Chatroom</Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-80">
+                <SheetHeader>
+                  <SheetTitle>Users in Chatroom</SheetTitle>
+                  <SheetClose asChild>
+                    <Button variant="default">Close</Button>
+                  </SheetClose>
+                </SheetHeader>
+                <CardContent className="p-0">
+                  <ScrollArea className="h-[calc(100vh-130px)] rounded-md p-4">
+                    <div className="p-4">
+                      {usersInChatroom.map((user) => (
+                        <div
+                          key={user.id}
+                          className="flex items-center gap-4 mb-4"
+                        >
+                          <Avatar>
+                            <AvatarFallback>
+                              <FaUserCircle className="text-4xl text-gray-500" />
+                            </AvatarFallback>
+                          </Avatar>
+                          <Typography className="text-lg">
+                            {`${user.firstName} ${user.lastName}`}
+                          </Typography>
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                </CardContent>
+              </SheetContent>
+            </Sheet>
+          </div>
         </header>
 
-        <div className="flex-1 overflow-auto p-4">
-          <div className="space-y-4">
+        <div className="flex flex-col flex-1 overflow-hidden">
+          <div className="flex-1 overflow-auto p-4 space-y-4">
             {roomMessages.map((message, index) => {
               // Find the sender's name
               const sender = users.find((user) => user.id === message.sender);
