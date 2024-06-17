@@ -174,6 +174,7 @@ npm run serve # lance le serveur de production
       - [Fonctionnalités supplémentaires](#fonctionnalités-supplémentaires)
     - [Eco Index](#eco-index)
 
+
 ## Partie Serveur : Interface d'administration et API REST
 
 La partie serveur implique le développement de la gestion des utilisateurs, incluant la création, la modification, l'activation/désactivation et la suppression d'utilisateurs, ainsi que la récupération de la liste des utilisateurs avec pagination, et autres fonctionnalités requises par le cahier des charges. Conformément aux exigences spécifiées, aucune interface administrateur n'est proposée pour la gestion des salons de discussion.
