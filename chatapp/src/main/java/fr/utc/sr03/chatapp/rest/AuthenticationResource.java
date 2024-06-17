@@ -21,7 +21,6 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/api/auth", produces = MediaType.APPLICATION_JSON_VALUE)
-// @CrossOrigin(origins = {"http://localhost:5173", "http://localhost:4173"}) // pay attention to the allowed origins
 public class AuthenticationResource {
 
     private final HttpUserDetailsService httpUserDetailsService;

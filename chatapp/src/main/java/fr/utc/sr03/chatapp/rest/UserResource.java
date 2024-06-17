@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,21 +28,25 @@ public class UserResource {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.findAll());
     }
 
     @GetMapping("/public")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<List<UserPublicDTO>> getAllPublicUsers() {
         return ResponseEntity.ok(userService.findAllPublic());
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<UserDTO> getUser(@PathVariable(name = "id") final Long id) {
         return ResponseEntity.ok(userService.get(id));
     }
 
     @GetMapping("{id}/public")
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<UserPublicDTO> getPublicUser(@PathVariable(name = "id") final Long id) {
         return ResponseEntity.ok(userService.getPublic(id));
     }
@@ -61,6 +66,7 @@ public class UserResource {
     // }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ApiResponse(responseCode = "204")
     public ResponseEntity<Void> deleteUser(@PathVariable(name = "id") final Long id) {
         userService.delete(id);
@@ -68,6 +74,7 @@ public class UserResource {
     }
 
     @DeleteMapping("/{id}/lock")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ApiResponse(responseCode = "204")
     public ResponseEntity<Void> lockUser(@PathVariable(name = "id") final Long id) {
         userService.lock(id);
@@ -75,6 +82,7 @@ public class UserResource {
     }
 
     @DeleteMapping("/{id}/unlock")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ApiResponse(responseCode = "204")
     public ResponseEntity<Void> unlockUser(@PathVariable(name = "id") final Long id) {
         userService.unlock(id);
