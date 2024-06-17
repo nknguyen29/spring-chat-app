@@ -2,7 +2,7 @@
     th:fragment="toast"
     class="fixed inset-0 z-50 flex flex-col items-end justify-end p-6 pointer-events-none"
 >
-    <div id="toast-container" class="flex flex-col items-end justify-end w-full max-w-sm space-y-4 pointer-events-auto">
+    <div id="toast-container" class="flex flex-col items-end justify-end w-full max-w-md space-y-4 pointer-events-auto">
         <th:block th:if="${MSG_SUCCESS}">
             <div id="toast-success" class="flex items-center px-5 py-4 text-gray-500 bg-white rounded-lg shadow space-x"
                 role="alert">
@@ -10,7 +10,7 @@
                     <i class="fa-solid fa-circle-check w-6 h-6"></i>
                     <span class="sr-only">Check icon</span>
                 </div>
-                <div class="ms-5 me-5 text-base font-normal">
+                <div class="ms-4 me-5 text-base font-normal">
                     <span th:text="${MSG_SUCCESS}"></span>
                 </div>
                 <button
@@ -32,7 +32,7 @@
                     <i class="fa-solid fa-circle-info w-6 h-6"></i>
                     <span class="sr-only">Info icon</span>
                 </div>
-                <div class="ms-5 me-5 text-base font-normal">
+                <div class="ms-4 me-5 text-base font-normal">
                     <span th:text="${MSG_INFO}"></span>
                 </div>
                 <button
@@ -54,7 +54,7 @@
                     <i class="fa-solid fa-circle-xmark w-6 h-6"></i>
                     <span class="sr-only">Error icon</span>
                 </div>
-                <div class="ms-5 me-5 text-base font-normal">
+                <div class="ms-4 me-5 text-base font-normal">
                     <span th:text="${MSG_ERROR}"></span>
                 </div>
                 <button
