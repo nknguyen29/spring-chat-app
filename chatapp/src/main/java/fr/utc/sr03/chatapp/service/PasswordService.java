@@ -41,10 +41,10 @@ public class PasswordService {
     @Autowired
     private TemplateEngine templateEngine;
 
-    @Value("${spring.mail.properties.mail.smtp.from}")
+    @Value("${spring.mail.username}")
     private String sender;
 
-    @Value("${spring.mail.username}")
+    @Value("${spring.mail.properties.mail.smtp.from}")
     private String fromMail;
 
     @Autowired
@@ -74,22 +74,26 @@ public class PasswordService {
         resetToken.setToken(token);
         resetToken.setUser(user);
         resetToken.setType("reset_password");
-        resetToken.setCreatedAt(Timestamp.from(now));
-        resetToken.setExpiresAt(Timestamp.from(now.plusMillis(RESET_PASSWORD_TOKEN_VALIDITY.toMillis())));
+        resetToken.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        resetToken.setExpiresAt(Timestamp.from(now.plus(RESET_PASSWORD_TOKEN_VALIDITY)));
         return resetToken;
+    }
+
+    public void resetAllResetPasswordTokens(final User user) {
+        final List<Token> resetTokens = tokenRepository.findByUserAndType(user, "reset_password");
+        resetTokens.forEach(resetToken -> {
+            if (resetToken.getExpiresAt().after(Timestamp.from(Instant.now()))) {
+                resetToken.setExpiresAt(Timestamp.from(Instant.now()));
+                tokenRepository.save(resetToken);
+            }
+        });
     }
 
     public void updateResetPasswordToken(final String token, final String email) throws UsernameNotFoundException {
         final User user = userRepository.findByEmail(email);
         if (user != null) {
             // Reset all previous reset password tokens
-            final List<Token> resetTokens = tokenRepository.findByUserAndType(user, "reset_password");
-            resetTokens.forEach(resetToken -> {
-                if (resetToken.getExpiresAt().after(Timestamp.from(Instant.now()))) {
-                    resetToken.setExpiresAt(Timestamp.from(Instant.now()));
-                    tokenRepository.save(resetToken);
-                }
-            });
+            resetAllResetPasswordTokens(user);
             final Token resetToken = createResetPasswordToken(token, user);
             tokenRepository.save(resetToken);
         } else {
@@ -99,17 +103,17 @@ public class PasswordService {
 
     public User getByResetPasswordToken(final String token) {
         final Token resetToken = tokenRepository.findByTokenAndType(token, "reset_password");
-        if (resetToken != null) {
+        if (resetToken != null && resetToken.getExpiresAt().after(Timestamp.from(Instant.now()))) {
             return resetToken.getUser();
         }
         return null;
     }
 
-    // public void updatePassword(Customer customer, String newPassword) {
-    //     customer.setPassword(passwordEncoder.encode(newPassword));
-    //     customer.setResetPasswordToken(null);
-    //     customerRepo.save(customer);
-    // }
+    public void updatePassword(final User user, final String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        resetAllResetPasswordTokens(user);
+        userRepository.save(user);
+    }
        
     
     public void sendResetPasswordEmail(final String recipientEmail, final String link)
