@@ -32,4 +32,9 @@ public class WebUtils {
         return messageSource.getMessage(code, args, code, localeResolver.resolveLocale(getRequest()));
     }
 
+    public static String getSiteURL(final HttpServletRequest request) {
+        final String siteURL = request.getRequestURL().toString();
+        return siteURL.replace(request.getServletPath(), "");
+    }
+
 }
