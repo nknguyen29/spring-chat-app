@@ -1,31 +1,21 @@
 package fr.utc.sr03.chatapp.controller;
 
-import org.springframework.mail.javamail.JavaMailSender;
-
 import java.io.UnsupportedEncodingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 
 import fr.utc.sr03.chatapp.domain.User;
 import fr.utc.sr03.chatapp.service.PasswordService;
 import fr.utc.sr03.chatapp.util.WebUtils;
 import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 @Controller
 public class ForgotPasswordController {
@@ -76,14 +66,14 @@ public class ForgotPasswordController {
         final String password = request.getParameter("password");
 
         final User user = passwordService.getByResetPasswordToken(token);
-        
+
         if (user == null) {
             model.addAttribute(WebUtils.MSG_ERROR, "authentication.reset-password.invalid-token");
-        } else {           
+        } else {
             passwordService.updatePassword(user, password);
             model.addAttribute(WebUtils.MSG_SUCCESS, "authentication.reset-password.success");
         }
-        
+
         return "redirect:/login";
     }
 

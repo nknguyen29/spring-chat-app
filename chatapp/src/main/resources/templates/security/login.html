@@ -9,7 +9,6 @@
         <!-- Replace justify-content: center with margin: auto on flex items for better accessibility -->
         <!-- https://stackoverflow.com/questions/33454533/cant-scroll-to-top-of-flex-item-that-is-overflowing-container -->
         <section class="bg-stone-50 flex justify-content-center">
-
             <div class="flex justify-content-center px-8 py-10 min-h-screen w-full m-auto">
                 <div class="m-auto flex flex-col items-center justify-center min-w-full gap-y-5">
                     <a th:href="@{/}" class="flex items-center flex-wrap gap-x-3.5 gap-y-1.5">
@@ -98,6 +97,7 @@
                 </div>
             </div>
 
+            <div th:insert="~{layouts/fragments/_toast :: toast}"></div>
         </section>
     </div>
 </html>
