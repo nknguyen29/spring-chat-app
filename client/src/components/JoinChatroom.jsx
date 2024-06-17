@@ -10,7 +10,11 @@ export default function JoinChatrooms({ user }) {
   const isUnmounting = useRef(false);
   const mutation = useMutation({
     mutationFn: () => {
-      return axios.put(`/api/chatrooms/${roomId}/users/${user.id}`);
+      return axios.put(`/api/chatrooms/${roomId}/users/${user.id}`, null, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      });
     },
     onError: (error) => {
       console.log("[JoinChatroom] onError: ", error);

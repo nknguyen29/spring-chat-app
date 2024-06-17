@@ -27,7 +27,11 @@ const SimpleForm = ({ user }) => {
   const mutation = useMutation({
     // used to send the data to the server
     mutationFn: (payload) => {
-      return axios.post(`/api/chatrooms`, payload);
+      return axios.post(`/api/chatrooms`, payload, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      });
     },
     onError: (error) => {
       console.log("[CreateChatrooms] onError: ", error);
