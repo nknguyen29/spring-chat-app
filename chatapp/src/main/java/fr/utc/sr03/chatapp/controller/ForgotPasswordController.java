@@ -37,11 +37,11 @@ public class ForgotPasswordController {
             passwordService.updateResetPasswordToken(token, email);
             final String resetPasswordLink = WebUtils.getSiteURL(request) + "/reset-password?token=" + token;
             passwordService.sendResetPasswordEmail(email, resetPasswordLink);
-            model.addAttribute(WebUtils.MSG_SUCCESS, "authentication.forgot-password.success");
+            model.addAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("authentication.forgot-password.success"));
         } catch (UsernameNotFoundException ex) {
             model.addAttribute(WebUtils.MSG_ERROR, ex.getMessage());
         } catch (UnsupportedEncodingException | MessagingException e) {
-            model.addAttribute(WebUtils.MSG_ERROR, "authentication.forgot-password.error");
+            model.addAttribute(WebUtils.MSG_ERROR, WebUtils.getMessage("authentication.forgot-password.error"));
         }
 
         return "redirect:/login";
@@ -53,7 +53,7 @@ public class ForgotPasswordController {
         model.addAttribute("token", token);
 
         if (user == null) {
-            model.addAttribute(WebUtils.MSG_ERROR, "authentication.reset-password.invalid-token");
+            model.addAttribute(WebUtils.MSG_ERROR, WebUtils.getMessage("authentication.reset-password.invalid-token"));
             return "redirect:/login";
         }
 
@@ -64,14 +64,19 @@ public class ForgotPasswordController {
     public String processResetPassword(final HttpServletRequest request, final Model model) {
         final String token = request.getParameter("token");
         final String password = request.getParameter("password");
+        final String confirmPassword = request.getParameter("confirmPassword");
 
         final User user = passwordService.getByResetPasswordToken(token);
 
+        if (!password.equals(confirmPassword)) {
+            model.addAttribute(WebUtils.MSG_ERROR, WebUtils.getMessage("authentication.reset-password.password-mismatch"));
+            return "security/reset_password_form";
+        }
         if (user == null) {
-            model.addAttribute(WebUtils.MSG_ERROR, "authentication.reset-password.invalid-token");
+            model.addAttribute(WebUtils.MSG_ERROR, WebUtils.getMessage("authentication.reset-password.invalid-token"));
         } else {
             passwordService.updatePassword(user, password);
-            model.addAttribute(WebUtils.MSG_SUCCESS, "authentication.reset-password.success");
+            model.addAttribute(WebUtils.MSG_SUCCESS, WebUtils.getMessage("authentication.reset-password.success"));
         }
 
         return "redirect:/login";

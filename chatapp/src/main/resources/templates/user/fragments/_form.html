@@ -54,7 +54,7 @@
         </div>
         <div class="mb-6">
             <label for="password" class="block mb-2 text-sm font-medium text-slate-800">Mot de passe</label>
-            <input type="password" id="password" name="password" th:field="*{user.password}"
+            <input type="text" id="password" name="password" th:field="*{user.password}"
                 class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 text-sm rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full py-2.5 px-[1.125rem]"
                 placeholder="•••••••••" minlength="8" required />
             <div th:if="${#fields.hasErrors('user.password')}" th:errors="*{user.password}"

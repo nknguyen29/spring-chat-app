@@ -111,10 +111,4 @@ public class UserController {
         return "redirect:/users/{id}";
     }
 
-    // @GetMapping("/__debug")
-    // public String debug(final Model model) {
-    // model.addAttribute("debug", userService.findAllWithStats());
-    // return "debug";
-    // }
-
 }
