@@ -27,7 +27,7 @@ public class AuthenticationController {
         if (logoutSuccess == Boolean.TRUE) {
             model.addAttribute(WebUtils.MSG_INFO, WebUtils.getMessage("authentication.logout.success"));
         }
-        return "authentication/login";
+        return "security/login";
     }
 
     // Spring Security provides a /logout endpoint by default, but it must be
