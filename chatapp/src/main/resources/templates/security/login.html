@@ -54,20 +54,26 @@
                         >
                     </div>
                     <form th:action="@{/login}" method="post" class="space-y-8 md:space-y-9">
-                        <div class="space-y-6 md:space-y-8">
-                            <div>
-                                <label for="email" class="block mb-2.5 text-sm font-medium text-slate-800">Adresse e-mail</label>
-                                <input type="email" id="email" name="email"
-                                    class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full px-5 py-3"
-                                    placeholder="john.doe@company.com" required />
+                        <div class="flex flex-col gap-y-4">
+                            <div class="space-y-6 md:space-y-8">
+                                <div>
+                                    <label for="email" class="block mb-2.5 text-sm font-medium text-slate-800">Adresse e-mail</label>
+                                    <input type="email" id="email" name="email"
+                                        class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full px-5 py-3"
+                                        placeholder="john.doe@company.com" required />
+                                </div>
+                                <div>
+                                    <label for="password" class="block mb-2.5 text-sm font-medium text-slate-800">Mot de passe</label>
+                                    <input type="password" id="password" name="password"
+                                        class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full px-5 py-3"
+                                        placeholder="•••••••••" minlength="8" required />
+                                </div>
                             </div>
-                            <div>
-                                <label for="password" class="block mb-2.5 text-sm font-medium text-slate-800">Mot de passe</label>
-                                <input type="password" id="password" name="password"
-                                    class="bg-gray-100/75 border border-none text-slate-600 placeholder-gray-500 rounded-lg focus:bg-gray-100 focus:ring-0 font-medium block w-full px-5 py-3"
-                                    placeholder="•••••••••" minlength="8" required />
-                            </div>
+
+                            <a th:href="@{/forgot-password}"
+                                class="text-blue-500 font-medium text-sm hover:underline">Mot de passe oublié ?</a>
                         </div>
+
                         <button type="submit"
                             class="bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg px-5 py-3 transition-colors duration-75 text-center">
                             Se connecter
