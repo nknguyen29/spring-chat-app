@@ -59,8 +59,7 @@ function UserList() {
   const totalPages = Math.ceil(users.length / itemsPerPage);
 
   return (
-    <>
-      <Card>
+      <Card className="w-full">
         <CardHeader className="px-7">
           <CardTitle>User List</CardTitle>
           <CardDescription>All Users from the database</CardDescription>
@@ -126,7 +125,6 @@ function UserList() {
           </Pagination>
         </CardContent>
       </Card>
-    </>
   );
 }
 

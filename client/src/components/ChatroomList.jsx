@@ -70,7 +70,7 @@ function ChatroomList({ user }) {
 
   return (
     <div>
-      <Card>
+      <Card className="w-full">
         <CardHeader className="px-7">
           <CardTitle>Available Chatrooms</CardTitle>
           <CardDescription>All Chatrooms from the database</CardDescription>
