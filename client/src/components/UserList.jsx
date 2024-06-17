@@ -35,7 +35,7 @@ function UserList() {
   const { data: users, isLoading, isError } = useGetAllUsers();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 9;
 
   if (isLoading) {
     return <div>Loading...</div>;

@@ -44,7 +44,7 @@ function MyChatrooms({ user }) {
   } = useGetUserChatrooms(user);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
+  const itemsPerPage = 5;
 
   if (isLoading) {
     return <div>Loading...</div>;

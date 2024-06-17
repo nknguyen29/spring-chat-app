@@ -130,9 +130,6 @@ const Login = ({ setUser }) => {
           <Button type="submit" className="w-full" onClick={handleLogin}>
             Login
           </Button>
-          <Button variant="outline" className="w-full">
-            Forgot Password
-          </Button>
         </div>
       </CardContent>
     </Card>

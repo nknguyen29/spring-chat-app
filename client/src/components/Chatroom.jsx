@@ -70,7 +70,11 @@ export default function Chatroom({ user, messages }) {
   const mutation = useMutation({
     // used to send the data to the server
     mutationFn: (userId) => {
-      return axios.put(`/api/chatrooms/${roomId}/users/${userId}`);
+      return axios.put(`/api/chatrooms/${roomId}/users/${userId}`, null, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      });
     },
     onError: (error) => {
       console.log("[Chatroom] onError: ", error);
@@ -129,7 +133,6 @@ export default function Chatroom({ user, messages }) {
 
   // Get the users in the chatroom
   const usersInChatroom = dataAboutThisChatroom?.users || [];
-  console.log(usersInChatroom);
 
   const sendMessage = () => {
     if (stompClient) {
@@ -140,6 +143,9 @@ export default function Chatroom({ user, messages }) {
           sender: user.id,
           content: input,
         }),
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
       });
     } else {
       // Handle error

@@ -62,9 +62,9 @@ export default function App() {
       <StompSessionProvider
         url={"http://localhost:8080/ws"}
         //All options supported by @stomp/stompjs can be used here
-        debug={(str) => {
-          console.log("[STOMP] Debugging :", str);
-        }}
+//        debug={(str) => {
+//          console.log("[STOMP] Debugging :", str);
+//        }}
       >
         <StompListener user={user} setMessages={setMessages} />
 
