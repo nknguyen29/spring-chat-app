@@ -4,7 +4,7 @@ Ce README concerne le développement d'une application de salon de discussion. D
 
 La partie administrateur développée en Spring Boot offre la possibilité de gérer les utilisateurs. De plus, elle fournit une API REST destinée à être utilisée par la partie client développée en React.
 
-Le code source du projet est disponible à l'adresse suivante : [https://gitlab.utc.fr/amoudoug/sr03-spring-chat-app](https://gitlab.utc.fr/amoudoug/sr03-spring-chat-app). La version finale du projet est située sur la branche `main` et est identifiée comme la version 2.0.3.
+Le code source du projet est disponible à l'adresse suivante : [https://gitlab.utc.fr/amoudoug/sr03-spring-chat-app](https://gitlab.utc.fr/amoudoug/sr03-spring-chat-app). La version finale du projet est située sur la branche `main` et est identifiée comme la version 2.0.5.
 
 Le projet a été développé par Nam Khanh NGUYEN et Adhavane MOUDOUGANNANE pour le cours SR03 à l'Université de Technologie de Compiègne.
 
