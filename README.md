@@ -4,8 +4,6 @@ Ce README concerne le développement d'une application de salon de discussion. D
 
 La partie administrateur développée en Spring Boot offre la possibilité de gérer les utilisateurs. De plus, elle fournit une API REST destinée à être utilisée par la partie client développée en React.
 
-Le code source du projet est disponible à l'adresse suivante : [https://gitlab.utc.fr/amoudoug/sr03-spring-chat-app](https://gitlab.utc.fr/amoudoug/sr03-spring-chat-app). La version finale du projet est située sur la branche `main` et est identifiée comme la version 2.0.5.
-
 Le projet a été développé par Nam Khanh NGUYEN et Adhavane MOUDOUGANNANE pour le cours SR03 à l'Université de Technologie de Compiègne.
 
 ## Installation
@@ -19,13 +17,6 @@ Les dépendances suivantes sont nécessaires pour lancer le projet :
 - Node.js 20.13.1
 - npm 10.8.1
 - React 18.3.1
-
-Pour lancer le projet, vous devez d'abord cloner le dépôt en utilisant la commande suivante :
-
-```bash
-git clone https://gitlab.utc.fr/amoudoug/sr03-spring-chat-app.git
-cd sr03-spring-chat-app
-```
 
 Il est très important de noter que vous devez modifier ou créer le fichier `.env` dans le répertoire `chatapp` pour y insérer des identifiants valides pour le serveur de base de données. Un exemple de fichier `.env` est fourni sous le nom `.env.example` pour vous guider dans la création du fichier `.env`. Le fichier .env est utilisé pour charger les variables d'environnement dans le projet Spring. Ces variables sont ensuite utilisées dans le fichier application.properties.
 
@@ -50,17 +41,7 @@ SMTP_PASSWORD=password
 EMAIL_FROM=support@yourapp.com
 ```
 
-Les identifiants de la base de données utilisés pour le développement de l'application sont les suivants :
-
-```bash
-MYSQL_HOST=tuxa.sme.utc
-MYSQL_USER=sr03p006
-MYSQL_PASSWORD=PyP9u50hFvlU
-MYSQL_DATABASE=sr03p006
-MYSQL_PORT=3306
-```
-
-Pour configurer l'envoi de mails pour la réinitialisation du mot de passe et la vérification de l'email, vous devez modifier les paramètres SMTP dans le fichier `.env`. Pour obtenir ces informations, nous vous recommandons de suivre les instructions détaillées fournies par l'Université de Technologie de Compiègne. Vous pouvez trouver ces instructions sur leur site web à l'adresse suivante : [https://5000.utc.fr/front/helpdesk.faq.php?id=59](https://5000.utc.fr/front/helpdesk.faq.php?id=59).
+Pour configurer l'envoi de mails pour la réinitialisation du mot de passe et la vérification de l'email, vous devez modifier les paramètres SMTP dans le fichier `.env`.
 
 ## Utilisation
 
@@ -71,7 +52,7 @@ Pour configurer l'envoi de mails pour la réinitialisation du mot de passe et la
 Pour lancer le backend Spring, veuillez vous rendre dans le répertoire `chatapp`, puis exécuter la commande suivante :
 
 ```bash
-cd chatapp # depuis le répertoire sr03-spring-chat-app
+cd chatapp
 ./mvnw spring-boot:run
 ```
 
@@ -96,7 +77,7 @@ Voici quelques rappels concernant les dépendances nécessaires pour le frontend
 Pour permettre au frontend de communiquer avec le serveur, vous devez d'abord démarrer le serveur en backend. Suivez les instructions fournies dans la section précédente pour lancer le backend Spring.
 
 ```bash
-cd chatapp # depuis le répertoire sr03-spring-chat-app
+cd chatapp
 nano .env # modifier les identifiants de la base de données
 ./mvnw spring-boot:run
 ```
@@ -104,7 +85,7 @@ nano .env # modifier les identifiants de la base de données
 Pour lancer le frontend, veuillez vous rendre dans le répertoire `client`, puis exécuter la commande suivante :
 
 ```bash
-cd client # depuis le répertoire sr03-spring-chat-app
+cd client
 ```
 
 Pour installer les dépendances, exécutez la commande suivante :
